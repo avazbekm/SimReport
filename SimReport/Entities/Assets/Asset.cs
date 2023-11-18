@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SimReport.Entities.Users;
+namespace SimReport.Entities.Assets;
 
-public class Company : Auditable
+public class Asset : Auditable
 {
     [MaxLength(50)]
     public string Name { get; set; } = string.Empty;
-    public int AssetId { get; set; }
+    public string Path { get; set; }
 }

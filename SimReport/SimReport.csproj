@@ -12,13 +12,16 @@
     <Folder Include="Assets\Logos\" />
     <Folder Include="Assets\Icons\" />
     <Folder Include="Assets\Sounds\" />
-    <Folder Include="Contants\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Windows\" />
     <Folder Include="Styles\" />
     <Folder Include="Repositories\" />
     <Folder Include="Pages\" />
     <Folder Include="Utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
   </ItemGroup>
 
 </Project>
