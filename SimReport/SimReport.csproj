@@ -10,10 +10,8 @@
   <ItemGroup>
     <Folder Include="Assets\Images\" />
     <Folder Include="Assets\Logos\" />
-    <Folder Include="Assets\Icons\" />
     <Folder Include="Assets\Sounds\" />
     <Folder Include="Windows\" />
-    <Folder Include="Styles\" />
     <Folder Include="Pages\" />
   </ItemGroup>
 

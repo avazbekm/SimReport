@@ -4,6 +4,11 @@
     <SolidColorBrush x:Key="SecondaryBackground" Color="#e1e1e1"/>
 
     <SolidColorBrush x:Key="PrimaryBorderColor" Color="#d3d3d3"/>
+    <SolidColorBrush x:Key="SecondaryBorderColor" Color="#d564d3"/>
+
+    <SolidColorBrush x:Key="SelectedBackground" Color="#d4d3"/>
+
+
 
 
 </ResourceDictionary>
