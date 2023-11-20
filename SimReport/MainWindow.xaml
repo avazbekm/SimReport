@@ -56,10 +56,11 @@
                 <StackPanel>
                     <RadioButton x:Name="rbCourses" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="Courses"/>
-                </StackPanel>
-                <!--<Frame x:Name="PageNavigator" Navigated="PageNavigator_Navigated"/>-->
+                                 Content="Courses"
+                                 Click="rbCourses_Click"/>
 
+                </StackPanel>
+                <!--<Frame x:Name="PageNavigator" NavigationUIVisibility="Hidden"/>-->
 
             </Border>
             <Border Grid.Column="1" Background="{DynamicResource SecondaryBackground}"

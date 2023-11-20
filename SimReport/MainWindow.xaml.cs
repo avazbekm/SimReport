@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SimReport.Pages;
+using System.Windows;
 
 namespace SimReport
 {
@@ -31,6 +32,12 @@ namespace SimReport
         private void brDragable_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void rbCourses_Click(object sender, RoutedEventArgs e)
+        {
+            CoursesPage coursesPage = new CoursesPage();
+            PageNavigator.Content = coursesPage;
         }
     }
 }
