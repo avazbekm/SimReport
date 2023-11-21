@@ -39,5 +39,10 @@ namespace SimReport
                 this.WindowState = WindowState.Normal;
             else this.WindowState = WindowState.Maximized;
         }
+
+        private void rbDashboard_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
