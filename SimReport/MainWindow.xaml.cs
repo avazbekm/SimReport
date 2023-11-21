@@ -24,11 +24,6 @@ namespace SimReport
             else this.WindowState = WindowState.Maximized;
         }
 
-        private void btnMinimazed_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
         private void brDragable_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -38,6 +33,11 @@ namespace SimReport
         {
             CoursesPage coursesPage = new CoursesPage();
             PageNavigator.Content = coursesPage;
+        }
+
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }
