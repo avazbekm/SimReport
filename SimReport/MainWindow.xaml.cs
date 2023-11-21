@@ -17,13 +17,6 @@ namespace SimReport
             Application.Current.Shutdown();
         }
 
-        private void btnMaximazi_Click(object sender, RoutedEventArgs e)
-        {
-            if(this.WindowState == WindowState.Maximized) 
-                this.WindowState = WindowState.Normal;
-            else this.WindowState = WindowState.Maximized;
-        }
-
         private void brDragable_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -38,6 +31,13 @@ namespace SimReport
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void btnMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                this.WindowState = WindowState.Normal;
+            else this.WindowState = WindowState.Maximized;
         }
     }
 }
