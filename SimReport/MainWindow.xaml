@@ -59,12 +59,13 @@
                                  Content="Courses"
                                  Click="rbCourses_Click"/>
 
-                </StackPanel>
-                <!--<Frame x:Name="PageNavigator" NavigationUIVisibility="Hidden"/>-->
+                </StackPanel> 
 
             </Border>
+
             <Border Grid.Column="1" Background="{DynamicResource SecondaryBackground}"
                     CornerRadius="0 0 10 0" Grid.ColumnSpan="2">
+                <Frame x:Name="PageNavigator" NavigationUIVisibility="Hidden"/>
 
             </Border>
 
