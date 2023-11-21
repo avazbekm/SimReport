@@ -41,7 +41,8 @@ namespace SimReport
 
         private void rbClients_Click(object sender, RoutedEventArgs e)
         {
-
+            ClientsPage clientsPage = new ClientsPage();
+            PageNavigator.Content = clientsPage;
         }
 
         private void rbClients_Checked(object sender, RoutedEventArgs e)
@@ -51,7 +52,8 @@ namespace SimReport
 
         private void rbCompanies_Click(object sender, RoutedEventArgs e)
         {
-
+            CompaniesPage companiesPage = new CompaniesPage();
+            PageNavigator.Content = companiesPage;
         }
 
         private void rbReports_Click(object sender, RoutedEventArgs e)
