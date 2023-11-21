@@ -22,12 +22,6 @@ namespace SimReport
             this.DragMove();
         }
 
-        private void rbCourses_Click(object sender, RoutedEventArgs e)
-        {
-            CoursesPage coursesPage = new CoursesPage();
-            PageNavigator.Content = coursesPage;
-        }
-
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -66,6 +60,11 @@ namespace SimReport
         }
 
         private void rbReports_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void rbAbout_Click(object sender, RoutedEventArgs e)
         {
 
         }

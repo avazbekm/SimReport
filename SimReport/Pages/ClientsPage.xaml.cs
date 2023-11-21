@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SimReport.Pages
 {
     /// <summary>
-    /// Interaction logic for TeachersPage.xaml
+    /// Interaction logic for ClientsPage.xaml
     /// </summary>
-    public partial class TeachersPage : Page
+    public partial class ClientsPage : Page
     {
-        public TeachersPage()
+        public ClientsPage()
         {
             InitializeComponent();
         }
