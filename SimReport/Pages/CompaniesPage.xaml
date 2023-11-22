@@ -3,11 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SimReport.Pages"
+      xmlns:local="clr-namespace:SimReport.Pages" 
+      xmlns:companies="clr-namespace:SimReport.Companents.Companies"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CompaniesPage"
-      >
+      Title="CompaniesPage">
 
     <Border Margin="10">
         <Grid Margin="0 5 0 5">
@@ -52,8 +52,11 @@
             <ScrollViewer Margin="5 5 0 5"
                           Grid.Row="1">
                 <WrapPanel x:Name="wrpCourses" >
-                    <Label FontSize="30" 
-                        Content="Companies"></Label>
+                    <companies:CompanyViewUserControl/>
+                    <companies:CompanyViewUserControl/>
+                    <companies:CompanyViewUserControl/>
+                    <companies:CompanyViewUserControl/>
+
 
                 </WrapPanel>
             </ScrollViewer>

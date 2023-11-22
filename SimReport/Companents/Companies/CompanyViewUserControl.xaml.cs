@@ -24,5 +24,10 @@ namespace SimReport.Companents.Companies
         {
             InitializeComponent();
         }
+
+        private void grMain_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
