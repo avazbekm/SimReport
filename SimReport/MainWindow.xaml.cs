@@ -47,7 +47,7 @@ namespace SimReport
 
         private void rbClients_Checked(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void rbCompanies_Click(object sender, RoutedEventArgs e)
