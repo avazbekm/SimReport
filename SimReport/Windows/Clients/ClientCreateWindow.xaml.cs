@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimReport.Entities.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,20 @@ namespace SimReport.Windows.Clients
             InitializeComponent();
         }
 
-        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        private void bntSave_Click(object sender, RoutedEventArgs e)
         {
+            //var user = new User()
+            //{
+            //    FirstName = tbFirstName.Text,
+            //    LastName = tbLastName.Text,
+            //    Phone = tbPhone.Text
+            //};
 
+
+            var FirstName = tbFirstName.Text;
+            var LastName = tbLastName.Text;
+            var Phone = tbPhone.Text;
+            MessageBox.Show($"{FirstName} {LastName} {Phone}");
         }
     }
 }

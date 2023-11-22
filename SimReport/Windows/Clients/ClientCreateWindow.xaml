@@ -5,48 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows.Clients"
         mc:Ignorable="d"
-        Title="Client Create Window" Height="300" Width="400"
+        Title="Client Create Window" Height="320" Width="400"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="5 0 5 10"/>
+            <Setter Property="FontFamily" Value="Jetbrains Mono"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"/>
+            <Setter Property="Padding" Value="10 5 5 5"/>
+        </Style>
+    </Window.Resources>
     <Border  
             Background="{DynamicResource SecondaryBackground}"
             >
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
-                <RowDefinition Height="75"/>
-                <RowDefinition Height="75"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0"
-                   Content="FirstName"
-                   FontSize="16"
-                   />
-            <Grid>
-                <TextBox x:Name="tbFirstName"
-                                 VerticalAlignment="Center"
-                                 FontSize="25"
-                                 Margin="5 10 5 0"
-                                 FontFamily="Jetbrains Mono"
-                                 BorderThickness="0"
-                                 Foreground="{DynamicResource PrimaryTextColor}"
-                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbFirstName_TextChanged"/>
-            </Grid>
-            
-            <Label Grid.Row="1"
-                   Content="LastName"
-                   FontSize="16"
-                   />
-            <Grid>
-                <TextBox x:Name="tbLastName"
-                                 VerticalAlignment="Center"
-                                 FontSize="25"
-                                 Margin="5 10 5 0"
-                                 FontFamily="Jetbrains Mono"
-                                 BorderThickness="0"
-                                 Foreground="{DynamicResource PrimaryTextColor}"
-                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbLastName_TextChanged"/>
-            </Grid>
+        <StackPanel>
+            <Label Content="FirstName"
+                   FontSize="16"/>
 
-        </Grid>
+            <TextBox x:Name="tbFirstName"/>
+                     
+
+
+            <Label Content="LastName"
+                   FontSize="16"/>
+
+            <TextBox x:Name="tbLastName"/>
+
+            <Label Content="Phone"
+                   FontSize="16"/>
+
+            <TextBox x:Name="tbPhone"/>
+            
+            <Button x:Name="bntSave" 
+                    Style="{DynamicResource SuccessButton}"
+                    Content="Save" 
+                    Click="bntSave_Click">
+
+            </Button>
+
+        </StackPanel>
     </Border>
 </Window>
