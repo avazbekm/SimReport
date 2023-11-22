@@ -1,5 +1,4 @@
-﻿using SimReport.Windows.Clients;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SimReport.Pages
+namespace SimReport.Windows.Clients
 {
     /// <summary>
-    /// Interaction logic for ClientsPage.xaml
+    /// Interaction logic for ClientCreateWindow.xaml
     /// </summary>
-    public partial class ClientsPage : Page
+    public partial class ClientCreateWindow : Window
     {
-        public ClientsPage()
+        public ClientCreateWindow()
         {
             InitializeComponent();
-        }
-
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
-        {
-            ClientCreateWindow clientCreateWindow = new ClientCreateWindow();
-            clientCreateWindow.ShowDialog();
         }
     }
 }
