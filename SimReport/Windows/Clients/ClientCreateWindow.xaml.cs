@@ -23,5 +23,10 @@ namespace SimReport.Windows.Clients
         {
             InitializeComponent();
         }
+
+        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

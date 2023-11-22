@@ -5,9 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows.Clients"
         mc:Ignorable="d"
-        Title="ClientCreateWindow" Height="450" Width="800"
+        Title="Client Create Window" Height="300" Width="400"
         WindowStartupLocation="CenterScreen">
-    <Grid>
-        
-    </Grid>
+    <Border  
+            Background="{DynamicResource SecondaryBackground}"
+            >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"
+                   Content="FirstName"
+                   FontSize="16"
+                   />
+            <Grid>
+                <TextBox x:Name="tbFirstName"
+                                 VerticalAlignment="Center"
+                                 FontSize="25"
+                                 Margin="5 10 5 0"
+                                 FontFamily="Jetbrains Mono"
+                                 BorderThickness="0"
+                                 Foreground="{DynamicResource PrimaryTextColor}"
+                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbFirstName_TextChanged"/>
+            </Grid>
+            
+            <Label Grid.Row="1"
+                   Content="LastName"
+                   FontSize="16"
+                   />
+            <Grid>
+                <TextBox x:Name="tbLastName"
+                                 VerticalAlignment="Center"
+                                 FontSize="25"
+                                 Margin="5 10 5 0"
+                                 FontFamily="Jetbrains Mono"
+                                 BorderThickness="0"
+                                 Foreground="{DynamicResource PrimaryTextColor}"
+                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbLastName_TextChanged"/>
+            </Grid>
+
+        </Grid>
+    </Border>
 </Window>

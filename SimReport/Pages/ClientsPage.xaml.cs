@@ -31,5 +31,10 @@ namespace SimReport.Pages
             ClientCreateWindow clientCreateWindow = new ClientCreateWindow();
             clientCreateWindow.ShowDialog();
         }
+
+        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

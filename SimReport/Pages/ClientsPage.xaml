@@ -39,7 +39,7 @@
                                  FontFamily="Jetbrains Mono"
                                  BorderThickness="0"
                                  Foreground="{DynamicResource PrimaryTextColor}"
-                                 Background="{DynamicResource PrimaryBackground}"/>
+                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbSearch_TextChanged"/>
                     </Grid>
                 </Border>
                 <Button x:Name="btnCreate"
