@@ -48,12 +48,16 @@
                         Content="Create"/>
             </StackPanel>
 
+
             <ScrollViewer Margin="5 5 0 5"
                           Grid.Row="1">
                 <WrapPanel x:Name="wrpCourses" >
+                    <Label FontSize="30" 
+                        Content="Companies"></Label>
 
                 </WrapPanel>
             </ScrollViewer>
+
         </Grid>
     </Border>
 </Page>
