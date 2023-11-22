@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimReport.Windows.Companies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace SimReport.Pages
         public CompaniesPage()
         {
             InitializeComponent();
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            CompanyCreateWindow companyCreateWindow = new CompanyCreateWindow();
+            companyCreateWindow.ShowDialog();
         }
     }
 }

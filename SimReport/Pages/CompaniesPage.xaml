@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:SimReport.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CompaniesPage">
+      Title="CompaniesPage"
+      >
 
     <Border Margin="10">
         <Grid Margin="0 5 0 5">
