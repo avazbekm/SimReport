@@ -12,7 +12,7 @@
             <RowDefinition Height="160"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" CornerRadius="10 10 0 0">
+        <Border Grid.Row="0" CornerRadius="10 10 0 0" Margin="497,-47,-497,47">
             <!--<Border.Background>
                 <ImageBrush x:Name="ImgB" ImageSource="/Assets/Images/image.jpg" Stretch="UniformToFill"/>-->
             <!--</Border.Background>-->

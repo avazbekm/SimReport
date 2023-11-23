@@ -31,5 +31,10 @@ namespace SimReport.Pages
             CompanyCreateWindow companyCreateWindow = new CompanyCreateWindow();
             companyCreateWindow.ShowDialog();
         }
+
+        private void CompanyViewUserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

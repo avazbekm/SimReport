@@ -52,7 +52,10 @@
             <ScrollViewer Margin="5 5 0 5"
                           Grid.Row="1">
                 <WrapPanel x:Name="wrpCourses" >
-                    <companies:CompanyViewUserControl/>
+                    <Grid>
+                        <companies:CompanyViewUserControl />
+                        
+                    </Grid>
                     <companies:CompanyViewUserControl/>
                     <companies:CompanyViewUserControl/>
                     <companies:CompanyViewUserControl/>
