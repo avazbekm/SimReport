@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows.Companies"
         mc:Ignorable="d"
-        Title="Company Create Window" Height="500" Width="300"
+        Title="Company Create Window" Height="450" Width="300"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
-    <Border Background="{DynamicResource PrimaryBorderColor}">
+    <Border Background="{DynamicResource SecondaryBackground}">
         <StackPanel >
             <Label Height="30" 
                    Margin="10 10 10 0"
@@ -20,8 +21,33 @@
                      FontSize="16"
                      FontFamily="New Time"
                      Padding="8 9 5 5"/>
+            <Border Height="200" Margin="15 5 15 2" BorderThickness="1"
+                    Background="{DynamicResource PrimaryBorderColor}">
+            </Border>
+            <Grid Margin="0 0 0 15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Height="35" 
+                   Margin="10 5 0 0"
+                   Content="Image"
+                   FontSize="16"
+                   Background="{DynamicResource SecondaryBackground}"/>
+                <Button x:Name="btnImageSelector"
+                        Grid.Column="1"
+                        Background="{DynamicResource SecondaryBackground}"
+                        Content="..."
+                        FontSize="20"
+                        BorderThickness="0"
+                        Margin="0 5 10 5"
+                        Click="btnImageSelector_Click"/>
 
-
+            </Grid>
+            <Button x:Name="btnSave"
+                    Style="{DynamicResource SuccessButton}"
+                    Content="Save"
+                    Click="btnSave_Click"/>
 
         </StackPanel>
     </Border>

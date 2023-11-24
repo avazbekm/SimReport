@@ -23,5 +23,14 @@ namespace SimReport.Windows.Companies
         {
             InitializeComponent();
         }
+
+        private void btnImageSelector_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
