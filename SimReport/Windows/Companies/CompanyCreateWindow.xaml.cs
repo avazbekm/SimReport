@@ -32,5 +32,10 @@ namespace SimReport.Windows.Companies
         {
 
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

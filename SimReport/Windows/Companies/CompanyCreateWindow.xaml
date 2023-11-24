@@ -16,12 +16,15 @@
                    FontSize="16"
                    Background="{DynamicResource SecondaryBackground}"/>
             <TextBox Height="40" 
+                     MaxLength="50"
                      Margin="10 0 10 10"
                      Background="{DynamicResource PrimaryBackground}" 
                      FontSize="16"
                      FontFamily="New Time"
-                     Padding="8 9 5 5"/>
-            <Border Height="200" Margin="15 5 15 2" BorderThickness="1"
+                     Padding="8 9 5 5" TextChanged="TextBox_TextChanged"/>
+            <Border x:Name="ImgCompany"
+                    Height="200" Margin="15 5 15 2" 
+                    BorderThickness="1"
                     Background="{DynamicResource PrimaryBorderColor}">
             </Border>
             <Grid Margin="0 0 0 15">
