@@ -36,5 +36,15 @@ namespace SimReport.Pages
         {
 
         }
+
+        private void CompanyViewUserControl_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CompanyViewUserControl_Loaded_2(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
