@@ -40,5 +40,10 @@ namespace SimReport.Windows.Clients
             var Phone = tbPhone.Text;
             MessageBox.Show($"{FirstName} {LastName} {Phone}");
         }
+
+        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -26,19 +26,23 @@
             <Label Content="FirstName"
                    FontSize="16"/>
 
-            <TextBox x:Name="tbFirstName"/>
+            <TextBox x:Name="tbFirstName"
+                     MaxLength="50"
+                     TextChanged="tbFirstName_TextChanged"/>
                      
 
 
             <Label Content="LastName"
                    FontSize="16"/>
 
-            <TextBox x:Name="tbLastName"/>
+            <TextBox x:Name="tbLastName"
+                     MaxLength="50"/>
 
             <Label Content="Phone"
                    FontSize="16"/>
 
-            <TextBox x:Name="tbPhone"/>
+            <TextBox x:Name="tbPhone"
+                     MaxLength="50"/>
             
             <Button x:Name="bntSave" 
                     Style="{DynamicResource SuccessButton}"
