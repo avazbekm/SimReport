@@ -48,7 +48,7 @@
                         Content="Create"/>
             </StackPanel>
 
-                <!--<FlowDocumentReader Grid.Row="1">
+                <FlowDocumentReader Grid.Row="1">
                     <FlowDocument>
                     <Table CellSpacing="5">
                         <Table.Columns>
@@ -60,14 +60,14 @@
                         </Table.Columns>
                         <TableRowGroup>
 
-                             --><!--Title row for the table.--><!-- 
+                             Title row for the table. 
                             <TableRow Background="SkyBlue">
                                 <TableCell ColumnSpan="4" TextAlignment="Center">
                                     <Paragraph FontSize="24pt" FontWeight="Bold">Planetary Information</Paragraph>
                                 </TableCell>
                             </TableRow>
 
-                             --><!--Header row for the table.--><!-- 
+                             Header row for the table. 
                             <TableRow Background="LightGray">
                                 <TableCell>
                                     <Paragraph FontSize="16pt" FontWeight="Bold">Planet</Paragraph>
@@ -83,21 +83,21 @@
                                 </TableCell>
                             </TableRow>
 
-                             --><!--Data rows for the table.--><!-- 
+                             Data rows for the table. 
                             <TableRow>
                                 <TableCell>Earth</TableCell>
                                 <TableCell>93 million miles</TableCell>
                                 <TableCell>7,917 miles</TableCell>
                                 <TableCell>1</TableCell>
                             </TableRow>
-                             --><!--Add more rows as needed--><!-- 
+                             Add more rows as needed 
 
                         </TableRowGroup>
 
                     </Table>
                         
                     </FlowDocument>
-                </FlowDocumentReader>-->
+                </FlowDocumentReader>
 
                 <WrapPanel x:Name="wrpCourses" >
 
