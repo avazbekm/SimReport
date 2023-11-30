@@ -48,7 +48,7 @@
                         Content="Create"/>
             </StackPanel>
 
-                <!--<FlowDocumentReader Grid.Row="1">
+                <FlowDocumentReader Grid.Row="1">
                     <FlowDocument>
                     <Table CellSpacing="5">
                         <Table.Columns>
@@ -97,7 +97,7 @@
                     </Table>
                         
                     </FlowDocument>
-                </FlowDocumentReader>-->
+                </FlowDocumentReader>
 
                 <WrapPanel x:Name="wrpCourses" >
 
