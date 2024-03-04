@@ -25,6 +25,10 @@
                 BorderBrush="{DynamicResource PrimaryBorderColor}"
                 BorderThickness="0 0 0 1">
             <Grid Margin="10 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="31*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
@@ -33,10 +37,10 @@
                         MouseDown="brDragable_MouseDown" 
                         Grid.Column="0" 
                         Background="{DynamicResource PrimaryBackground}"
-                        Cursor="ScrollAll">
+                        Cursor="ScrollAll" Grid.RowSpan="2">
                 </Border>
                 <StackPanel Grid.Column="1" 
-                            Orientation="Horizontal">
+                            Orientation="Horizontal" Grid.RowSpan="2">
                     <Button x:Name="btnMinimize" Click="btnMinimize_Click" Style="{DynamicResource MinimizedButton}"/>
                     <Button x:Name="btnMaximize" Click="btnMaximize_Click" Style="{DynamicResource MaximazedButton}"/>
                     <Button x:Name="btnClose" Click="btnClose_Click" Style="{DynamicResource CloseButton}"/>

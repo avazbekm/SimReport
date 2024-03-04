@@ -27,12 +27,12 @@ namespace SimReport.Windows.Clients
 
         private void bntSave_Click(object sender, RoutedEventArgs e)
         {
-            //var user = new User()
-            //{
-            //    FirstName = tbFirstName.Text,
-            //    LastName = tbLastName.Text,
-            //    Phone = tbPhone.Text
-            //};
+            var user = new User()
+            {
+                FirstName = tbFirstName.Text,
+                LastName = tbLastName.Text,
+                Phone = tbPhone.Text
+            };
 
 
             var FirstName = tbFirstName.Text;

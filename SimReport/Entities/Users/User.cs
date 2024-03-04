@@ -10,4 +10,5 @@ public class User : Auditable
     public string LastName { get; set; } = string.Empty;
     [MaxLength(15)]
     public string Phone { get; set; } = string.Empty;
+    public ulong SimSeria {  get; set; }
 }
