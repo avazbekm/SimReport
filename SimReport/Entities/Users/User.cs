@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SimReport.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimReport.Entities.Users;
 
@@ -11,4 +12,5 @@ public class User : Auditable
     [MaxLength(15)]
     public string Phone { get; set; } = string.Empty;
     public bool IsDeleted { get; set; }
+    public Role Role { get; set; }
 }
