@@ -1,18 +1,10 @@
-﻿using SimReport.Windows.Clients;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SimReport.Entities.Users;
+using SimReport.Interfaces;
+using SimReport.Repositories;
+using SimReport.Services;
+using SimReport.Windows.Clients;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SimReport.Pages
 {
@@ -21,14 +13,17 @@ namespace SimReport.Pages
     /// </summary>
     public partial class ClientsPage : Page
     {
-        public ClientsPage()
+        private readonly IUserService userService;
+
+        public ClientsPage(IUserService userService)
         {
             InitializeComponent();
+            this.userService = userService;
         }
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
-            ClientCreateWindow clientCreateWindow = new ClientCreateWindow();
+            ClientCreateWindow clientCreateWindow = new ClientCreateWindow(userService);
             clientCreateWindow.ShowDialog();
         }
 

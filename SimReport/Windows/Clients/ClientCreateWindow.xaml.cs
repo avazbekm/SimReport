@@ -1,49 +1,43 @@
-﻿using SimReport.Entities.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using SimReport.Services;
+using SimReport.Interfaces;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using SimReport.Entities.Users;
 
-namespace SimReport.Windows.Clients
+namespace SimReport.Windows.Clients;
+
+/// <summary>
+/// Interaction logic for ClientCreateWindow.xaml
+/// </summary>
+public partial class ClientCreateWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for ClientCreateWindow.xaml
-    /// </summary>
-    public partial class ClientCreateWindow : Window
+    private readonly IUserService userService;
+
+
+    public ClientCreateWindow(IUserService userService)
     {
-        public ClientCreateWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        this.userService = userService;
+    }
 
-        private void bntSave_Click(object sender, RoutedEventArgs e)
-        {
-            var user = new User()
-            {
-                FirstName = tbFirstName.Text,
-                LastName = tbLastName.Text,
-                Phone = tbPhone.Text
-            };
+    private async void bntSave_Click(object sender, RoutedEventArgs e)
+    {
+        User user = new User();
 
+        user.FirstName = tbFirstName.Text;
+        user.LastName = tbLastName.Text;
+        user.Phone = tbPhone.Text;
+        
+        await this.userService.CreateAsync(user);
 
-            var FirstName = tbFirstName.Text;
-            var LastName = tbLastName.Text;
-            var Phone = tbPhone.Text;
-            MessageBox.Show($"{FirstName} {LastName} {Phone}");
-        }
+        var FirstName = tbFirstName.Text;
+        var LastName = tbLastName.Text;
+        var Phone = tbPhone.Text;
+        MessageBox.Show($"{FirstName} {LastName} {Phone}");
+    }
 
-        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
-        {
+    private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+    {
 
-        }
     }
 }

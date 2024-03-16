@@ -1,4 +1,5 @@
-﻿using SimReport.Pages;
+﻿using SimReport.Interfaces;
+using SimReport.Pages;
 using System.Windows;
 
 namespace SimReport
@@ -8,6 +9,8 @@ namespace SimReport
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IUserService userService;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +44,7 @@ namespace SimReport
 
         private void rbClients_Click(object sender, RoutedEventArgs e)
         {
-            ClientsPage clientsPage = new ClientsPage();
+            ClientsPage clientsPage = new ClientsPage(userService);
             PageNavigator.Content = clientsPage;
         }
 
