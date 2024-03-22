@@ -23,7 +23,7 @@
             Background="{DynamicResource SecondaryBackground}"
             >
         <StackPanel>
-            <Label Content="FirstName"
+            <Label Content="Ism"
                    FontSize="16"/>
 
             <TextBox x:Name="tbFirstName"
@@ -32,13 +32,13 @@
                      
 
 
-            <Label Content="LastName"
+            <Label Content="Familiya"
                    FontSize="16"/>
 
             <TextBox x:Name="tbLastName"
                      MaxLength="50"/>
 
-            <Label Content="Phone"
+            <Label Content="Telefon nomer"
                    FontSize="16"/>
 
             <TextBox x:Name="tbPhone"
@@ -46,7 +46,7 @@
             
             <Button x:Name="bntSave" 
                     Style="{DynamicResource SuccessButton}"
-                    Content="Save" 
+                    Content="Saqlash" 
                     Click="bntSave_Click">
 
             </Button>

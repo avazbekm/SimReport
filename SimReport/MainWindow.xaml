@@ -67,7 +67,7 @@
                                  Style="{DynamicResource MenuButton}"
                                  Content="Clients" 
                                  Click="rbClients_Click"
-                                 Tag="{DynamicResource clients}" Checked="rbClients_Checked"/>
+                                 Tag="{DynamicResource clients}"/>
 
                     <RadioButton x:Name="rbCompanies" 
                                  Style="{DynamicResource MenuButton}"
@@ -79,7 +79,7 @@
                                  Style="{DynamicResource MenuButton}"
                                  Content="Reports" 
                                  Click="rbReports_Click"
-                                 Tag="{DynamicResource reports}" Checked="rbReports_Checked"/>
+                                 Tag="{DynamicResource reports}"/>
                     <RadioButton x:Name="rbAbout" 
                                  Style="{DynamicResource MenuButton}"
                                  Content="About" 

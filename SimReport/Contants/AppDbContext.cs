@@ -3,11 +3,13 @@ using SimReport.Entities.Assets;
 using SimReport.Entities.Cards;
 using SimReport.Entities.Companies;
 using SimReport.Entities.Users;
+using System;
 
 namespace SimReport.Contants;
 
 public class AppDbContext : DbContext
 {
+
     DbSet<User> Users { get; set; }
     DbSet<Card> Cards { get; set; }
     DbSet<Company> Companies { get; set; }
@@ -15,14 +17,13 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string DB_CONNECTIONSTRING = $"Host={"localhost"};" +
-            $"Database={"SimReportDB"};" +
-            $"Port={"5432"};" +
-            $"User ID={"postgres"};" +
-            $"Password={"root"}";
-        
         // Configure the connection string
         optionsBuilder.UseNpgsql(DB_CONNECTIONSTRING);
     }
 
+    public const string DB_CONNECTIONSTRING = $"Host={"localhost"};" +
+        $"Port={"5432"};" +
+        $"Database={"SimReportDB"};" +
+        $"User ID={"postgres"};" +
+        $"Password={"root"}";
 }

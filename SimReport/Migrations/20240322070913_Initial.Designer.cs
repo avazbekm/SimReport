@@ -12,7 +12,7 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240312043825_Initial")]
+    [Migration("20240322070913_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -173,15 +173,20 @@ namespace SimReport.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SimReport.Entities.Users.User", "Users")
-                        .WithMany()
+                    b.HasOne("SimReport.Entities.Users.User", "User")
+                        .WithMany("Cards")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Company");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SimReport.Entities.Users.User", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

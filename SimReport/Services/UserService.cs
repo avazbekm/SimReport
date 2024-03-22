@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using SimReport.Interfaces;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using SimReport.Entities.Users;
-using System.Collections.Generic;
+using SimReport.Interfaces;
 using SimReport.Services.Exceptions;
-using Microsoft.EntityFrameworkCore;
+using SimReport.Services.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SimReport.Services;
 
@@ -18,35 +18,71 @@ public class UserService : IUserService
         this.userRepository = userRepository;
     }
 
-    public async Task<User> CreateAsync(User user)
+    public async Task<Response<User>> AddAsync(User user)
     {
-        var users = await userRepository.GetAll().ToListAsync();
-        var existUser = users.FirstOrDefault(x => x.Phone.Equals(user.Phone));
-        if (existUser is not null)
-            throw new AlreadyExistException($"This phone is already exist {user.Phone}");
+        try
+        {
+            var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Phone.Equals(user.Phone));
+            if (existUser != null)
+                throw new AlreadyExistException("This phone is already exist");
 
-        await userRepository.CreateAsync(user);
-        await userRepository.SaveAsync();
-        
-        return user;
+            await this.userRepository.CreateAsync(user);
+            await this.userRepository.SaveChanges();
+
+            return new Response<User>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = user
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<User>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = user
+            };
+        }
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<Response<bool>> DeleteAsync(long id)
+    {
+        var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(id));
+        if (existUser is null)
+            throw new NotFoundException("Bu nomerdagi foydalanuchi mavjud emas.");
+        else
+        {
+
+            this.userRepository.Delete(existUser);
+            await this.userRepository.SaveChanges();
+            return new Response<bool>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = true
+            };
+        }
+    }
+
+    public async Task<Response<IEnumerable<User>>> GetAllAsync()
+    {
+        var users = await this.userRepository.GetAll().ToListAsync();
+        return new Response<IEnumerable<User>>
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = users
+        };
+    }
+
+    public Task<Response<User>> GetAsync(long id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<User> GetByIdAsync(long id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<User> UpdateAsync(User user)
+    public Task<Response<User>> UpdateAsync(User user)
     {
         throw new NotImplementedException();
     }

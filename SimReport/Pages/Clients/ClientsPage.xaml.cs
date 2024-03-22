@@ -1,8 +1,10 @@
-﻿using SimReport.Entities.Users;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SimReport.Interfaces;
-using SimReport.Repositories;
-using SimReport.Services;
+using SimReport.Pages.Clients;
 using SimReport.Windows.Clients;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,17 +15,15 @@ namespace SimReport.Pages
     /// </summary>
     public partial class ClientsPage : Page
     {
-        private readonly IUserService userService;
-
-        public ClientsPage(IUserService userService)
+        private readonly IServiceProvider services;
+        public ClientsPage(IServiceProvider services)
         {
             InitializeComponent();
-            this.userService = userService;
+            this.services = services;
         }
-
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
-            ClientCreateWindow clientCreateWindow = new ClientCreateWindow(userService);
+            ClientCreateWindow clientCreateWindow = new ClientCreateWindow(services);
             clientCreateWindow.ShowDialog();
         }
 

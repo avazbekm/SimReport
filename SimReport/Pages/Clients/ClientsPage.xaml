@@ -39,13 +39,14 @@
                                  FontFamily="Jetbrains Mono"
                                  BorderThickness="0"
                                  Foreground="{DynamicResource PrimaryTextColor}"
-                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbSearch_TextChanged"/>
+                                 Background="{DynamicResource PrimaryBackground}" 
+                                 TextChanged="tbSearch_TextChanged"/>
                     </Grid>
                 </Border>
                 <Button x:Name="btnCreate"
                         Click="btnCreate_Click"
                         Style="{DynamicResource SuccessButton}"
-                        Content="Create"/>
+                        Content="Qo'shish"/>
             </StackPanel>
 
                 <!--<FlowDocumentReader Grid.Row="1">
@@ -99,7 +100,26 @@
                     </FlowDocument>
                 </FlowDocumentReader>-->
 
-                <WrapPanel x:Name="wrpCourses" >
+                <WrapPanel Grid.Row="1"
+                           Margin="20 15"
+                           x:Name="wrpClients">
+                    
+                    <DataGrid x:Name="dataGrid" 
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ism" Binding="{Binding Name}" Width="200"/>
+                            <DataGridTextColumn Header="Familiyasi" Binding="{Binding Surname}" Width="200"/>
+                            <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="200"/>
+                            <!--<DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="50"/>
+                            <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="50"/>
+                            <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="50"/>
+                            <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="63"/>
+                            <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="55"/>
+                            <DataGridTextColumn Header="Oq" Binding="{Binding Oq}" Width="50"/>
+                            <DataGridTextColumn Header="Jami" Binding="{Binding Jami}" Width="60"/>
+                            <DataGridTextColumn Header="O'chir" Binding="{Binding Udalit}"/>-->
+                        </DataGrid.Columns>
+                    </DataGrid>
 
                 </WrapPanel>
         </Grid>

@@ -1,6 +1,12 @@
-﻿using SimReport.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SimReport.Entities.Users;
+using SimReport.Interfaces;
 using SimReport.Pages;
+using SimReport.Services;
+using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SimReport
 {
@@ -9,11 +15,11 @@ namespace SimReport
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IUserService userService;
-
-        public MainWindow()
+        private readonly IServiceProvider services;
+        public MainWindow(IServiceProvider services)
         {
             InitializeComponent();
+            this.services = services;
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -37,20 +43,11 @@ namespace SimReport
             else this.WindowState = WindowState.Maximized;
         }
 
-        private void rbDashboard_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void rbClients_Click(object sender, RoutedEventArgs e)
         {
-            ClientsPage clientsPage = new ClientsPage(userService);
-            PageNavigator.Content = clientsPage;
-        }
 
-        private void rbClients_Checked(object sender, RoutedEventArgs e)
-        {
-            
+            ClientsPage clientsPage = new ClientsPage(services) ;
+            PageNavigator.Content = clientsPage;
         }
 
         private void rbCompanies_Click(object sender, RoutedEventArgs e)
@@ -60,12 +57,17 @@ namespace SimReport
 
         }
 
-        private void rbReports_Click(object sender, RoutedEventArgs e)
+        private void rbAbout_Checked(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void rbReports_Checked(object sender, RoutedEventArgs e)
+        private void rbDashboard_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void rbReports_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -9,7 +9,7 @@ public class Card : Auditable
     public Company Company { get; set; }
 
     public int UserId { get; set; }
-    public User Users { get; set; }
+    public User User { get; set; }
 
     public long CardNumber { get; set; }
 

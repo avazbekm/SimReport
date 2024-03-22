@@ -1,8 +1,10 @@
 ﻿using System.Windows;
-using SimReport.Services;
 using SimReport.Interfaces;
 using System.Windows.Controls;
 using SimReport.Entities.Users;
+using SimReport.Services;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Windows.Clients;
 
@@ -12,12 +14,10 @@ namespace SimReport.Windows.Clients;
 public partial class ClientCreateWindow : Window
 {
     private readonly IUserService userService;
-
-
-    public ClientCreateWindow(IUserService userService)
+    public ClientCreateWindow(IServiceProvider services)
     {
         InitializeComponent();
-        this.userService = userService;
+        this.userService = services.GetRequiredService<IUserService>();
     }
 
     private async void bntSave_Click(object sender, RoutedEventArgs e)
@@ -27,13 +27,10 @@ public partial class ClientCreateWindow : Window
         user.FirstName = tbFirstName.Text;
         user.LastName = tbLastName.Text;
         user.Phone = tbPhone.Text;
-        
-        await this.userService.CreateAsync(user);
 
-        var FirstName = tbFirstName.Text;
-        var LastName = tbLastName.Text;
-        var Phone = tbPhone.Text;
-        MessageBox.Show($"{FirstName} {LastName} {Phone}");
+        var result = await this.userService.AddAsync(user);
+
+        MessageBox.Show($" {result.StatusCode}  {result.Message}");
     }
 
     private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
