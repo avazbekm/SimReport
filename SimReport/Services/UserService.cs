@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SimReport.Entities.Users;
+﻿using System;
 using SimReport.Interfaces;
-using SimReport.Services.Exceptions;
-using SimReport.Services.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using SimReport.Entities.Users;
+using SimReport.Services.Helpers;
+using System.Collections.Generic;
+using SimReport.Services.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimReport.Services;
 
@@ -23,7 +23,7 @@ public class UserService : IUserService
         try
         {
             var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Phone.Equals(user.Phone));
-            if (existUser != null)
+            if (existUser is not null)
                 throw new AlreadyExistException("This phone is already exist");
 
             await this.userRepository.CreateAsync(user);
@@ -77,13 +77,62 @@ public class UserService : IUserService
         };
     }
 
-    public Task<Response<User>> GetAsync(long id)
+    public async Task<Response<User>> GetAsync(long id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(id));
+            if (existUser is null)
+                throw new NotFoundException("Buday telefon foydalanuchi mavjud emas.");
+
+            return new Response<User>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = existUser
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<User>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
     }
 
-    public Task<Response<User>> UpdateAsync(User user)
+    public async Task<Response<User>> UpdateAsync(User user)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Phone.Equals(user.Phone));
+            if (existUser != null)
+                throw new AlreadyExistException("Bunday nomer foydalanuvchisi mavjud emas!");
+
+            existUser.FirstName=user.FirstName;
+            existUser.LastName=user.LastName;
+            existUser.Phone=user.Phone;
+
+            this.userRepository.Update(user);
+            await this.userRepository.SaveChanges();
+
+            return new Response<User>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = user
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<User>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = user
+            };
+        }
     }
 }
