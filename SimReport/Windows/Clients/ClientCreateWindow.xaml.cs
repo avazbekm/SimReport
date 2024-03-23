@@ -30,7 +30,7 @@ public partial class ClientCreateWindow : Window
 
         var result = await this.userService.AddAsync(user);
 
-        MessageBox.Show($" {result.StatusCode}  {result.Message}");
+        MessageBox.Show($" {result.Message} \n {result.StatusCode}");
     }
 
     private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)

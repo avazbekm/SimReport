@@ -3,8 +3,10 @@ using System.Linq;
 using SimReport.Interfaces;
 using System.Threading.Tasks;
 using SimReport.Entities.Cards;
+using SimReport.Entities.Users;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
+using SimReport.Entities.Companies;
 using SimReport.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,15 +15,26 @@ namespace SimReport.Services;
 public class CardService : ICardService
 {
     private readonly IRepository<Card> cardRepository;
-    public CardService(IRepository<Card> cardRepository)
+    private readonly IRepository<User> userRepository;
+    private readonly IRepository<Company> companyRepository;
+    public CardService(IRepository<Card> cardRepository, IRepository<User> userRepository, IRepository<Company> companyRepository)
     {
-
         this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
     }
     public async Task<Response<Card>> AddAsync(Card card)
     {
         try
         {
+            var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(card.UserId));
+            if (existUser is null)
+                throw new NotFoundException("Bunday Id li foydalanuvchi mavjud emas!");
+
+            var existCompany = this.companyRepository.GetAll().FirstOrDefault(c => c.Id.Equals(card.CompanyId));
+            if (existCompany is null)
+                throw new NotFoundException("Bunday Id li kompaniya mavjud emas!");
+
             var existCard = this.cardRepository.GetAll().FirstOrDefault(c => c.CardNumber.Equals(card.CardNumber));
             if (existCard is not null)
                 throw new AlreadyExistException("Bu seriya bilan sim karta mavjud.");

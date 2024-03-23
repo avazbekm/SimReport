@@ -24,7 +24,7 @@ public class UserService : IUserService
         {
             var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Phone.Equals(user.Phone));
             if (existUser is not null)
-                throw new AlreadyExistException("This phone is already exist");
+                throw new AlreadyExistException("Bunday nomer mavjud.");
 
             await this.userRepository.CreateAsync(user);
             await this.userRepository.SaveChanges();
@@ -32,7 +32,7 @@ public class UserService : IUserService
             return new Response<User>
             {
                 StatusCode = 200,
-                Message = "Ok",
+                Message = "Saqlandi.",
                 Data = user
             };
         }
@@ -60,7 +60,7 @@ public class UserService : IUserService
             return new Response<bool>
             {
                 StatusCode = 200,
-                Message = "Ok",
+                Message = "O'chirildi.",
                 Data = true
             };
         }
@@ -121,7 +121,7 @@ public class UserService : IUserService
             return new Response<User>
             {
                 StatusCode = 200,
-                Message = "Ok",
+                Message = "Malumotlar o'zgardi.",
                 Data = user
             };
         }
