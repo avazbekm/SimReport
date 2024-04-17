@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using SimReport.Interfaces;
 using System.Threading.Tasks;
 using SimReport.Services.Helpers;
@@ -15,14 +14,13 @@ public class CompanyService : ICompanyService
     private readonly IRepository<Company> companyRepository;
     public CompanyService(IRepository<Company> companyRepository)
     {
-
         this.companyRepository = companyRepository;
     }
     public async Task<Response<Company>> AddAsync(Company company)
     {
         try
         {
-            var existCompany = this.companyRepository.GetAll().FirstOrDefault(c => c.Name.Equals(company.Name));
+            var existCompany =await this.companyRepository.GetAsync(c => c.Name.Equals(company.Name));
             if (existCompany is not null)
                 throw new AlreadyExistException("Bu nom bilan kompaniya mavjud.");
 
@@ -47,9 +45,9 @@ public class CompanyService : ICompanyService
         }
     }
 
-    public async Task<Response<bool>> DeleteAsync(long id)
+    public async Task<Response<bool>> DeleteAsync(int id)
     {
-        var existCompany = this.companyRepository.GetAll().FirstOrDefault(u => u.Id.Equals(id));
+        var existCompany = await this.companyRepository.GetAsync(u => u.Id.Equals(id));
         if (existCompany is null)
             throw new NotFoundException("Bu nom bilan kompaniya mavjud emas.");
         else
@@ -67,7 +65,7 @@ public class CompanyService : ICompanyService
 
     public async Task<Response<IEnumerable<Company>>> GetAllAsync()
     {
-        var companies = await this.companyRepository.GetAll().ToListAsync();
+        var companies = this.companyRepository.GetAll();
         return new Response<IEnumerable<Company>>
         {
             StatusCode = 200,
@@ -76,11 +74,37 @@ public class CompanyService : ICompanyService
         };
     }
 
-    public async Task<Response<Company>> GetAsync(long id)
+    public async Task<Response<Company>> GetAsync(int id)
     {
         try
         {
-            var existCompany = await this.companyRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var existCompany = await this.companyRepository.GetAsync(u => u.Id.Equals(id), includes: new[] { "Card" });
+            if (existCompany is null)
+                throw new NotFoundException("Buday id bilan kompaniya mavjud emas.");
+
+            return new Response<Company>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = existCompany
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<Company>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
+
+    public async Task<Response<Company>> GetAsync(string name)
+    {
+        try
+        {
+            var existCompany = await this.companyRepository.GetAsync(u => u.Name.Equals(name));
             if (existCompany is null)
                 throw new NotFoundException("Buday nom bilan kompaniya mavjud emas.");
 
@@ -106,13 +130,11 @@ public class CompanyService : ICompanyService
     {
         try
         {
-            var existCompany = await this.companyRepository.GetAll().FirstOrDefaultAsync(u => u.Name.Equals(company.Name));
-            if (existCompany != null)
-                throw new AlreadyExistException("Bunday nomer foydalanuvchisi mavjud emas!");
+            var existCompany = await this.companyRepository.GetAsync(u => u.Id.Equals(company.Id));
 
             existCompany.Name = company.Name;
 
-            this.companyRepository.Update(company);
+            this.companyRepository.Update(existCompany);
             await this.companyRepository.SaveChanges();
 
             return new Response<Company>

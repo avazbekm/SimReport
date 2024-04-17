@@ -52,7 +52,7 @@ namespace SimReport
 
         private void rbCompanies_Click(object sender, RoutedEventArgs e)
         {
-            CompaniesPage companiesPage = new CompaniesPage();
+            CompaniesPage companiesPage = new CompaniesPage(services);
             PageNavigator.Content = companiesPage;
 
         }

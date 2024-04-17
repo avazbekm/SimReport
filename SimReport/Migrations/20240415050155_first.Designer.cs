@@ -12,8 +12,8 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240322070913_Initial")]
-    partial class Initial
+    [Migration("20240415050155_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,9 @@ namespace SimReport.Migrations
                     b.Property<long>("CardNumber")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
@@ -101,13 +104,6 @@ namespace SimReport.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AssetId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -168,7 +164,7 @@ namespace SimReport.Migrations
             modelBuilder.Entity("SimReport.Entities.Cards.Card", b =>
                 {
                     b.HasOne("SimReport.Entities.Companies.Company", "Company")
-                        .WithMany()
+                        .WithMany("Cards")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -182,6 +178,11 @@ namespace SimReport.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SimReport.Entities.Companies.Company", b =>
+                {
+                    b.Navigation("Cards");
                 });
 
             modelBuilder.Entity("SimReport.Entities.Users.User", b =>

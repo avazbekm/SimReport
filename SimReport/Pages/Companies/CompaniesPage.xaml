@@ -39,7 +39,7 @@
                                  FontFamily="Jetbrains Mono"
                                  BorderThickness="0"
                                  Foreground="{DynamicResource PrimaryTextColor}"
-                                 Background="{DynamicResource PrimaryBackground}"/>
+                                 Background="{DynamicResource PrimaryBackground}" TextChanged="tbSearch_TextChanged"/>
                     </Grid>
                 </Border>
                 <Button x:Name="btnCreate"
@@ -49,18 +49,10 @@
             </StackPanel>
 
 
-            <ScrollViewer Margin="5 5 0 5"
+            <ScrollViewer x:Name="svScroll"
+                          Margin="5 5 0 5"
                           Grid.Row="1">
-                <WrapPanel x:Name="wrpCourses" >
-                    <Grid>
-                        <companies:CompanyViewUserControl />
-                        
-                    </Grid>
-                    <companies:CompanyViewUserControl/>
-                    <companies:CompanyViewUserControl/>
-                    <companies:CompanyViewUserControl/>
-
-
+                <WrapPanel x:Name="wrpCompanies" >
                 </WrapPanel>
             </ScrollViewer>
 

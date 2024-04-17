@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using SimReport.Contants;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SimReport.Entities.Assets;
+using SimReport.Entities.Cards;
+using SimReport.Entities.Companies;
 using SimReport.Entities.Users;
 using SimReport.Interfaces;
 using SimReport.Repositories;
 using SimReport.Services;
+using SimReport.Services.Helpers;
 using System.Windows;
 
 namespace SimReport;
@@ -20,15 +22,21 @@ public partial class App : Application
 
         IServiceCollection services = new ServiceCollection();
 
-        // database 
-        //services.AddDbContext<AppDbContext>(options =>
-        //options.UseNpgsql("Host=localhost; Port=5432; User Id=postgres; Password=root; Database=SimReportDB;"));
-        
         // Serivices
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<ICardService, CardService>();
+        //services.AddScoped<IAssetService, AssetService>();
+
+
 
         // Repositories
         services.AddScoped<IRepository<User>, Repository<User>>();
+        services.AddScoped<IRepository<Company>, Repository<Company>>();
+        services.AddScoped<IRepository<Card>, Repository<Card>>();
+        //services.AddScoped<IRepository<Asset>, Repository<Asset>>();
+
+        PathHelper.ImagePath = System.IO.Path.GetFullPath("Assets");
 
         var serviceProvider = services.BuildServiceProvider();
 

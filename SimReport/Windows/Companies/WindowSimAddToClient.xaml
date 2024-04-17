@@ -1,0 +1,83 @@
+﻿<Window x:Class="SimReport.Windows.Companies.WindowSimAddToClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimReport.Windows.Companies"
+        mc:Ignorable="d"
+        Title="Hamkorlarga simkarta biriktirish oynasi"
+        Height="230" Width="450"
+        ResizeMode="NoResize"
+        Background="snow"
+        WindowStartupLocation="CenterScreen">
+     <Grid Margin="10" Background="snow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="cbCompany"
+                  Grid.Column="0"
+                  Margin="5 0"
+                  Height="25"
+                  Width="140"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Left"
+                  DisplayMemberPath="Name" 
+                  SelectedIndex="0"
+                  SelectionChanged="cbCompany_SelectionChanged">
+        </ComboBox>
+        <StackPanel x:Name="spAddSimcard"
+                    Grid.Column="1"
+                    Visibility="Visible"
+                    Margin="5 0">
+            <Label  x:Name="lbSimSeria"
+                    Margin="15 1"
+                    FontSize="15"
+                    FontStyle="Italic"
+                    FontWeight="DemiBold"
+                    Content="Sim karta seriasini kiriting:"/>
+            <Border Margin="13 1"
+                    BorderThickness="1"
+                    Background="#FEFEFE"
+                    CornerRadius="5"
+                    BorderBrush="#CAC6C6">
+                <TextBox x:Name="tbSimcardSeria"
+                         MaxLength="21"
+                         Margin="14 2"
+                         BorderThickness="0"
+                         FontSize="15"
+                         BorderBrush="#FEFEFE"
+                         Background="#FEFEFE" TextChanged="tbSimcardSeria_TextChanged"
+                         />
+            </Border>
+            <Label  x:Name="lbSimQuantity"
+                    Margin="15 1"
+                    FontSize="15"
+                    FontStyle="Italic"
+                    FontWeight="DemiBold"
+                    Content="Sim karta sonini kiriting:"/>
+            <Border Width="68"
+                    Margin="13 1"
+                    BorderThickness="1"
+                    Background="#FEFEFE"
+                    CornerRadius="5"
+                    BorderBrush="#CAC6C6"
+                    HorizontalAlignment="Left">
+                <TextBox x:Name="tbSimcardQuantity"
+                         Margin="10 1"
+                         MaxLength="5"
+                         FontSize="15"
+                         BorderThickness="0"
+                         Width="44"
+                         Background="#FEFEFE"
+                         BorderBrush="#FEFEFE" TextChanged="tbSimcardQuantity_TextChanged"/>
+            </Border>
+            <Button x:Name="btnSave" 
+                    Margin="10"
+                    Content="Save"
+                    Style="{DynamicResource SuccessButton}" 
+                    Click="btnSave_Click"/>
+        </StackPanel>
+     </Grid>
+</Window>

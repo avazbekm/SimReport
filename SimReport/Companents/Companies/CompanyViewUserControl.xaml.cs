@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Controls;
+using SimReport.Pages.Companies;
+using SimReport.Windows.Companies;
 
 namespace SimReport.Companents.Companies
 {
@@ -20,14 +11,19 @@ namespace SimReport.Companents.Companies
     /// </summary>
     public partial class CompanyViewUserControl : UserControl
     {
-        public CompanyViewUserControl()
+        private readonly IServiceProvider services;
+        public CompanyViewUserControl(IServiceProvider services)
         {
             InitializeComponent();
+            this.services = services;
+
         }
 
-        private void grMain_MouseDown(object sender, MouseButtonEventArgs e)
+        private void lbName_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            CompanyGetId.Name = lbName.Content.ToString();
+            CompanyViewEdit companyViewEdit = new CompanyViewEdit(services);
+            companyViewEdit.Show();
         }
     }
 }

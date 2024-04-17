@@ -49,76 +49,64 @@
                         Content="Qo'shish"/>
             </StackPanel>
 
-                <!--<FlowDocumentReader Grid.Row="1">
-                    <FlowDocument>
-                    <Table CellSpacing="5">
-                        <Table.Columns>
-                            <TableColumn/>
-                            <TableColumn/>
-                            <TableColumn/>
-                            <TableColumn/>
-                            <TableColumn/>
-                        </Table.Columns>
-                        <TableRowGroup>
-
-                             Title row for the table. 
-                            <TableRow Background="SkyBlue">
-                                <TableCell ColumnSpan="4" TextAlignment="Center">
-                                    <Paragraph FontSize="24pt" FontWeight="Bold">Planetary Information</Paragraph>
-                                </TableCell>
-                            </TableRow>
-
-                             Header row for the table. 
-                            <TableRow Background="LightGray">
-                                <TableCell>
-                                    <Paragraph FontSize="16pt" FontWeight="Bold">Planet</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph FontSize="16pt" FontWeight="Bold">Distance from Sun</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph FontSize="16pt" FontWeight="Bold">Diameter</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph FontSize="16pt" FontWeight="Bold">Moons</Paragraph>
-                                </TableCell>
-                            </TableRow>
-
-                             Data rows for the table. 
-                            <TableRow>
-                                <TableCell>Earth</TableCell>
-                                <TableCell>93 million miles</TableCell>
-                                <TableCell>7,917 miles</TableCell>
-                                <TableCell>1</TableCell>
-                            </TableRow>
-                             Add more rows as needed 
-
-                        </TableRowGroup>
-
-                    </Table>
-                        
-                    </FlowDocument>
-                </FlowDocumentReader>-->
-
                 <WrapPanel Grid.Row="1"
                            Margin="20 15"
                            x:Name="wrpClients">
                     
                     <DataGrid x:Name="dataGrid" 
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ism" Binding="{Binding Name}" Width="200"/>
-                            <DataGridTextColumn Header="Familiyasi" Binding="{Binding Surname}" Width="200"/>
-                            <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="200"/>
-                            <!--<DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="50"/>
-                            <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="50"/>
-                            <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="50"/>
-                            <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="63"/>
-                            <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="55"/>
-                            <DataGridTextColumn Header="Oq" Binding="{Binding Oq}" Width="50"/>
-                            <DataGridTextColumn Header="Jami" Binding="{Binding Jami}" Width="60"/>
-                            <DataGridTextColumn Header="O'chir" Binding="{Binding Udalit}"/>-->
-                        </DataGrid.Columns>
+                            <DataGridTextColumn Header="Ism" Binding="{Binding Name}" Width="130"/>
+                            <DataGridTextColumn Header="Familiyasi" Binding="{Binding Surname}" Width="130"/>
+                            <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="130"/>
+                            
+                        <DataGridTemplateColumn Header="Qo'shish">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="+"
+                                            Style="{DynamicResource SuccessButton}"
+                                            Width="50"
+                                            Height="30"
+                                            Click="btnAdd_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Qaytarish">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="↩️"
+                                            Width="50"
+                                            Height="30"
+                                            Style="{DynamicResource ReturnButton}"
+                                            Click="btnReturn_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="O'zgartirish">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✍"
+                                            Width="50"
+                                            Height="30"
+                                            Style="{DynamicResource EditButton}"
+                                            Click="btnEdit_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="O'chirish">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="x"
+                                            Width="50"
+                                            Height="30"
+                                            Style="{DynamicResource DeleteButton}"
+                                            Click="btnDelete_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
                     </DataGrid>
 
                 </WrapPanel>

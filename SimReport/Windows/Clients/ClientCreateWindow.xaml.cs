@@ -2,7 +2,6 @@
 using SimReport.Interfaces;
 using System.Windows.Controls;
 using SimReport.Entities.Users;
-using SimReport.Services;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,13 +23,16 @@ public partial class ClientCreateWindow : Window
     {
         User user = new User();
 
-        user.FirstName = tbFirstName.Text;
-        user.LastName = tbLastName.Text;
+        user.FirstName = tbFirstName.Text.ToLower();
+        user.LastName = tbLastName.Text.ToLower();
         user.Phone = tbPhone.Text;
 
         var result = await this.userService.AddAsync(user);
 
-        MessageBox.Show($" {result.Message} \n {result.StatusCode}");
+        if (result.StatusCode.Equals(200))
+            MessageBox.Show($" Saqlandi.");
+        else
+            MessageBox.Show($"{result.Message}");
     }
 
     private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)

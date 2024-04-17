@@ -9,7 +9,6 @@ namespace SimReport.Contants;
 
 public class AppDbContext : DbContext
 {
-
     DbSet<User> Users { get; set; }
     DbSet<Card> Cards { get; set; }
     DbSet<Company> Companies { get; set; }
@@ -26,4 +25,22 @@ public class AppDbContext : DbContext
         $"Database={"SimReportDB"};" +
         $"User ID={"postgres"};" +
         $"Password={"root"}";
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Card>()
+            .HasOne(u => u.User)
+            .WithMany(f => f.Cards)
+            .HasForeignKey(f => f.UserId);
+        
+
+        modelBuilder.Entity<Card>()
+            .HasOne(d => d.Company)
+            .WithMany(t => t.Cards)
+            .HasForeignKey(d => d.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+    }
+
 }

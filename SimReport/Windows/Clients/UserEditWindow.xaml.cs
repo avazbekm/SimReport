@@ -1,0 +1,68 @@
+﻿using System;
+using System.Linq;
+using System.Windows;
+using SimReport.Interfaces;
+using SimReport.Entities.Users;
+using SimReport.Windows.Companies;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace SimReport.Windows.Clients;
+
+/// <summary>
+/// Interaction logic for UserEditWindow1.xaml
+/// </summary>
+public partial class UserEditWindow : Window
+{
+    private readonly IServiceProvider services;
+    public UserEditWindow(IServiceProvider services)
+    {
+        InitializeComponent();
+        this.services = services;
+    }
+
+    private void tbFirstName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+
+    }
+
+    private async void bntSave_Click(object sender, RoutedEventArgs e)
+    {
+        User user = new User();
+
+        var card = (await services.GetRequiredService<ICardService>().GetAllAsync())
+                        .Data
+                        .ToList()
+                        .FirstOrDefault(u => u.UserId.Equals(UserPhone.Id));
+        if (card is not null)
+        {
+            var existUser = await this.services.GetRequiredService<IUserService>().GetAsync(UserPhone.Id);
+
+            user.Id = UserPhone.Id;
+            user.FirstName = existUser.Data.FirstName;
+            user.LastName = existUser.Data.LastName;
+            user.Phone = tbPhone.Text;
+
+            var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
+
+            if (result.StatusCode.Equals(200))
+                MessageBox.Show($" Saqlandi.");
+            else
+                MessageBox.Show($"{result.Message}");
+        }
+        else
+        {
+            user.Id = UserPhone.Id;
+            user.FirstName = tbFirstName.Text.ToLower();
+            user.LastName = tbLastName.Text.ToLower();
+            user.Phone = tbPhone.Text;
+
+            var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
+
+            if (result.StatusCode.Equals(200))
+                MessageBox.Show($" Saqlandi.");
+            else
+                MessageBox.Show($"{result.Message}");
+
+        }
+    }
+}

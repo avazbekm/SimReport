@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using SimReport.Entities.Companies;
 using SimReport.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace SimReport.Services;
 
@@ -17,28 +18,35 @@ public class CardService : ICardService
     private readonly IRepository<Card> cardRepository;
     private readonly IRepository<User> userRepository;
     private readonly IRepository<Company> companyRepository;
-    public CardService(IRepository<Card> cardRepository, IRepository<User> userRepository, IRepository<Company> companyRepository)
+    private readonly ICompanyService companyService;
+    public CardService(IRepository<Card> cardRepository, 
+        IRepository<User> userRepository, 
+        IRepository<Company> companyRepository, 
+        ICompanyService companyService)
     {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
+        this.companyService = companyService;
     }
     public async Task<Response<Card>> AddAsync(Card card)
     {
         try
         {
-            var existUser = await this.userRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(card.UserId));
-            if (existUser is null)
-                throw new NotFoundException("Bunday Id li foydalanuvchi mavjud emas!");
+            var cards = cardRepository.GetAll(a => a.CompanyId.Equals(card.CompanyId)).ToList();
+            if (cards is not null)
+            {
+                foreach (var item in cards)
+                {
+                    if (item.UserId.Equals(card.UserId) &&
+                        item.CardNumber.Equals(card.CardNumber))
+                        throw new AlreadyExistException("Bu seriya bilan sim karta mavjud.");
 
-            var existCompany = this.companyRepository.GetAll().FirstOrDefault(c => c.Id.Equals(card.CompanyId));
-            if (existCompany is null)
-                throw new NotFoundException("Bunday Id li kompaniya mavjud emas!");
-
-            var existCard = this.cardRepository.GetAll().FirstOrDefault(c => c.CardNumber.Equals(card.CardNumber));
-            if (existCard is not null)
-                throw new AlreadyExistException("Bu seriya bilan sim karta mavjud.");
-
+                    if (!item.UserId.Equals(card.UserId) &&
+                        item.CardNumber.Equals(card.CardNumber))
+                        throw new AlreadyExistException("Bu seriya bilan sim karta mavjud.");
+                }
+            }
             await this.cardRepository.CreateAsync(card);
             await this.cardRepository.SaveChanges();
 
@@ -48,6 +56,7 @@ public class CardService : ICardService
                 Message = "Ok",
                 Data = card
             };
+            
         }
         catch (Exception ex)
         {
@@ -60,27 +69,40 @@ public class CardService : ICardService
         }
     }
 
-    public async Task<Response<bool>> DeleteAsync(long id)
+    public async Task<Response<bool>> DeleteAsync(Card card)
     {
-        var existCard = this.cardRepository.GetAll().FirstOrDefault(u => u.Id.Equals(id));
-        if (existCard is null)
-            throw new NotFoundException("Bu seria bilan sim karta mavjud emas.");
-        else
+        var cards = cardRepository.GetAll(a=>a.CompanyId.Equals(card.CompanyId)).ToList();
+        if (cards.Count > 0)
         {
-            this.cardRepository.Delete(existCard);
-            await this.cardRepository.SaveChanges();
-            return new Response<bool>
+            foreach (var item in cards)
             {
-                StatusCode = 200,
-                Message = "Ok",
-                Data = true
-            };
+                if (item.CardNumber.Equals(card.CardNumber))
+                {
+                    item.Comment = card.Comment;
+                    
+                    this.cardRepository.Delete(item);
+                    await this.cardRepository.SaveChanges();
+                    return new Response<bool>
+                    {
+                        StatusCode = 200,
+                        Message = "Ok",
+                        Data = true
+                    };
+                }
+            }   
         }
+
+        return new Response<bool>
+        {
+            StatusCode = 403,
+            Message = "Topilmadi",
+            Data = false
+        };
     }
 
     public async Task<Response<IEnumerable<Card>>> GetAllAsync()
     {
-        var cards = await this.cardRepository.GetAll().ToListAsync();
+        var cards = this.cardRepository.GetAll().ToList();
         return new Response<IEnumerable<Card>>
         {
             StatusCode = 200,
@@ -88,14 +110,33 @@ public class CardService : ICardService
             Data = cards
         };
     }
+    public async Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId)
+    {
+        var cards = cardRepository.GetAll(a => a.CompanyId.Equals(companyId)).ToList();
+        if (cards.Count > 0)
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = cards
+            };
+        else
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 403,
+                Message = "Bu kompaniyaga biriktirilgan simkartalar mavjud emas.",
+                Data = null
+            };
+
+    }
 
     public async Task<Response<Card>> GetAsync(long id)
     {
         try
         {
-            var existCard = await this.cardRepository.GetAll().FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var existCard = await this.cardRepository.GetAsync(u => u.Id.Equals(id));
             if (existCard is null)
-                throw new NotFoundException("Buday seria bilan sim karta mavjud emas.");
+                throw new NotFoundException("Bunday seria bilan sim karta mavjud emas.");
 
             return new Response<Card>
             {
@@ -119,13 +160,13 @@ public class CardService : ICardService
     {
         try
         {
-            var existCard = await this.cardRepository.GetAll().FirstOrDefaultAsync(u => u.CardNumber.Equals(Card.CardNumber));
+            var existCard = await this.cardRepository.GetAsync(u => u.CardNumber.Equals(Card.CardNumber));
             if (existCard != null)
                 throw new AlreadyExistException("Bunday nomer foydalanuvchisi mavjud emas!");
 
             existCard.UserId = Card.UserId;
             existCard.CompanyId = Card.CompanyId;
-            existCard.CardNumber= Card.CardNumber;
+            existCard.CardNumber = Card.CardNumber;
 
             this.cardRepository.Update(Card);
             await this.cardRepository.SaveChanges();

@@ -1,11 +1,12 @@
-﻿<Window x:Class="SimReport.Windows.Clients.ClientCreateWindow"
+﻿<Window x:Class="SimReport.Windows.Clients.UserEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows.Clients"
         mc:Ignorable="d"
-        Title="Hamkor qo'shish oynasi" Height="320" Width="400"
+        Title="Hamkorni o'zgartirish oynasi" 
+        Height="320" Width="400"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="TextBox">
@@ -23,34 +24,26 @@
             Background="{DynamicResource SecondaryBackground}"
             >
         <StackPanel>
-            <Label Content="Ism"
+                <Label Content="Ism"
                    FontSize="16"/>
-
             <TextBox x:Name="tbFirstName"
+                     Visibility="Visible"
                      MaxLength="50"
                      TextChanged="tbFirstName_TextChanged"/>
-                     
-
-
             <Label Content="Familiya"
                    FontSize="16"/>
-
             <TextBox x:Name="tbLastName"
-                     MaxLength="50"/>
-
+                     MaxLength="50"
+                     Visibility="Visible"/>
             <Label Content="Telefon nomer"
                    FontSize="16"/>
-
             <TextBox x:Name="tbPhone"
                      MaxLength="50"/>
-            
             <Button x:Name="bntSave" 
                     Style="{DynamicResource SuccessButton}"
                     Content="Saqlash" 
                     Click="bntSave_Click">
-
             </Button>
-
         </StackPanel>
     </Border>
 </Window>
