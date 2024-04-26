@@ -131,12 +131,8 @@ namespace SimReport.Pages
                 return;
             }
 
-            var result = await this.services.GetRequiredService<IUserService>().DeleteAsync(UserPhone.Id);
-            if (result.StatusCode.Equals(200))
-                MessageBox.Show($"{UserPhone.FirstName} o'chirildi.");
-            else
-                MessageBox.Show($"{result.Message}");
-
+            DeleteWindow deleteWindow = new DeleteWindow(services);
+            deleteWindow.ShowDialog();
         }
     }
 }

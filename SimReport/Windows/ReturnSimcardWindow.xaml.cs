@@ -59,7 +59,7 @@ namespace SimReport.Windows
                 svScroll.Visibility = Visibility.Collapsed;
                 spCounter.Visibility = Visibility.Collapsed;
             }
-            else
+            else if (!selectedValue.Equals(0))
             {
                 svScroll.Visibility = Visibility.Visible;
                 spCounter.Visibility = Visibility.Visible;
@@ -71,59 +71,73 @@ namespace SimReport.Windows
                 List<ItemReturn> itemReturns = new List<ItemReturn>();
                 
                 var cards = (await this.cardService.GetAllAsync(CompanyId)).Data.ToList();
-                
-                foreach (var card in cards.Where(card => card.UserId.Equals(UserPhone.Id)))
+                if (cards is not null)
                 {
-                    itemReturns.Add(new ItemReturn()
+
+                    foreach (var card in cards.Where(card => card.UserId.Equals(UserPhone.Id)))
                     {
-                        Id = card.Id,
-                        UserId = card.UserId,
-                        CompanyId = card.CompanyId,
-                        SeriaNumber = card.CardNumber
-                    });
+                        itemReturns.Add(new ItemReturn()
+                        {
+                            Id = card.Id,
+                            UserId = card.UserId,
+                            CompanyId = card.CompanyId,
+                            SeriaNumber = card.CardNumber
+                        });
+                    }
+                    dataGrid.ItemsSource = itemReturns;
+
+                    // umumiy sonini chiqarish uchun
+                    tbTotalCount.Text = itemReturns.Count.ToString();
                 }
-                dataGrid.ItemsSource = itemReturns;
-                
-                // umumiy sonini chiqarish uchun
-                tbTotalCount.Text = itemReturns.Count.ToString();
             }
         }
 
-        List<long> selectedSeriaNumbers = new List<long>();
+        List<(long, int)> selectedSeriaNumbers = new List<(long, int)>();
         private void chbSeriaSelect_Click(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
             // Iterate through the selected items in the DataGrid
             foreach (var selectedItem in dataGrid.SelectedItems)
             {
-                int newCompanyId = ((ItemReturn)selectedItem).CompanyId;
-                if (CompanyId != newCompanyId)
-                    selectedSeriaNumbers.Clear();
-
                 if (checkBox.IsChecked == true)
                 {
-                    // Assuming the seria number is in the first column (index 0)
                     // You may need to adjust this index based on your actual column layout
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
-                    selectedSeriaNumbers.Add(seriaNumber);
+                    int id = ((ItemReturn)selectedItem).CompanyId;
+                    selectedSeriaNumbers.Add((seriaNumber, id));
                 }
                 else
                 {
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
-                    selectedSeriaNumbers.Remove(seriaNumber);
+                    int id = ((ItemReturn)selectedItem).CompanyId;
+                    selectedSeriaNumbers.Remove((seriaNumber,id));
                 }
                 // tanlangalar sonini bilish
                 tbCount.Text = selectedSeriaNumbers.Count.ToString();
             }
 
         }
-        private void btnReturn_Click(object sender, RoutedEventArgs e)
+        private async void btnReturn_Click(object sender, RoutedEventArgs e)
         {
+            string comment = tbReturnComment.Text;
+           
+            string seriaNumbers = "";
+            
+            foreach (var card in selectedSeriaNumbers)
+            {
+                var result = await this.cardService.ReturnAsync(card.Item1, card.Item2, comment);
 
-        }
+                if (!result.StatusCode.Equals(200))
+                    seriaNumbers +=$"{card.Item1.ToString()} \n";
+            }
 
-        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+            if (seriaNumbers.Length > 0)
+                MessageBox.Show($" Qaytmagan sim kartalar ro'yxati\n qaytadan harakat qilib ko'ring.\n\n{seriaNumbers}");
+            else
+                MessageBox.Show("Qaytarildi.");
+            
+            tbCount.Text = "0";
+            selectedSeriaNumbers.Clear(); 
         }
     }
 }

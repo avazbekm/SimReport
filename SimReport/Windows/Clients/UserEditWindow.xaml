@@ -38,7 +38,8 @@
             <Label Content="Telefon nomer"
                    FontSize="16"/>
             <TextBox x:Name="tbPhone"
-                     MaxLength="50"/>
+                     MaxLength="50" 
+                     TextChanged="tbPhone_TextChanged"/>
             <Button x:Name="bntSave" 
                     Style="{DynamicResource SuccessButton}"
                     Content="Saqlash" 

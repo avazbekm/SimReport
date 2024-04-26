@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using SimReport.Entities.Users;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace SimReport.Windows.Clients;
 
@@ -27,16 +28,36 @@ public partial class ClientCreateWindow : Window
         user.LastName = tbLastName.Text.ToLower();
         user.Phone = tbPhone.Text;
 
-        var result = await this.userService.AddAsync(user);
-
-        if (result.StatusCode.Equals(200))
-            MessageBox.Show($" Saqlandi.");
+        if (user.FirstName.Equals("") ||
+           user.LastName.Equals("") ||
+           user.Phone.Equals(""))
+            MessageBox.Show("Malumotni to'liq kiriting!");
         else
-            MessageBox.Show($"{result.Message}");
+        {
+            var result = await this.userService.AddAsync(user);
+
+            if (result.StatusCode.Equals(200))
+                MessageBox.Show($" Saqlandi.");
+            else
+                MessageBox.Show($"{result.Message}");
+        }
     }
 
-    private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+    private void tbPhone_TextChanged(object sender, TextChangedEventArgs e)
     {
+        TextBox textBox = (TextBox)sender;
+        string text = textBox.Text;
 
+        // Faqatgina raqamlar kiritilishi mumkin
+        foreach (char character in text)
+        {
+            if (!char.IsDigit(character) && character!=' ')
+            {
+                // Agar raqamdan boshqa belgi kiritilsa o'chirlad
+                textBox.Text = text.Replace(character.ToString(), "");
+                textBox.CaretIndex = text.Length;
+                return;
+            }
+        }
     }
 }

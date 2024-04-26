@@ -14,4 +14,5 @@ public class Card : Auditable
     public long CardNumber { get; set; }
     public string? Comment { get; set; }
     public bool IsSold { get; set; }
+    public bool IsReturn {  get; set; }
 }

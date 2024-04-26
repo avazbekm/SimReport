@@ -12,8 +12,8 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240415050155_first")]
-    partial class first
+    [Migration("20240424135026_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,9 @@ namespace SimReport.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReturn")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsSold")
@@ -166,7 +169,7 @@ namespace SimReport.Migrations
                     b.HasOne("SimReport.Entities.Companies.Company", "Company")
                         .WithMany("Cards")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SimReport.Entities.Users.User", "User")

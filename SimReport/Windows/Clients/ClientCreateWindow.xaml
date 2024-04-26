@@ -27,8 +27,7 @@
                    FontSize="16"/>
 
             <TextBox x:Name="tbFirstName"
-                     MaxLength="50"
-                     TextChanged="tbFirstName_TextChanged"/>
+                     MaxLength="50"/>
                      
 
 
@@ -42,7 +41,8 @@
                    FontSize="16"/>
 
             <TextBox x:Name="tbPhone"
-                     MaxLength="50"/>
+                     MaxLength="50" 
+                     TextChanged="tbPhone_TextChanged"/>
             
             <Button x:Name="bntSave" 
                     Style="{DynamicResource SuccessButton}"

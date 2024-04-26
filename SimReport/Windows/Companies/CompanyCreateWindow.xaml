@@ -26,8 +26,7 @@
                          MaxLength="50"
                          Margin="10 5"
                          Background="{DynamicResource PrimaryBackground}" 
-                         FontSize="16"
-                         TextChanged="TextBox_TextChanged"/>
+                         FontSize="16"/>
             </Border>
             <Border x:Name="ImgCompany"
                     Height="200" 

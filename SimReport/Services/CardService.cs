@@ -8,8 +8,6 @@ using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using SimReport.Entities.Companies;
 using SimReport.Services.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using DocumentFormat.OpenXml.Drawing;
 
 namespace SimReport.Services;
 
@@ -113,7 +111,7 @@ public class CardService : ICardService
     public async Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId)
     {
         var cards = cardRepository.GetAll(a => a.CompanyId.Equals(companyId)).ToList();
-        if (cards.Count > 0)
+        if (cards.Count > 0) 
             return new Response<IEnumerable<Card>>
             {
                 StatusCode = 200,
@@ -154,6 +152,38 @@ public class CardService : ICardService
                 Data = null
             };
         }
+    }
+
+    public async Task<Response<bool>> ReturnAsync(long seriaNum, int id,string comment)
+    {
+        var cards = cardRepository.GetAll(a => a.CompanyId.Equals(id)).ToList();
+        if (cards.Count > 0)
+        {
+            foreach (var item in cards)
+            {
+                if (item.CardNumber.Equals(seriaNum))
+                {
+                    item.Comment = comment;
+                    item.IsReturn = true;
+
+                    this.cardRepository.Delete(item);
+                    await this.cardRepository.SaveChanges();
+                    return new Response<bool>
+                    {
+                        StatusCode = 200,
+                        Message = "Ok",
+                        Data = true
+                    };
+                }
+            }
+        }
+
+        return new Response<bool>
+        {
+            StatusCode = 403,
+            Message = "Topilmadi",
+            Data = false
+        };
     }
 
     public async Task<Response<Card>> UpdateAsync(Card Card)

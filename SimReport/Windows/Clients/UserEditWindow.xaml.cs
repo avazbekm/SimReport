@@ -5,6 +5,7 @@ using SimReport.Interfaces;
 using SimReport.Entities.Users;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 namespace SimReport.Windows.Clients;
 
@@ -42,12 +43,17 @@ public partial class UserEditWindow : Window
             user.LastName = existUser.Data.LastName;
             user.Phone = tbPhone.Text;
 
-            var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
-
-            if (result.StatusCode.Equals(200))
-                MessageBox.Show($" Saqlandi.");
+            if (user.Phone.Equals(""))
+                MessageBox.Show("Malumotni to'liq kiriting!");
             else
-                MessageBox.Show($"{result.Message}");
+            {
+                var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
+
+                if (result.StatusCode.Equals(200))
+                    MessageBox.Show($" O'zgardi.");
+                else
+                    MessageBox.Show($"{result.Message}");
+            }
         }
         else
         {
@@ -56,13 +62,37 @@ public partial class UserEditWindow : Window
             user.LastName = tbLastName.Text.ToLower();
             user.Phone = tbPhone.Text;
 
-            var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
-
-            if (result.StatusCode.Equals(200))
-                MessageBox.Show($" Saqlandi.");
+            if (user.FirstName.Equals("") ||
+                user.LastName.Equals("") ||
+                user.Phone.Equals(""))
+                MessageBox.Show("Malumotni to'liq kiriting!");
             else
-                MessageBox.Show($"{result.Message}");
+            {
+                var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
 
+                if (result.StatusCode.Equals(200))
+                    MessageBox.Show($" O'zgardi.");
+                else
+                    MessageBox.Show($"{result.Message}");
+            }
         }
+    }
+
+    private void tbPhone_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        string text = tbPhone.Text;
+
+        // Faqatgina raqamlar kiritilishi mumkin
+        foreach (char character in text)
+        {
+            if (!char.IsDigit(character) && character != ' ')
+            {
+                // Agar raqamdan boshqa belgi kiritilsa o'chirlad
+                tbPhone.Text = text.Replace(character.ToString(), "");
+                tbPhone.CaretIndex = text.Length;
+                return;
+            }
+        }
+
     }
 }

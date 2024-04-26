@@ -81,7 +81,7 @@
             <WrapPanel x:Name="wrpSimCards">
                 <DataGrid x:Name="dataGrid" 
                           AutoGenerateColumns="False"
-                          CanUserAddRows="False" SelectionChanged="dataGrid_SelectionChanged">
+                          CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Seria" Binding="{Binding SeriaNumber}" Width="160"/>
                         <DataGridTemplateColumn Header="Tanlash">

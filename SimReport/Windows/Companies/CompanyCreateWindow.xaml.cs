@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SimReport.Entities.Companies;
-using SimReport.Interfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
+using SimReport.Interfaces;
 using System.Windows.Controls;
+using SimReport.Entities.Companies;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Windows.Companies;
 
@@ -15,13 +15,10 @@ namespace SimReport.Windows.Companies;
 public partial class CompanyCreateWindow : Window
 {
     private readonly ICompanyService companyService;
-    //private readonly IAssetService assetService;
     public CompanyCreateWindow(IServiceProvider services)
     {
         InitializeComponent();
         this.companyService = services.GetRequiredService<ICompanyService>();
-        //this.assetService = services.GetRequiredService<IAssetService>();
-
     }
 
     private void btnImageSelector_Click(object sender, RoutedEventArgs e)
@@ -57,15 +54,15 @@ public partial class CompanyCreateWindow : Window
 
         company.Name = tbCompanyName.Text.ToLower();
 
-        var result = await this.companyService.AddAsync(company);
-        if (result.StatusCode.Equals(200))
-            MessageBox.Show($"Saqlandi.");
+        if (company.Name.Equals(""))
+            MessageBox.Show("Malumotni to'liq kiriting.");
         else
-            MessageBox.Show($"{result.Message}");
-    }
-
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
+        {
+            var result = await this.companyService.AddAsync(company);
+            if (result.StatusCode.Equals(200))
+                MessageBox.Show($"Saqlandi.");
+            else
+                MessageBox.Show($"{result.Message}");
+        }
     }
 }

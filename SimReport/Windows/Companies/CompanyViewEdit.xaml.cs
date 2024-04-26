@@ -15,11 +15,13 @@ public partial class CompanyViewEdit : Window
 {
     private readonly ICompanyService companyService;
     private readonly ICardService cardService;
+    private readonly IServiceProvider services;
     public CompanyViewEdit(IServiceProvider services)
     {
         InitializeComponent();
         this.companyService = services.GetRequiredService<ICompanyService>();
         this.cardService = services.GetRequiredService<ICardService>();
+        this.services = services;
 
         tbComName.Text = CompanyGetId.Name;
     }
@@ -32,30 +34,34 @@ public partial class CompanyViewEdit : Window
         company.Id = kompaniya.Data.Id;
         company.Name = tbComName.Text.ToLower();
 
-        var cards = (await this.cardService.GetAllAsync(company.Id)).Data;
-        if (cards is null)
+        if (!company.Name.Equals(""))
         {
-            var companies = (await this.companyService.GetAllAsync()).Data;
-            foreach (var item in companies)
+            var cards = (await this.cardService.GetAllAsync(company.Id)).Data;
+            if (cards is null)
             {
-                if (tbComName.Text.ToLower() == item.Name)
+                var companies = (await this.companyService.GetAllAsync()).Data;
+                foreach (var item in companies)
                 {
-                    MessageBox.Show("Bu nom bilan kompaniya mavjud.");
-                    return;
+                    if (tbComName.Text.ToLower() == item.Name)
+                    {
+                        MessageBox.Show("Bu nom bilan kompaniya mavjud.");
+                        return;
+                    }
                 }
-            }
 
-            var result = await this.companyService.UpdateAsync(company);
-            if (result.StatusCode.Equals(200))
-                MessageBox.Show("O'zgartirildi.");
-            else if (result.StatusCode.Equals(403))
-                MessageBox.Show(result.Message);
+                var result = await this.companyService.UpdateAsync(company);
+                if (result.StatusCode.Equals(200))
+                    MessageBox.Show("O'zgartirildi.");
+                else if (result.StatusCode.Equals(403))
+                    MessageBox.Show(result.Message);
+                else
+                    MessageBox.Show(result.Message);
+            }
             else
-                MessageBox.Show(result.Message);
+                MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
         }
         else
-            MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
-
+            MessageBox.Show("Kompaniya nomini kiriting.");
     }
 
     private void tbComName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -65,19 +71,7 @@ public partial class CompanyViewEdit : Window
 
     private async void btnDelete_Click(object sender, RoutedEventArgs e)
     {
-        var kompaniya = await this.companyService.GetAsync(CompanyGetId.Name.ToLower());
-
-        int companyId = kompaniya.Data.Id;
-        var cards = (await this.cardService.GetAllAsync(companyId)).Data;
-        if (cards is null)
-        {
-            var result = await this.companyService.DeleteAsync(companyId);
-            if (result.StatusCode.Equals(200))
-                MessageBox.Show("O'chirildi.");
-            else
-                MessageBox.Show(result.Message);
-        }
-        else
-            MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
+        DeleteCompanyWindow deleteCompanyWindow = new DeleteCompanyWindow(services);
+        deleteCompanyWindow.ShowDialog();
     }
 }

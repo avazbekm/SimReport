@@ -1,0 +1,29 @@
+﻿<Window x:Class="SimReport.Windows.DeleteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimReport.Windows"
+        mc:Ignorable="d"
+        Title="O'chirish oynasi" 
+        Height="130" Width="220"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <TextBlock x:Name="tbDelete" 
+                   FontSize="17"
+                   Text="O'chirishni tasdiqlash?"
+                   Margin="18 10"/>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="btnYes"
+                    Width="80"
+                    Style="{DynamicResource DeleteButton}"
+                    Content="Ha" 
+                    Click="btnYes_Click"/>
+            <Button x:Name="btnNo"
+                    Width="80"
+                    Style="{DynamicResource EditButton}"
+                    Content="Yo'q" 
+                    Click="btnNo_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

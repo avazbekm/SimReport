@@ -76,6 +76,9 @@ namespace SimReport.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsReturn")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
