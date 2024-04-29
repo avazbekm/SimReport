@@ -33,17 +33,17 @@
                     Margin="5 0">
             <Label  x:Name="lbSimSeria"
                     Margin="15 1"
-                    FontSize="15"
+                    FontSize="14"
                     FontStyle="Italic"
                     FontWeight="DemiBold"
-                    Content="Sim karta seriasini kiriting:"/>
+                    Content="Birinchi sim karta seriasini kiriting:"/>
             <Border Margin="13 1"
                     BorderThickness="1"
                     Background="#FEFEFE"
                     CornerRadius="5"
                     BorderBrush="#CAC6C6">
                 <TextBox x:Name="tbSimcardSeria"
-                         MaxLength="21"
+                         MaxLength="19"
                          Margin="14 2"
                          BorderThickness="0"
                          FontSize="15"
@@ -53,25 +53,23 @@
             </Border>
             <Label  x:Name="lbSimQuantity"
                     Margin="15 1"
-                    FontSize="15"
+                    FontSize="14"
                     FontStyle="Italic"
                     FontWeight="DemiBold"
-                    Content="Sim karta sonini kiriting:"/>
-            <Border Width="68"
-                    Margin="13 1"
+                    Content="Oxirgi sim karta seriasini kiriting:"/>
+            <Border Margin="13 1"
                     BorderThickness="1"
                     Background="#FEFEFE"
                     CornerRadius="5"
-                    BorderBrush="#CAC6C6"
-                    HorizontalAlignment="Left">
-                <TextBox x:Name="tbSimcardQuantity"
-                         Margin="10 1"
-                         MaxLength="5"
-                         FontSize="15"
+                    BorderBrush="#CAC6C6">
+                <TextBox x:Name="tbToSimcardSeria"
+                         MaxLength="19"
+                         Margin="14 2"
                          BorderThickness="0"
-                         Width="44"
-                         Background="#FEFEFE"
-                         BorderBrush="#FEFEFE" TextChanged="tbSimcardQuantity_TextChanged"/>
+                         FontSize="15"
+                         BorderBrush="#FEFEFE"
+                         Background="#FEFEFE" TextChanged="tbSimcardSeria_TextChanged"
+                         />
             </Border>
             <Button x:Name="btnSave" 
                     Margin="10"

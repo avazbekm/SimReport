@@ -71,7 +71,17 @@ public partial class CompanyViewEdit : Window
 
     private async void btnDelete_Click(object sender, RoutedEventArgs e)
     {
-        DeleteCompanyWindow deleteCompanyWindow = new DeleteCompanyWindow(services);
-        deleteCompanyWindow.ShowDialog();
+        var kompaniya = await this.companyService.GetAsync(CompanyGetId.Name.ToLower());
+
+        int companyId = kompaniya.Data.Id;
+        var cards = await this.cardService.GetAllAsync(companyId);
+        
+        if (!cards.StatusCode.Equals(200)) 
+        {
+            DeleteCompanyWindow deleteCompanyWindow = new DeleteCompanyWindow(services);
+            deleteCompanyWindow.ShowDialog();
+        }
+        else
+            MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
     }
 }

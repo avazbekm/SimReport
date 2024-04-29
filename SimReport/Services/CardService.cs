@@ -14,18 +14,9 @@ namespace SimReport.Services;
 public class CardService : ICardService
 {
     private readonly IRepository<Card> cardRepository;
-    private readonly IRepository<User> userRepository;
-    private readonly IRepository<Company> companyRepository;
-    private readonly ICompanyService companyService;
-    public CardService(IRepository<Card> cardRepository, 
-        IRepository<User> userRepository, 
-        IRepository<Company> companyRepository, 
-        ICompanyService companyService)
+    public CardService(IRepository<Card> cardRepository)
     {
         this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
-        this.companyRepository = companyRepository;
-        this.companyService = companyService;
     }
     public async Task<Response<Card>> AddAsync(Card card)
     {
@@ -69,7 +60,7 @@ public class CardService : ICardService
 
     public async Task<Response<bool>> DeleteAsync(Card card)
     {
-        var cards = cardRepository.GetAll(a=>a.CompanyId.Equals(card.CompanyId)).ToList();
+        var cards = cardRepository.GetAll(a => a.CompanyId.Equals(card.CompanyId)).ToList();
         if (cards.Count > 0)
         {
             foreach (var item in cards)
@@ -77,7 +68,7 @@ public class CardService : ICardService
                 if (item.CardNumber.Equals(card.CardNumber))
                 {
                     item.Comment = card.Comment;
-                    
+
                     this.cardRepository.Delete(item);
                     await this.cardRepository.SaveChanges();
                     return new Response<bool>
@@ -110,21 +101,34 @@ public class CardService : ICardService
     }
     public async Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId)
     {
-        var cards = cardRepository.GetAll(a => a.CompanyId.Equals(companyId)).ToList();
-        if (cards.Count > 0) 
-            return new Response<IEnumerable<Card>>
-            {
-                StatusCode = 200,
-                Message = "Ok",
-                Data = cards
-            };
-        else
+        try
+        {
+            var cards = cardRepository.GetAll(a => a.CompanyId.Equals(companyId)).ToList();
+            if (cards.Count > 0)
+                return new Response<IEnumerable<Card>>
+                {
+                    StatusCode = 200,
+                    Message = "Ok",
+                    Data = cards
+                };
+
+        }
+        catch (Exception ex)
+        {
             return new Response<IEnumerable<Card>>
             {
                 StatusCode = 403,
-                Message = "Bu kompaniyaga biriktirilgan simkartalar mavjud emas.",
+                Message = ex.Message,
                 Data = null
             };
+        }
+
+        return new Response<IEnumerable<Card>>
+        {
+            StatusCode = 403,
+            Message = "Bu companiyaga biriktirilgan sim cartalar mavjud emas.",
+            Data = null
+        };
 
     }
 

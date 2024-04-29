@@ -84,6 +84,7 @@ namespace SimReport.Windows
                             SeriaNumber = card.CardNumber
                         });
                     }
+
                     dataGrid.ItemsSource = itemReturns;
 
                     // umumiy sonini chiqarish uchun

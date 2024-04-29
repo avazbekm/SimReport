@@ -106,29 +106,35 @@ public partial class WindowSimAddToClient : Window
 
     private async void btnSave_Click(object sender, RoutedEventArgs e)
     {
-        int quatity = Convert.ToInt16(tbSimcardQuantity.Text);
+        long lastSeria = long.Parse(tbToSimcardSeria.Text);
+        long firstSeria = long.Parse(tbSimcardSeria.Text);
 
         Card card = new Card();
 
-        List<Card> cards = new List<Card>();
-
-        card.CardNumber = long.Parse(tbSimcardSeria.Text);
+        string cards = "";
         card.UserId = UserPhone.Id;
         card.CompanyId = CompanyId;
-        for (int i = 0; i < quatity; i++) 
+
+        if (firstSeria > lastSeria)
         {
+            MessageBox.Show("Oxirgi seria birinchi seriadan katta bo'lmasligi kerak! Etiborli bo'ling.");
+            return;
+        }
+
+        for (long i = firstSeria; i <= lastSeria; i++) 
+        {
+            card.CardNumber = i;
             var result = await this.cardService.AddAsync(card);
-            card.CardNumber ++;
             card.Id = 0;
 
             if (!result.StatusCode.Equals(200))
             {
-                cards.Add(card);
+                cards += $"{card.CardNumber}\n";
             }
         }
 
-        if (cards.Count > 0)
-            MessageBox.Show($"Bu serialar mavjud");
+        if (cards != "")
+            MessageBox.Show($" Bu serialar boshqa hamkorga biriktirilgan\n\n{cards}");
         else
             MessageBox.Show($" Biriktirildi."); 
     }
