@@ -33,7 +33,7 @@
                     Margin="5 0">
             <Label  x:Name="lbSimSeria"
                     Margin="15 1"
-                    FontSize="14"
+                    FontSize="13"
                     FontStyle="Italic"
                     FontWeight="DemiBold"
                     Content="Birinchi sim karta seriasini kiriting:"/>
@@ -53,7 +53,7 @@
             </Border>
             <Label  x:Name="lbSimQuantity"
                     Margin="15 1"
-                    FontSize="14"
+                    FontSize="13"
                     FontStyle="Italic"
                     FontWeight="DemiBold"
                     Content="Oxirgi sim karta seriasini kiriting:"/>
@@ -68,8 +68,8 @@
                          BorderThickness="0"
                          FontSize="15"
                          BorderBrush="#FEFEFE"
-                         Background="#FEFEFE" TextChanged="tbSimcardSeria_TextChanged"
-                         />
+                         Background="#FEFEFE" 
+                         TextChanged="tbToSimcardSeria_TextChanged"/>
             </Border>
             <Button x:Name="btnSave" 
                     Margin="10"

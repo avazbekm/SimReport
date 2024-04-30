@@ -19,7 +19,6 @@ namespace SimReport.Pages
     public partial class ClientsPage : Page
     {
         private readonly IServiceProvider services;
-        //public UserPhone phone;
         public ClientsPage(IServiceProvider services)
         {
             InitializeComponent();
@@ -39,6 +38,7 @@ namespace SimReport.Pages
             }
             dataGrid.ItemsSource = items;
         }
+
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             ClientCreateWindow clientCreateWindow = new ClientCreateWindow(services);

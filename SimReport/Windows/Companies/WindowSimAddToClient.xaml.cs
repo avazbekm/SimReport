@@ -7,6 +7,7 @@ using SimReport.Entities.Cards;
 using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using Microsoft.Extensions.DependencyInjection;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace SimReport.Windows.Companies;
@@ -70,38 +71,22 @@ public partial class WindowSimAddToClient : Window
 
     private void tbSimcardSeria_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-        TextBox textBox = (TextBox)sender;
-        string text = textBox.Text;
-
+        string text = tbSimcardSeria.Text;
         // Faqatgina raqamlar kiritilishi mumkin
         foreach (char character in text)
         {
             if (!char.IsDigit(character))
             {
                 // Agar raqamdan boshqa belgi kiritilsa o'chirlad
-                textBox.Text = text.Replace(character.ToString(), "");
-                textBox.CaretIndex = text.Length;
+                tbSimcardSeria.Text = text.Replace(character.ToString(), "");
+                tbSimcardSeria.CaretIndex = text.Length;
                 return;
             }
         }
-    }
-
-    private void tbSimcardQuantity_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        TextBox textBox = (TextBox)sender;
-        string text = textBox.Text;
-
-        // Faqatgina raqamlar kiritilishi mumkin
-        foreach (char character in text)
-        {
-            if (!char.IsDigit(character))
-            {
-                // Agar raqamdan boshqa belgi kiritilsa o'chirlad
-                textBox.Text = text.Replace(character.ToString(), "");
-                textBox.CaretIndex = text.Length;
-                return;
-            }
-        }
+        if (tbSimcardSeria.Text.Length > 16) 
+            tbToSimcardSeria.Text = tbSimcardSeria.Text.Substring(0, 16);
+        else
+            tbToSimcardSeria.Text = tbSimcardSeria.Text;
     }
 
     private async void btnSave_Click(object sender, RoutedEventArgs e)
@@ -120,22 +105,45 @@ public partial class WindowSimAddToClient : Window
             MessageBox.Show("Oxirgi seria birinchi seriadan katta bo'lmasligi kerak! Etiborli bo'ling.");
             return;
         }
-
-        for (long i = firstSeria; i <= lastSeria; i++) 
+        // asosiy bazaga qo'shish
+        if (UserPhone.FirstName.Equals("asosiy") && UserPhone.LastName.Equals("baza"))
         {
-            card.CardNumber = i;
-            var result = await this.cardService.AddAsync(card);
-            card.Id = 0;
-
-            if (!result.StatusCode.Equals(200))
+            for (long i = firstSeria; i <= lastSeria; i++)
             {
-                cards += $"{card.CardNumber}\n";
+                card.CardNumber = i;
+                var result = await this.cardService.AddAsync(card);
+                card.Id = 0;
+
+                if (!result.StatusCode.Equals(200))
+                {
+                    cards += $"{card.CardNumber}\n";
+                }
+            }
+
+            if (cards != "")
+                MessageBox.Show($" Bu serialar boshqa hamkorga biriktirilgan\n\n{cards}");
+            else
+                MessageBox.Show($" Biriktirildi.");
+        }
+    }
+
+    private void tbToSimcardSeria_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+        //tbToSimcardSeria.Text = tbSimcardSeria.Text.Substring(0, 17);
+        string text = tbToSimcardSeria.Text;
+
+        // Faqatgina raqamlar kiritilishi mumkin
+        foreach (char character in text)
+        {
+            if (!char.IsDigit(character))
+            {
+                // Agar raqamdan boshqa belgi kiritilsa o'chirlad
+                tbToSimcardSeria.Text = text.Replace(character.ToString(), "");
+                tbToSimcardSeria.CaretIndex = text.Length;
+                return;
             }
         }
 
-        if (cards != "")
-            MessageBox.Show($" Bu serialar boshqa hamkorga biriktirilgan\n\n{cards}");
-        else
-            MessageBox.Show($" Biriktirildi."); 
     }
 }
