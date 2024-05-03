@@ -6,7 +6,6 @@ using SimReport.Entities.Cards;
 using SimReport.Entities.Users;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
-using SimReport.Entities.Companies;
 using SimReport.Services.Exceptions;
 
 namespace SimReport.Services;
@@ -14,9 +13,12 @@ namespace SimReport.Services;
 public class CardService : ICardService
 {
     private readonly IRepository<Card> cardRepository;
-    public CardService(IRepository<Card> cardRepository)
+    private readonly IRepository<User> userRepository;
+
+    public CardService(IRepository<Card> cardRepository, IRepository<User> userRepository)
     {
         this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
     }
     public async Task<Response<Card>> AddAsync(Card card)
     {
@@ -132,6 +134,43 @@ public class CardService : ICardService
 
     }
 
+    public async Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId, string first, string last)
+    {
+        try
+        {
+            var cards = cardRepository.GetAll(a => 
+            a.CompanyId.Equals(companyId) &&
+            a.User.FirstName.Equals(first) &&
+            a.User.LastName.Equals(last))
+                .ToList();
+
+            if (cards.Count > 0)
+                return new Response<IEnumerable<Card>>
+                {
+                    StatusCode = 200,
+                    Message = "Ok",
+                    Data = cards
+                };
+
+        }
+        catch (Exception ex)
+        {
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+
+        return new Response<IEnumerable<Card>>
+        {
+            StatusCode = 403,
+            Message = "Bu companiyaga biriktirilgan sim cartalar mavjud emas.",
+            Data = null
+        };
+    }
+
     public async Task<Response<Card>> GetAsync(long id)
     {
         try
@@ -160,6 +199,8 @@ public class CardService : ICardService
 
     public async Task<Response<bool>> ReturnAsync(long seriaNum, int id,string comment)
     {
+        var user = await this.userRepository.GetAsync(u=>u.FirstName.Equals("asosiy") && u.LastName.Equals("baza"));
+       
         var cards = cardRepository.GetAll(a => a.CompanyId.Equals(id)).ToList();
         if (cards.Count > 0)
         {
@@ -169,8 +210,9 @@ public class CardService : ICardService
                 {
                     item.Comment = comment;
                     item.IsReturn = true;
+                    item.UserId = user.Id;
 
-                    this.cardRepository.Delete(item);
+                    this.cardRepository.Update(item);
                     await this.cardRepository.SaveChanges();
                     return new Response<bool>
                     {
@@ -194,22 +236,20 @@ public class CardService : ICardService
     {
         try
         {
-            var existCard = await this.cardRepository.GetAsync(u => u.CardNumber.Equals(Card.CardNumber));
-            if (existCard != null)
-                throw new AlreadyExistException("Bunday nomer foydalanuvchisi mavjud emas!");
+            var existCard = await this.cardRepository.GetAsync(u => u.Id.Equals(Card.Id));
+            if (existCard is null)
+                throw new NotFoundException("Bunday seriali sim karta mavjud emas!");
 
             existCard.UserId = Card.UserId;
-            existCard.CompanyId = Card.CompanyId;
-            existCard.CardNumber = Card.CardNumber;
 
-            this.cardRepository.Update(Card);
+            this.cardRepository.Update(existCard);
             await this.cardRepository.SaveChanges();
 
             return new Response<Card>
             {
                 StatusCode = 200,
                 Message = "Ok",
-                Data = Card
+                Data = existCard
             };
         }
         catch (Exception ex)

@@ -32,7 +32,7 @@ public partial class CompanyViewEdit : Window
 
         Company company = new Company();
         company.Id = kompaniya.Data.Id;
-        company.Name = tbComName.Text.ToLower();
+        company.Name = tbComName.Text.Trim().ToLower();
 
         if (!company.Name.Equals(""))
         {

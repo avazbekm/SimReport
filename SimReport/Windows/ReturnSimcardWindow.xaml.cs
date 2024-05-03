@@ -70,7 +70,7 @@ namespace SimReport.Windows
 
                 List<ItemReturn> itemReturns = new List<ItemReturn>();
                 
-                var cards = (await this.cardService.GetAllAsync(CompanyId)).Data.ToList();
+                var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
                 if (cards is not null)
                 {
 
@@ -90,6 +90,8 @@ namespace SimReport.Windows
                     // umumiy sonini chiqarish uchun
                     tbTotalCount.Text = itemReturns.Count.ToString();
                 }
+                else
+                    spCounter.Visibility = Visibility.Collapsed; 
             }
         }
 
@@ -129,7 +131,7 @@ namespace SimReport.Windows
                 var result = await this.cardService.ReturnAsync(card.Item1, card.Item2, comment);
 
                 if (!result.StatusCode.Equals(200))
-                    seriaNumbers +=$"{card.Item1.ToString()} \n";
+                    seriaNumbers +=$"{card.Item1} \n";
             }
 
             if (seriaNumbers.Length > 0)

@@ -74,6 +74,8 @@ namespace SimReport.Pages
             if (dataGrid.SelectedItem is Item selectedUser)
             {
                 UserPhone.Id = selectedUser.Id;
+                UserPhone.FirstName = selectedUser.Name;
+                UserPhone.LastName = selectedUser.Surname;
                 // Open a new window passing the selected user's Id as parameter
                 WindowSimAddToClient windowSimAddToClient = new WindowSimAddToClient(services);
                 windowSimAddToClient.ShowDialog();
@@ -118,9 +120,14 @@ namespace SimReport.Pages
             {
                 UserPhone.Id = selectedUser.Id;
                 UserPhone.FirstName = selectedUser.Name;
-
+                UserPhone.LastName = selectedUser.Surname;
             }
 
+            if(UserPhone.FirstName.Equals("Asosiy") && UserPhone.LastName.Equals("Baza"))
+            {
+                MessageBox.Show("Asosiy bazani o'chirish mumkin emas!");
+                return;
+            }
             var card = (await services.GetRequiredService<ICardService>().GetAllAsync())
                 .Data
                 .ToList()

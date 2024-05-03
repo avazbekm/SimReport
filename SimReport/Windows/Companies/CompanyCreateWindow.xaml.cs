@@ -52,7 +52,7 @@ public partial class CompanyCreateWindow : Window
     {
         Company company = new Company();
 
-        company.Name = tbCompanyName.Text.ToLower();
+        company.Name = tbCompanyName.Text.Trim().ToLower();
 
         if (company.Name.Equals(""))
             MessageBox.Show("Malumotni to'liq kiriting.");

@@ -7,7 +7,6 @@ using SimReport.Entities.Cards;
 using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using Microsoft.Extensions.DependencyInjection;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace SimReport.Windows.Companies;
@@ -106,7 +105,7 @@ public partial class WindowSimAddToClient : Window
             return;
         }
         // asosiy bazaga qo'shish
-        if (UserPhone.FirstName.Equals("asosiy") && UserPhone.LastName.Equals("baza"))
+        if (UserPhone.FirstName.Equals("Asosiy") && UserPhone.LastName.Equals("Baza"))
         {
             for (long i = firstSeria; i <= lastSeria; i++)
             {
@@ -124,6 +123,46 @@ public partial class WindowSimAddToClient : Window
                 MessageBox.Show($" Bu serialar boshqa hamkorga biriktirilgan\n\n{cards}");
             else
                 MessageBox.Show($" Biriktirildi.");
+        }
+        else
+        {
+            // kompaniya id si va asosiy baza nomi orqali hamma asosiy bazaga tegishli cardlarni olamiz
+            var cardlar = (await this.cardService.GetAllAsync(CompanyId,"asosiy","baza")).Data;
+            if (cardlar is not null) 
+            {
+                cardlar = cardlar.ToList();
+
+                for (long i = firstSeria; i <= lastSeria; i++)
+                {
+                    int k = 0;
+                    foreach (var kart in cardlar)
+                        if (kart.CardNumber == i)
+                        {
+                            kart.UserId = UserPhone.Id;
+                            var result = await this.cardService.UpdateAsync(kart);
+
+                            k++;
+
+                            if (!result.StatusCode.Equals(200))
+                                cards += $"{i}\n";
+                            break;
+                        }
+
+                    if (k == 0)
+                        cards += $"{i}\n";
+                }
+
+                if (cards != "")
+                    MessageBox.Show($" Bu serialar asosiy bazada mavjud emas! \n\n{cards}");
+                else
+                    MessageBox.Show($" Biriktirildi.");
+            }
+            else
+            {
+                for (long i = firstSeria; i <= lastSeria; i++)
+                    cards += $"{i}\n";
+                MessageBox.Show($"Bu serialar asosiy bazada mavjud emas.\n\n{cards}");
+            }
         }
     }
 

@@ -1,10 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using SimReport.Interfaces;
 using System.Windows.Controls;
 using SimReport.Entities.Users;
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text;
 
 namespace SimReport.Windows.Clients;
 
@@ -24,8 +23,8 @@ public partial class ClientCreateWindow : Window
     {
         User user = new User();
 
-        user.FirstName = tbFirstName.Text.ToLower();
-        user.LastName = tbLastName.Text.ToLower();
+        user.FirstName = tbFirstName.Text.Trim().ToLower();
+        user.LastName = tbLastName.Text.Trim().ToLower();
         user.Phone = tbPhone.Text;
 
         if (user.FirstName.Equals("") ||

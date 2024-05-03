@@ -23,7 +23,19 @@ public class UserService : IUserService
         {
             var existUser = await this.userRepository.GetAsync(u => u.Phone.Equals(user.Phone));
             if (existUser is not null)
-                throw new AlreadyExistException("Bunday nomer mavjud.");
+                throw new AlreadyExistException("Bunday telefon nomer mavjud.");
+
+            var existPartner = await this.userRepository.GetAsync(u => 
+            u.FirstName.Equals(user.FirstName.ToLower()) &&
+            u.LastName.Equals(user.LastName.ToLower()));
+
+            if (existPartner is not null)
+                return new Response<User>
+                {
+                    StatusCode = 403,
+                    Message = "Bunday ism va familiya bilan mavjud.",
+                    Data = user
+                };
 
             await this.userRepository.CreateAsync(user);
             await this.userRepository.SaveChanges();
