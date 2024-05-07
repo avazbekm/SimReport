@@ -2,6 +2,7 @@
 using SimReport.Entities.Users;
 using SimReport.Interfaces;
 using SimReport.Pages;
+using SimReport.Pages.Report;
 using SimReport.Services;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,8 @@ namespace SimReport
 
         private void rbReports_Click(object sender, RoutedEventArgs e)
         {
-
+            ReportsPage reportsPage = new ReportsPage(services);
+            PageNavigator.Content = reportsPage;
         }
 
         private void rbAbout_Click(object sender, RoutedEventArgs e)
