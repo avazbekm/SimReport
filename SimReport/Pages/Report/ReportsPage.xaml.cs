@@ -19,11 +19,14 @@ namespace SimReport.Pages.Report;
 public partial class ReportsPage : Page
 {
     private readonly ICompanyService companyService;
+    private readonly ICardService cardService;
     int CompanyId;
+    string CompanyName;
     public ReportsPage(IServiceProvider services)
     {
         InitializeComponent();
         this.companyService = services.GetRequiredService<ICompanyService>();
+        this.cardService = services.GetRequiredService<ICardService>();
 
         // Databazadan malumotlarni olish
         List<ItemComboBox> items = GetItemsFromDatabase();
@@ -46,6 +49,7 @@ public partial class ReportsPage : Page
             spRightSide.Visibility = Visibility.Visible;
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
+            CompanyName = items[selectedValue].Name;
         }
     }
     private List<ItemComboBox> GetItemsFromDatabase()
@@ -75,7 +79,7 @@ public partial class ReportsPage : Page
             tbMobiuzAdress.Text = openFileDialog.FileName;
     }
 
-    private void btnBajarish_Click(object sender, RoutedEventArgs e)
+    private async void btnBajarish_Click(object sender, RoutedEventArgs e)
     {
         StringBuilder stringBuilder = new StringBuilder();
         if (!tbMobiuzAdress.Text.Equals("  ... ni bosib PDF faylni yuklang"))
@@ -83,39 +87,74 @@ public partial class ReportsPage : Page
             // for reading pdf files 
             PdfDocument document = new PdfDocument();
             document.LoadFromFile(tbMobiuzAdress.Text);
-                 
+
             foreach (PdfPageBase page in document.Pages)
             {
                 stringBuilder.Append(page.ExtractText());
             }
 
             string data = "";
-            string seriaNumber = "";
-            foreach (string row in stringBuilder.ToString().Split("\n"))
+            switch (CompanyName)
             {
-                if (row.Length < 100)
-                    continue;
+                case "Mobiuz":
+                    {
+                        // kompaniyaga tegish barcha sim kartalarni olish kerak
+                        var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+                        if (cards != null)
+                        {
+                            int quantity = 0;
+                            foreach (string row in stringBuilder.ToString().Split("\n"))
+                            {
+                                if (row.Length < 100)
+                                    continue;
 
-                foreach (string piece in row.Split(" "))
-                {
-                    var s = piece.Trim();
-                    if (piece.Equals(""))
-                        continue;
-                    try
-                    {
-                        if (piece.Length.Equals(10) && piece.IndexOf('.').Equals(2))
-                            data = piece;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error reading PDF file: {ex.Message}");
+                                foreach (string piece in row.Split(" "))
+                                {
+                                    if (piece.Equals(""))
+                                        continue;
+                                    if (piece.Length.Equals(10) && piece.IndexOf('.').Equals(2))
+                                        data = piece;
+                                    if (piece.Length == 22 && piece.Contains('-'))
+                                    {
+                                        foreach (var card in cards)
+                                        if (piece.Contains(card.CardNumber.ToString()))
+                                        {
+                                            card.SoldTime = data;
+                                            await this.cardService.SellAsync(card);
+                                            quantity++;
+                                        }
+                                    }
+                                }
+                            }
+                            MessageBox.Show($"{quantity} ta sotilgan.");
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
+                            break;
+                        }
                     }
 
-                    if (piece.Length == 22 && piece.Contains('-'))
+                case "Ucell":
                     {
-                        seriaNumber = piece;
+                        break;
                     }
-                }
+
+                case "Beeline":
+                    {
+                        break;
+                    }
+
+                case "Uzmobayl":
+                    {
+                        break;
+                    }
+
+                case "Humans":
+                    {
+                        break;
+                    }
             }
         }
         else

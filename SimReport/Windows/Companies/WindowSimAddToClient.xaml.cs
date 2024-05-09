@@ -109,9 +109,9 @@ public partial class WindowSimAddToClient : Window
         {
             for (long i = firstSeria; i <= lastSeria; i++)
             {
+                card.Id = 0;
                 card.CardNumber = i;
                 var result = await this.cardService.AddAsync(card);
-                card.Id = 0;
 
                 if (!result.StatusCode.Equals(200))
                 {
@@ -126,20 +126,23 @@ public partial class WindowSimAddToClient : Window
         }
         else
         {
+            List<string> list = new List<string>();
             // kompaniya id si va asosiy baza nomi orqali hamma asosiy bazaga tegishli cardlarni olamiz
             var cardlar = (await this.cardService.GetAllAsync(CompanyId,"asosiy","baza")).Data;
             if (cardlar is not null) 
             {
-                cardlar = cardlar.ToList();
-
                 for (long i = firstSeria; i <= lastSeria; i++)
                 {
                     int k = 0;
                     foreach (var kart in cardlar)
                         if (kart.CardNumber == i)
                         {
+                            // asosiy bazadan o'chirish uchun jamlanmoqda
+                            list.Add(kart.Id.ToString());
+                            // hamkorga o'tkazish uchun
+                            kart.Id = 0;
                             kart.UserId = UserPhone.Id;
-                            var result = await this.cardService.UpdateAsync(kart);
+                            var result = await this.cardService.TransferAsync(kart);
 
                             k++;
 
@@ -150,6 +153,11 @@ public partial class WindowSimAddToClient : Window
 
                     if (k == 0)
                         cards += $"{i}\n";
+                }
+                //hamkorga o'tkazib bo'lingan cardlarni asosiy bazadan o'chiramiz
+                foreach (var kart in list)
+                {
+                    await this.cardService.DeleteAsync(int.Parse(kart), UserPhone.FirstName, UserPhone.LastName);
                 }
 
                 if (cards != "")

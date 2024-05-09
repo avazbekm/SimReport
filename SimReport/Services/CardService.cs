@@ -25,7 +25,7 @@ public class CardService : ICardService
         try
         {
             var cards = cardRepository.GetAll(a => a.CompanyId.Equals(card.CompanyId)).ToList();
-            if (cards is not null)
+            if (cards.Count>0)
             {
                 foreach (var item in cards)
                 {
@@ -70,6 +70,7 @@ public class CardService : ICardService
                 if (item.CardNumber.Equals(card.CardNumber))
                 {
                     item.Comment = card.Comment;
+                    item.IsReturn = card.IsReturn;
 
                     this.cardRepository.Delete(item);
                     await this.cardRepository.SaveChanges();
@@ -88,6 +89,23 @@ public class CardService : ICardService
             StatusCode = 403,
             Message = "Topilmadi",
             Data = false
+        };
+    }
+
+    public async Task<Response<bool>> DeleteAsync(int id, string first, string last)
+    {
+        var card = await this.cardRepository.GetAsync(a => a.Id.Equals(id));
+
+        card.IsReturn = true;
+        card.Comment = $"{last} {first}ga berilgan.";
+
+        this.cardRepository.Delete(card);
+        await this.cardRepository.SaveChanges();
+        return new Response<bool>
+        {
+            StatusCode = 200,
+            Message = "Ok",
+            Data = true
         };
     }
 
@@ -230,6 +248,65 @@ public class CardService : ICardService
             Message = "Topilmadi",
             Data = false
         };
+    }
+
+    public async Task<Response<Card>> SellAsync(Card card)
+    {
+        try
+        {
+            var existCard = await this.cardRepository.GetAsync(u => u.Id.Equals(card.Id));
+            if (existCard is null)
+                throw new NotFoundException("Bunday seriali sim karta mavjud emas!");
+
+            existCard.SoldTime = card.SoldTime;
+            existCard.IsSold = true;
+            existCard.IsDeleted = true;
+
+            this.cardRepository.Update(existCard);
+            await this.cardRepository.SaveChanges();
+
+            return new Response<Card>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = existCard
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<Card>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
+
+    public async Task<Response<Card>> TransferAsync(Card card)
+    {
+        try 
+        { 
+            await this.cardRepository.CreateAsync(card);
+            await this.cardRepository.SaveChanges();
+
+            return new Response<Card>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = card
+            };
+
+        }
+        catch (Exception ex)
+        {
+            return new Response<Card>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
     }
 
     public async Task<Response<Card>> UpdateAsync(Card Card)
