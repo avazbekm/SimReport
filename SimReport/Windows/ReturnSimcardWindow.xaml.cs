@@ -84,7 +84,6 @@ namespace SimReport.Windows
                             SeriaNumber = card.CardNumber
                         });
                     }
-
                     dataGrid.ItemsSource = itemReturns;
 
                     // umumiy sonini chiqarish uchun
@@ -95,7 +94,7 @@ namespace SimReport.Windows
             }
         }
 
-        List<(long, int)> selectedSeriaNumbers = new List<(long, int)>();
+        List<(long, int, int)> selectedSeriaNumbers = new List<(long, int, int)>();
         private void chbSeriaSelect_Click(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
@@ -107,31 +106,40 @@ namespace SimReport.Windows
                     // You may need to adjust this index based on your actual column layout
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
                     int id = ((ItemReturn)selectedItem).CompanyId;
-                    selectedSeriaNumbers.Add((seriaNumber, id));
+                    int cardId= ((ItemReturn)selectedItem).Id;
+                    selectedSeriaNumbers.Add((seriaNumber, id, cardId));
                 }
                 else
                 {
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
                     int id = ((ItemReturn)selectedItem).CompanyId;
-                    selectedSeriaNumbers.Remove((seriaNumber,id));
+                    int cardId = ((ItemReturn)selectedItem).Id;
+                    selectedSeriaNumbers.Remove((seriaNumber, id, cardId));
                 }
                 // tanlangalar sonini bilish
                 tbCount.Text = selectedSeriaNumbers.Count.ToString();
             }
-
         }
         private async void btnReturn_Click(object sender, RoutedEventArgs e)
         {
             string comment = tbReturnComment.Text;
-           
+
             string seriaNumbers = "";
-            
+            List<(int,string)> list = new List<(int, string)>();
+            // hamkorga biriktirish uchun
             foreach (var card in selectedSeriaNumbers)
             {
-                var result = await this.cardService.ReturnAsync(card.Item1, card.Item2, comment);
+                var result = await this.cardService.ReturnAsync(card.Item1, card.Item2);
 
                 if (!result.StatusCode.Equals(200))
-                    seriaNumbers +=$"{card.Item1} \n";
+                    seriaNumbers += $"{card.Item1} \n";
+                else
+                    list.Add((card.Item3,comment));
+            }
+            // biriktirgan sim kartalarini asosiy bazadan o'chirish
+            foreach (var card in list)
+            {
+                await this.cardService.DeleteAsync(card.Item1, card.Item2);
             }
 
             if (seriaNumbers.Length > 0)
@@ -140,7 +148,7 @@ namespace SimReport.Windows
                 MessageBox.Show("Qaytarildi.");
             
             tbCount.Text = "0";
-            selectedSeriaNumbers.Clear(); 
+            selectedSeriaNumbers.Clear();
         }
     }
 }

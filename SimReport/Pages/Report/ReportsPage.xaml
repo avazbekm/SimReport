@@ -7,8 +7,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="600"
       Title="ReportsPage">
-
-    <StackPanel>
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/Styles/LabelStyles.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+    <StackPanel  >
         <StackPanel Height="50"
                     Margin="10">
             <StackPanel x:Name="spMobiuz" 
@@ -20,7 +26,7 @@
                         Height="40"
                         Width="150"
                         Background="{DynamicResource PrimaryBackground}">
-                <ComboBox x:Name="cbCompany"
+                    <ComboBox x:Name="cbCompany"
                           Height="36"
                           SelectedIndex="0"
                           Width="145"
@@ -34,7 +40,7 @@
                 <StackPanel x:Name="spRightSide" 
                             Visibility="Visible"
                             Orientation="Horizontal">
-                <TextBlock x:Name="tbMobiuzAdress"
+                    <TextBlock x:Name="tbMobiuzAdress"
                            Width="310"
                            Text="  ... ni bosib PDF faylni yuklang"
                            FontFamily="Arial"
@@ -43,7 +49,7 @@
                            Padding="5 10 5 5"
                            FontSize="15"
                            Background="{DynamicResource PrimaryBackground}"/>
-                <Button x:Name="btnPDFReader"
+                    <Button x:Name="btnPDFReader"
                         Content=". . ."
                         Width="30"
                         Height="40"
@@ -53,11 +59,11 @@
                         BorderBrush="{DynamicResource PrimaryBackground}"
                         Background="{DynamicResource PrimaryBackground}" Click="btnPDFReader_Click"
                         />
-                <Border CornerRadius="0 5 5 0"
+                    <Border CornerRadius="0 5 5 0"
                         Width="73"
                         Height="40"
                         Background="{DynamicResource PrimaryBackground}">
-                <Button x:Name="btnBajarish"
+                        <Button x:Name="btnBajarish"
                         Content="Bajarish"
                         FontSize="15"
                         FontFamily="Arial"
@@ -65,11 +71,28 @@
                         Height="36"
                         BorderThickness="0"
                         Background="{DynamicResource PrimaryBackground}" Click="btnBajarish_Click"/>
-                </Border>
+                    </Border>
                 </StackPanel>
             </StackPanel>
 
         </StackPanel>
         
+        <!-- oradan joy tashladik -->
+        <StackPanel Height="120"/>
+        
+        <!-- hamkorlari boyicha hisobot -->
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="lbPartnerReport"
+                   Content="Hamkorlar bo'yicha hisobot"
+                   MouseDoubleClick="Label_MouseDown"
+                   Style="{DynamicResource LabelStyle}">
+            </Label>
+        </StackPanel>
+        <Label x:Name="lbCompanyReport" 
+               Content="Kompaniyalar bo'yicha hisobot"
+               MouseDoubleClick="lbCompanyReport_MouseDoubleClick"
+               Style="{DynamicResource LabelStyle}">
+            
+        </Label>
     </StackPanel>
 </Page>

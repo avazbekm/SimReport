@@ -95,9 +95,33 @@ public class CardService : ICardService
     public async Task<Response<bool>> DeleteAsync(int id, string first, string last)
     {
         var card = await this.cardRepository.GetAsync(a => a.Id.Equals(id));
+        if (card is not null)
+        {
+            card.IsReturn = true;
+            card.Comment = $"{last} {first}ga berilgan.";
 
+            this.cardRepository.Delete(card);
+            await this.cardRepository.SaveChanges();
+            return new Response<bool>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = true
+            };
+        }
+        return new Response<bool>
+        {
+            StatusCode = 403,
+            Message = "Xatolik",
+            Data = false
+        };
+    }
+
+    public async Task<Response<bool>> DeleteAsync(int id, string comment)
+    {
+        var card = await this.cardRepository.GetAsync(a => a.Id.Equals(id));
         card.IsReturn = true;
-        card.Comment = $"{last} {first}ga berilgan.";
+        card.Comment = comment;
 
         this.cardRepository.Delete(card);
         await this.cardRepository.SaveChanges();
@@ -189,7 +213,7 @@ public class CardService : ICardService
         };
     }
 
-    public async Task<Response<Card>> GetAsync(long id)
+    public async Task<Response<Card>> GetAsync(int id)
     {
         try
         {
@@ -215,39 +239,56 @@ public class CardService : ICardService
         }
     }
 
-    public async Task<Response<bool>> ReturnAsync(long seriaNum, int id,string comment)
+    public async Task<Response<bool>> ReturnAsync(long seriaNum, int id)
     {
         var user = await this.userRepository.GetAsync(u=>u.FirstName.Equals("asosiy") && u.LastName.Equals("baza"));
-       
-        var cards = cardRepository.GetAll(a => a.CompanyId.Equals(id)).ToList();
-        if (cards.Count > 0)
-        {
-            foreach (var item in cards)
-            {
-                if (item.CardNumber.Equals(seriaNum))
-                {
-                    item.Comment = comment;
-                    item.IsReturn = true;
-                    item.UserId = user.Id;
 
-                    this.cardRepository.Update(item);
-                    await this.cardRepository.SaveChanges();
-                    return new Response<bool>
-                    {
-                        StatusCode = 200,
-                        Message = "Ok",
-                        Data = true
-                    };
-                }
-            }
-        }
+        Card card = new Card();
+        
+        card.Id = 0;
+        card.UserId = user.Id;
+        card.CompanyId = id;
+        card.CardNumber = seriaNum;
 
+        await this.cardRepository.CreateAsync(card);
+        await this.cardRepository.SaveChanges();
         return new Response<bool>
         {
-            StatusCode = 403,
-            Message = "Topilmadi",
-            Data = false
+            StatusCode = 200,
+            Message = "Ok",
+            Data = true
         };
+
+
+        //var cards = cardRepository.GetAll(a => a.CompanyId.Equals(id)).ToList();
+        //if (cards.Count > 0)
+        //{
+        //    foreach (var item in cards)
+        //    {
+        //        if (item.CardNumber.Equals(seriaNum))
+        //        {
+        //            item.Comment = comment;
+        //            item.IsReturn = true;
+        //            item.UserId = user.Id;
+
+        //            this.cardRepository.Update(item);
+        //            await this.cardRepository.SaveChanges();
+        //            return new Response<bool>
+        //            {
+        //                StatusCode = 200,
+        //                Message = "Ok",
+        //                Data = true
+        //            };
+        //        }
+        //    }
+        //}
+
+        //return new Response<bool>
+        //{
+        //    StatusCode = 403,
+        //    Message = "Topilmadi",
+        //    Data = false
+        //};
     }
 
     public async Task<Response<Card>> SellAsync(Card card)

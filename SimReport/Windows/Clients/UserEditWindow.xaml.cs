@@ -5,7 +5,6 @@ using SimReport.Interfaces;
 using SimReport.Entities.Users;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.RegularExpressions;
 
 namespace SimReport.Windows.Clients;
 

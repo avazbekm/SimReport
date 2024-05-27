@@ -1,13 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SimReport.Entities.Users;
-using SimReport.Interfaces;
+﻿using System;
+using System.Windows;
 using SimReport.Pages;
 using SimReport.Pages.Report;
-using SimReport.Services;
-using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace SimReport
 {
@@ -47,7 +41,7 @@ namespace SimReport
         private void rbClients_Click(object sender, RoutedEventArgs e)
         {
 
-            ClientsPage clientsPage = new ClientsPage(services) ;
+            ClientsPage clientsPage = new ClientsPage(services);
             PageNavigator.Content = clientsPage;
         }
 

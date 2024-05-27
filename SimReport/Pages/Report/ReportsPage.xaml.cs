@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Emit;
+using System.Windows.Media;
+using SimReport.Windows.Reports;
 
 namespace SimReport.Pages.Report;
 
@@ -20,8 +23,11 @@ public partial class ReportsPage : Page
 {
     private readonly ICompanyService companyService;
     private readonly ICardService cardService;
+    private readonly IServiceProvider services;
     int CompanyId;
     string CompanyName;
+    private bool isDoubleClicked = false;
+
     public ReportsPage(IServiceProvider services)
     {
         InitializeComponent();
@@ -159,6 +165,18 @@ public partial class ReportsPage : Page
         }
         else
             MessageBox.Show("PDF faylni yuklang!");
+    }
+
+    private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        lbPartnerReport.Foreground = new SolidColorBrush(Colors.White);
+        PartnerReportWindow partnerReportWindow = new PartnerReportWindow(services);
+        partnerReportWindow.ShowDialog();
+    }
+
+    private void lbCompanyReport_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+
     }
 }
 
