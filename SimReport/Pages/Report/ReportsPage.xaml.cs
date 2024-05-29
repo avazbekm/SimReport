@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
+using System.Windows.Media;
 using SimReport.Interfaces;
 using System.Windows.Controls;
+using SimReport.Windows.Reports;
 using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Emit;
-using System.Windows.Media;
-using SimReport.Windows.Reports;
 
 namespace SimReport.Pages.Report;
 
@@ -26,7 +25,6 @@ public partial class ReportsPage : Page
     private readonly IServiceProvider services;
     int CompanyId;
     string CompanyName;
-    private bool isDoubleClicked = false;
 
     public ReportsPage(IServiceProvider services)
     {

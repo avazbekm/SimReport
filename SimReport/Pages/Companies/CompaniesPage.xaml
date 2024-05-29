@@ -45,7 +45,7 @@
                 <Button x:Name="btnCreate"
                         Click="btnCreate_Click"
                         Style="{DynamicResource SuccessButton}"
-                        Content="Create"/>
+                        Content="Qo'shish"/>
             </StackPanel>
 
 

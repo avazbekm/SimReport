@@ -12,7 +12,7 @@
         <StackPanel >
             <Label Height="30" 
                    Margin="10 10 10 0"
-                   Content="Name"
+                   Content="Nomi"
                    FontSize="16"
                    Background="{DynamicResource SecondaryBackground}"/>
             <Border Margin="10 0 10 10"
@@ -46,7 +46,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Height="35" 
                    Margin="10 5 0 0"
-                   Content="Image"
+                   Content="Rasm"
                    FontSize="16"
                    Background="{DynamicResource SecondaryBackground}"/>
                 <Button x:Name="btnImageSelector"

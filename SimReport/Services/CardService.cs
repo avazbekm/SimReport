@@ -7,6 +7,7 @@ using SimReport.Entities.Users;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using SimReport.Services.Exceptions;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace SimReport.Services;
 
@@ -209,6 +210,39 @@ public class CardService : ICardService
         {
             StatusCode = 403,
             Message = "Bu companiyaga biriktirilgan sim cartalar mavjud emas.",
+            Data = null
+        };
+    }
+
+    public async Task<Response<IEnumerable<Card>>> GetAllAsync(string phone)
+    {
+        try
+        {
+            var cards = cardRepository.GetAll(a =>a.User.Phone.Equals(phone)).ToList();
+
+            if (cards.Count > 0)
+                return new Response<IEnumerable<Card>>
+                {
+                    StatusCode = 200,
+                    Message = "Ok",
+                    Data = cards
+                };
+
+        }
+        catch (Exception ex)
+        {
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+
+        return new Response<IEnumerable<Card>>
+        {
+            StatusCode = 403,
+            Message = "Bu hamkorga biriktirilgan sim cartalar mavjud emas.",
             Data = null
         };
     }

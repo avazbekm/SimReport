@@ -60,29 +60,29 @@
 
                     <RadioButton x:Name="rbDashboard" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="Dashboard" 
+                                 Content="Bosh sahifa" 
                                  Click="rbDashboard_Click"
                                  Tag="{DynamicResource dashboard}"/>
                     <RadioButton x:Name="rbClients" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="Clients" 
+                                 Content="Hamkorlar" 
                                  Click="rbClients_Click"
                                  Tag="{DynamicResource clients}"/>
 
                     <RadioButton x:Name="rbCompanies" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="Companies" 
+                                 Content="Kompaniyalar" 
                                  Click="rbCompanies_Click"
                                  Tag="{DynamicResource companies}"/>
 
                     <RadioButton x:Name="rbReports" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="Reports" 
+                                 Content="Hisobotlar" 
                                  Click="rbReports_Click"
                                  Tag="{DynamicResource reports}"/>
                     <RadioButton x:Name="rbAbout" 
                                  Style="{DynamicResource MenuButton}"
-                                 Content="About" 
+                                 Content="Biz haqimizda" 
                                  Click="rbAbout_Click"
                                  Tag="{DynamicResource about}"/>
 

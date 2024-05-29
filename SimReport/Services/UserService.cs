@@ -79,7 +79,7 @@ public class UserService : IUserService
 
     public async Task<Response<IEnumerable<User>>> GetAllAsync()
     {
-        var users = this.userRepository.GetAll(includes:new[] { "Cards" });
+        var users = this.userRepository.GetAll();
         return new Response<IEnumerable<User>>
         {
             StatusCode = 200,

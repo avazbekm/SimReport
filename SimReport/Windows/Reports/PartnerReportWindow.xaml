@@ -21,11 +21,12 @@
                     <DataGridTextColumn Header="Ism" Binding="{Binding Name}" Width="100"/>
                     <DataGridTextColumn Header="Familiyasi" Binding="{Binding Surname}" Width="100"/>
                     <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="100"/>
-                    <DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="90"/>
-                    <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="90"/>
-                    <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="90"/>
-                    <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="90"/>
-                    <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="90"/>
+                    <DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="80"/>
+                    <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="80"/>
+                    <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="80"/>
+                    <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="80"/>
+                    <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="80"/>
+                    <DataGridTextColumn Header="Jami" Binding="{Binding Quantity}" Width="80"/>
 
                 </DataGrid.Columns>
             </DataGrid>

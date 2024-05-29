@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SimReport.Entities.Assets;
-using SimReport.Entities.Cards;
-using SimReport.Entities.Companies;
-using SimReport.Entities.Users;
+﻿using System.Windows;
+using SimReport.Services;
 using SimReport.Interfaces;
 using SimReport.Repositories;
-using SimReport.Services;
+using SimReport.Entities.Users;
+using SimReport.Entities.Cards;
 using SimReport.Services.Helpers;
-using System.Windows;
+using SimReport.Entities.Companies;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport;
 
