@@ -2,6 +2,8 @@
 using System.Windows;
 using SimReport.Pages;
 using SimReport.Pages.Report;
+using SimReport.Pages.Dashboard;
+using SimReport.Pages.AboutUs;
 
 namespace SimReport
 {
@@ -52,14 +54,10 @@ namespace SimReport
 
         }
 
-        private void rbAbout_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void rbDashboard_Click(object sender, RoutedEventArgs e)
         {
-
+            DashboardPage dashboardPage = new DashboardPage(services);
+            PageNavigator.Content = dashboardPage;
         }
 
         private void rbReports_Click(object sender, RoutedEventArgs e)
@@ -70,7 +68,15 @@ namespace SimReport
 
         private void rbAbout_Click(object sender, RoutedEventArgs e)
         {
-
+            AboutPage aboutPage = new AboutPage();
+            aboutPage.tbAbout.Content = @$"
+                                Assalomu alaykum hurmatli foydalanuvchi! 
+             Bu dastur uyali aloqa kompaniya dillerlariga sim karta hisobotni olib yurish
+        uchun Siddiqov Avazbek tomonidan yaratildi. O'ylaymanki bu sizga ko'makchi  
+        bo'lib, ko'pgina qulayliklar yaratadi va vaqtingizni tejashda yordam beradi." +
+                $"\n\n\n\n" +
+                $"\tMurojaat uchun telegram username: @avazbekms";  
+            PageNavigator.Content = aboutPage;
         }
     }
 }

@@ -8,6 +8,7 @@ using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using SimReport.Services.Exceptions;
 using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace SimReport.Services;
 
@@ -260,6 +261,33 @@ public class CardService : ICardService
                 StatusCode = 200,
                 Message = "Ok",
                 Data = existCard
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<Card>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
+
+    public async Task<Response<Card>> GetAsync(long seriaNumber)
+    {
+        try
+        {
+            var cards = cardRepository.GetAll(a => a.CardNumber.Equals(seriaNumber)).ToList();
+
+            if (cards.Count == 0)
+                throw new NotFoundException("Bunday seria bilan sim karta mavjud emas.");
+
+            return new Response<Card>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = cards.Last()
             };
         }
         catch (Exception ex)
