@@ -6,7 +6,6 @@ using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace SimReport.Windows.Reports;
 
 /// <summary>
@@ -14,15 +13,21 @@ namespace SimReport.Windows.Reports;
 /// </summary>
 public partial class PartnerReportWindow : Window
 {
-    private readonly IServiceProvider services;
-
+    private readonly IUserService userService;
     public PartnerReportWindow(IServiceProvider services)
     {
         InitializeComponent();
-        this.services = services;
+        this.userService = services.GetRequiredService<IUserService>();
 
+        dataGrid.ItemsSource = GetAllUser();
+
+    }
+
+    private List<ItemReport> GetAllUser()
+    {
         List<ItemReport> items = new List<ItemReport>();
-        var users = services.GetRequiredService<IUserService>().GetAllAsync().Result.Data.ToList();
+        var users = userService.GetAllAsync().Result.Data.ToList();
+
         foreach (var user in users)
         {
             items.Add(new ItemReport()
@@ -33,6 +38,6 @@ public partial class PartnerReportWindow : Window
                 Phone = user.Phone
             });
         }
-        dataGrid.ItemsSource = items;
+        return items;
     }
 }

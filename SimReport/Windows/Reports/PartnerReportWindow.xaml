@@ -13,7 +13,6 @@
         <WrapPanel Grid.Row="1"
                            Margin="20 15"
                            x:Name="wrpClients">
-
             <DataGrid x:Name="dataGrid" 
                               AutoGenerateColumns="False"
                               CanUserAddRows="False">
@@ -27,10 +26,8 @@
                     <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="80"/>
                     <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="80"/>
                     <DataGridTextColumn Header="Jami" Binding="{Binding Quantity}" Width="80"/>
-
                 </DataGrid.Columns>
             </DataGrid>
-
         </WrapPanel>
     </Grid>
 </Window>
