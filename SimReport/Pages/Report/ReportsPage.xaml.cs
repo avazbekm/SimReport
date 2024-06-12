@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
+using SimReport.Windows.Reports.Companies;
 
 namespace SimReport.Pages.Report;
 
@@ -29,6 +30,7 @@ public partial class ReportsPage : Page
     public ReportsPage(IServiceProvider services)
     {
         InitializeComponent();
+        this.services = services;
         this.companyService = services.GetRequiredService<ICompanyService>();
         this.cardService = services.GetRequiredService<ICardService>();
 
@@ -174,7 +176,8 @@ public partial class ReportsPage : Page
 
     private void lbCompanyReport_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-
+        CompanyReportWindow companyReportWindow = new CompanyReportWindow(services);
+        companyReportWindow.ShowDialog();
     }
 }
 

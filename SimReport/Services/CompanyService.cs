@@ -78,7 +78,7 @@ public class CompanyService : ICompanyService
     {
         try
         {
-            var existCompany = await this.companyRepository.GetAsync(u => u.Id.Equals(id), includes: new[] { "Card" });
+            var existCompany = await this.companyRepository.GetAsync(u => u.Id.Equals(id));
             if (existCompany is null)
                 throw new NotFoundException("Buday id bilan kompaniya mavjud emas.");
 
