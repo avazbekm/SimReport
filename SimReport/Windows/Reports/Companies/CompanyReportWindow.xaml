@@ -9,11 +9,18 @@
         Height="450" 
         Width="800"
         WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Label x:Name="lbCompany"
-               Height="150"
-               Width="600">
-            
-        </Label>
+    <Grid Margin="20 15">
+            <DataGrid x:Name="dataGrid" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="100"/>
+                    <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="100"/>
+                    <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="100"/>
+                    <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="100"/>
+                    <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="100"/>
+                    <DataGridTextColumn Header="Jami" Binding="{Binding Total}" Width="100"/>
+                </DataGrid.Columns>
+            </DataGrid>
     </Grid>
 </Window>

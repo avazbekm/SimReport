@@ -2,21 +2,20 @@
 using System.Linq;
 using System.Windows;
 using SimReport.Interfaces;
-using SimReport.Services.Helpers;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using SimReport.Services.Helpers;
 using SimReport.Windows.Reports.Partners;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Windows.Reports;
 
-/// <summary>
-/// Interaction logic for PartnerReportWindow.xaml
-/// </summary>
 public partial class PartnerReportWindow : Window
 {
     private readonly IUserService userService;
     private readonly ICardService cardService;
     private readonly ICompanyService companyService;
+
     public PartnerReportWindow(IServiceProvider services)
     {
         InitializeComponent();
@@ -24,73 +23,96 @@ public partial class PartnerReportWindow : Window
         this.cardService = services.GetRequiredService<ICardService>();
         this.companyService = services.GetRequiredService<ICompanyService>();
 
-        dataGrid.ItemsSource = GetAllUser();
+        LoadDataAsync();
     }
 
-    private List<ItemReport> GetAllUser()
+    private async Task LoadDataAsync()
     {
-        // sim kartalar hammasini olib kelyapmiz
-        
+        try
+        {
+            dataGrid.ItemsSource = await GetAllUsersAsync();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+    }
+
+    private async Task<List<ItemReport>> GetAllUsersAsync()
+    {
         List<ItemReport> items = new List<ItemReport>();
-        // hamkorlarni hammasi olib kelyapmiz
-        var users = userService.GetAllAsync().Result.Data.ToList();
-        
-            foreach (var user in users)
+
+        // Retrieve all users
+        var users = await userService.GetAllAsync();
+        var userList = users.Data.ToList();
+
+        foreach (var user in userList)
+        {
+            int mobiuz = 0;
+            int beeline = 0;
+            int ucell = 0;
+            int uzmobayl = 0;
+            int humans = 0;
+            int quantity = 0;
+
+            var cards = await cardService.GetAllAsync(user.Phone);
+            var cardList = cards.Data;
+
+            Dictionary<int, int> companyQuantity = new Dictionary<int, int>();
+
+            if (cardList != null)
             {
-                int mobiuz = 0;
-                int beeline = 0;
-                int ucell = 0;
-                int uzmobayl = 0;
-                int humans = 0;
-                int quantitiy = 0;
-                
-                var cards = cardService.GetAllAsync(user.Phone).Result.Data;
+                quantity = cardList.Count();
 
-                Dictionary<int, int> companyQuantity = new Dictionary<int, int>();
-
-                if (cards is not null)
+                foreach (var card in cardList)
                 {
-                    quantitiy = cards.Count();
-
-                    foreach (var card in cards)
-                        {
-                            if (companyQuantity.Keys.Contains(card.CompanyId))
-                                companyQuantity[card.CompanyId]++;
-                            else
-                                companyQuantity.Add(card.CompanyId, 1);
-                        }
+                    if (companyQuantity.ContainsKey(card.CompanyId))
+                        companyQuantity[card.CompanyId]++;
+                    else
+                        companyQuantity.Add(card.CompanyId, 1);
                 }
-
-                foreach (var item in companyQuantity.Keys)
-                {
-                    var companyName = companyService.GetAsync(item).Result.Data;
-
-                    if (companyName.Name.Equals("mobiuz"))
-                        mobiuz = companyQuantity[item];
-                    else if (companyName.Name.Equals("beeline"))
-                        beeline = companyQuantity[item];
-                    else if (companyName.Name.Equals("ucell"))
-                        ucell = companyQuantity[item];
-                    else if (companyName.Name.Equals("uzmobayl"))
-                        uzmobayl = companyQuantity[item];
-                    else if (companyName.Name.Equals("humans"))
-                        humans = companyQuantity[item];
-                }
-
-                items.Add(new ItemReport()
-                {
-                    Id = user.Id,
-                    Name = ConvertToStandart.ConvertFirstToUpper(user.FirstName),
-                    Surname = ConvertToStandart.ConvertFirstToUpper(user.LastName),
-                    Phone = user.Phone,
-                    Mobiuz = mobiuz,
-                    Beeline = beeline,
-                    Ucell = ucell,
-                    Uzmobayl = uzmobayl,
-                    Humans = humans,
-                    Quantity = quantitiy
-                });
             }
-            return items;
+
+            foreach (var item in companyQuantity.Keys)
+            {
+                var company = await companyService.GetAsync(item);
+                var companyName = company.Data.Name;
+
+                switch (companyName.ToLower())
+                {
+                    case "mobiuz":
+                        mobiuz = companyQuantity[item];
+                        break;
+                    case "beeline":
+                        beeline = companyQuantity[item];
+                        break;
+                    case "ucell":
+                        ucell = companyQuantity[item];
+                        break;
+                    case "uzmobayl":
+                        uzmobayl = companyQuantity[item];
+                        break;
+                    case "humans":
+                        humans = companyQuantity[item];
+                        break;
+                }
+            }
+
+            items.Add(new ItemReport
+            {
+                Id = user.Id,
+                Name = ConvertToStandart.ConvertFirstToUpper(user.FirstName),
+                Surname = ConvertToStandart.ConvertFirstToUpper(user.LastName),
+                Phone = user.Phone,
+                Mobiuz = mobiuz,
+                Beeline = beeline,
+                Ucell = ucell,
+                Uzmobayl = uzmobayl,
+                Humans = humans,
+                Quantity = quantity
+            });
+        }
+
+        return items;
     }
 }
