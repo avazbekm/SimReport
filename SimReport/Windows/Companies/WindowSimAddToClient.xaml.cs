@@ -46,6 +46,17 @@ public partial class WindowSimAddToClient : Window
             spAddSimcard.Visibility = Visibility.Visible;
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
+            var companyName = items[selectedValue].Name;
+            if (companyName.Equals("Beeline"))
+            {
+                tbSimcardSeria.MaxLength = 18;
+                tbToSimcardSeria.MaxLength = 18;
+            }
+            else
+            {
+                tbSimcardSeria.MaxLength = 19;
+                tbToSimcardSeria.MaxLength = 19;
+            }
         }
 
     }

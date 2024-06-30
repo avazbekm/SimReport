@@ -9,6 +9,7 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Height="650" Width="1000"
+        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\sim-card.png"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         AllowsTransparency="True">

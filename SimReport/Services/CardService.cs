@@ -364,6 +364,8 @@ public class CardService : ICardService
             existCard.SoldTime = card.SoldTime;
             existCard.IsSold = true;
             existCard.IsDeleted = true;
+            existCard.Comment = card.Comment;
+
 
             this.cardRepository.Update(existCard);
             await this.cardRepository.SaveChanges();

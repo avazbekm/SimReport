@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Hamkorlarga simkarta biriktirish oynasi"
         Height="230" Width="450"
+        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\add.png"
         ResizeMode="NoResize"
         Background="snow"
         WindowStartupLocation="CenterScreen">

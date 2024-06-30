@@ -75,7 +75,8 @@ namespace SimReport
         uchun Siddiqov Avazbek tomonidan yaratildi. O'ylaymanki bu sizga ko'makchi  
         bo'lib, ko'pgina qulayliklar yaratadi va vaqtingizni tejashda yordam beradi." +
                 $"\n\n\n\n" +
-                $"\tMurojaat uchun telegram username: @avazbekms";  
+                $"\tMurojaat uchun telegram username:   @avazbeksm" +
+                $"\n\t\t\t\t          tel:   97 334-0-334";  
             PageNavigator.Content = aboutPage;
         }
     }

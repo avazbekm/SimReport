@@ -35,7 +35,8 @@
                           DisplayMemberPath="Name" 
                           BorderBrush="{DynamicResource PrimaryBackground}"
                           BorderThickness="0"
-                          Background="{DynamicResource PrimaryBackground}" SelectionChanged="cbCompany_SelectionChanged"/>
+                          Background="{DynamicResource PrimaryBackground}" 
+                          SelectionChanged="cbCompany_SelectionChanged"/>
                 </Border>
                 <StackPanel x:Name="spRightSide" 
                             Visibility="Visible"

@@ -8,6 +8,7 @@
         Title="Kompaniya hisobot oynasi" 
         Height="450" 
         Width="800"
+        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\report (1).png"
         WindowStartupLocation="CenterScreen">
     <Grid Margin="20 15">
             <DataGrid x:Name="dataGrid" 

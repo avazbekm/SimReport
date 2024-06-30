@@ -34,7 +34,7 @@ public partial class DashboardPage : Page
             }
         }
 
-        if (tbSearch.Text.Length == 19)
+        if (tbSearch.Text.Length == 18 || tbSearch.Text.Length == 19)
         {
             long cardSeria = long.Parse(tbSearch.Text);
             var card = await services.GetRequiredService<ICardService>().GetAsync(cardSeria);

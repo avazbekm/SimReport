@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows"
         mc:Ignorable="d"
-               Title="Hamkordan simkartani qaytarish oynasi"
+       Title="Hamkordan simkartani qaytarish oynasi"
        Height="300" Width="450"
+       Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\return-box.png"
        ResizeMode="NoResize"
        Background="snow"
        WindowStartupLocation="CenterScreen">

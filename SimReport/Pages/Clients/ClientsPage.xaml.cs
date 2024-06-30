@@ -112,6 +112,7 @@ namespace SimReport.Pages
                 return;
             }
             userEditWindow.ShowDialog();
+            dataGrid.Items.Refresh();
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)

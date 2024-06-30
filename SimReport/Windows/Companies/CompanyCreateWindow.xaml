@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SimReport.Windows.Companies"
         mc:Ignorable="d"
         Title="Kompaniya qo'shish oynasi" Height="450" Width="300"
+        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\plus.png"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Border Background="{DynamicResource SecondaryBackground}">
