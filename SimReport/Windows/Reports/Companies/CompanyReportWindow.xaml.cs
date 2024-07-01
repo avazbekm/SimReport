@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SimReport.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using SimReport.Interfaces;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Windows.Reports.Companies
 {

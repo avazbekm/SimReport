@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows;
 using SimReport.Interfaces;
-using System.Windows.Controls;
 using SimReport.Entities.Companies;
 using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;

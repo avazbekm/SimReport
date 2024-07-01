@@ -1,6 +1,5 @@
 ﻿using SimReport.Entities.Users;
 using SimReport.Entities.Companies;
-using System;
 
 namespace SimReport.Entities.Cards;
 

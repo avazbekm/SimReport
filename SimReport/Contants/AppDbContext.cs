@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SimReport.Entities.Assets;
+﻿using SimReport.Entities.Users;
 using SimReport.Entities.Cards;
+using SimReport.Entities.Assets;
 using SimReport.Entities.Companies;
-using SimReport.Entities.Users;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimReport.Contants;
 

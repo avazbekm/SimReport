@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SimReport.Interfaces;
-using SimReport.Services.Helpers;
-using System;
+﻿using System;
 using System.Windows;
+using SimReport.Interfaces;
 using System.Windows.Controls;
+using SimReport.Services.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Pages.Dashboard;
 

@@ -2,8 +2,8 @@
 using System.Windows;
 using SimReport.Pages;
 using SimReport.Pages.Report;
-using SimReport.Pages.Dashboard;
 using SimReport.Pages.AboutUs;
+using SimReport.Pages.Dashboard;
 
 namespace SimReport
 {

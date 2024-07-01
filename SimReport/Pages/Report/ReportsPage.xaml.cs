@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using Spire.Pdf;
 using System.Linq;
 using System.Text;
+using System.Data;
 using System.Windows;
 using Microsoft.Win32;
+using ExcelDataReader;
 using System.Windows.Media;
 using SimReport.Interfaces;
 using System.Windows.Controls;
@@ -13,10 +16,6 @@ using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using SimReport.Windows.Reports.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
-using ExcelDataReader;
-using System.Data;
-using System.Windows.Documents;
 
 namespace SimReport.Pages.Report;
 

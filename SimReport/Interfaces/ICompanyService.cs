@@ -1,7 +1,7 @@
-﻿using SimReport.Entities.Companies;
+﻿using System.Threading.Tasks;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using SimReport.Entities.Companies;
 
 namespace SimReport.Interfaces;
 

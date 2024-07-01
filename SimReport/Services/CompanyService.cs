@@ -5,7 +5,6 @@ using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using SimReport.Entities.Companies;
 using SimReport.Services.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace SimReport.Services;
 

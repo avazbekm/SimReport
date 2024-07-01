@@ -7,8 +7,6 @@ using SimReport.Entities.Users;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using SimReport.Services.Exceptions;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace SimReport.Services;
 
@@ -320,37 +318,6 @@ public class CardService : ICardService
             Message = "Ok",
             Data = true
         };
-
-
-        //var cards = cardRepository.GetAll(a => a.CompanyId.Equals(id)).ToList();
-        //if (cards.Count > 0)
-        //{
-        //    foreach (var item in cards)
-        //    {
-        //        if (item.CardNumber.Equals(seriaNum))
-        //        {
-        //            item.Comment = comment;
-        //            item.IsReturn = true;
-        //            item.UserId = user.Id;
-
-        //            this.cardRepository.Update(item);
-        //            await this.cardRepository.SaveChanges();
-        //            return new Response<bool>
-        //            {
-        //                StatusCode = 200,
-        //                Message = "Ok",
-        //                Data = true
-        //            };
-        //        }
-        //    }
-        //}
-
-        //return new Response<bool>
-        //{
-        //    StatusCode = 403,
-        //    Message = "Topilmadi",
-        //    Data = false
-        //};
     }
 
     public async Task<Response<Card>> SellAsync(Card card)

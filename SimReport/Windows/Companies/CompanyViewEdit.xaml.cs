@@ -4,7 +4,6 @@ using SimReport.Interfaces;
 using SimReport.Pages.Companies;
 using SimReport.Entities.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace SimReport.Windows.Companies;
 

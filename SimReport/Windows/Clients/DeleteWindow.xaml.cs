@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using SimReport.Interfaces;
-using System.Threading.Tasks;
 using SimReport.Windows.Companies;
 using Microsoft.Extensions.DependencyInjection;
 
