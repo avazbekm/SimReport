@@ -23,7 +23,7 @@ namespace SimReport.Companents.Companies
         {
             CompanyGetId.Name = lbName.Content.ToString();
             CompanyViewEdit companyViewEdit = new CompanyViewEdit(services);
-            companyViewEdit.Show();
+            companyViewEdit.ShowDialog();
         }
     }
 }

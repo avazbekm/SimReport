@@ -5,10 +5,15 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>sim-card.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\Images\image.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sim-card.ico" />
   </ItemGroup>
 
   <ItemGroup>
