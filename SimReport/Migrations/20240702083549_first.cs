@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SimReport.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,7 +75,7 @@ namespace SimReport.Migrations
                     Comment = table.Column<string>(type: "text", nullable: true),
                     IsSold = table.Column<bool>(type: "boolean", nullable: false),
                     IsReturn = table.Column<bool>(type: "boolean", nullable: false),
-                    SoldTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    SoldTime = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)

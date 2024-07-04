@@ -63,5 +63,6 @@ public partial class CompanyCreateWindow : Window
             else
                 MessageBox.Show($"{result.Message}");
         }
+        this.Close();
     }
 }

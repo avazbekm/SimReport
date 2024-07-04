@@ -134,6 +134,7 @@ public partial class WindowSimAddToClient : Window
                 MessageBox.Show($" Bu serialar boshqa hamkorga biriktirilgan\n\n{cards}");
             else
                 MessageBox.Show($" Biriktirildi.");
+            this.Close();
         }
         else
         {
@@ -175,12 +176,14 @@ public partial class WindowSimAddToClient : Window
                     MessageBox.Show($" Bu serialar asosiy bazada mavjud emas! \n\n{cards}");
                 else
                     MessageBox.Show($" Biriktirildi.");
+                this.Close();
             }
             else
             {
                 for (long i = firstSeria; i <= lastSeria; i++)
                     cards += $"{i}\n";
                 MessageBox.Show($"Bu serialar asosiy bazada mavjud emas.\n\n{cards}");
+                this.Close();
             }
         }
     }

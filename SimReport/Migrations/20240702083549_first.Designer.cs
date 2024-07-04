@@ -12,8 +12,8 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240507121828_initial")]
-    partial class initial
+    [Migration("20240702083549_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,8 +85,8 @@ namespace SimReport.Migrations
                     b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTimeOffset?>("SoldTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("SoldTime")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

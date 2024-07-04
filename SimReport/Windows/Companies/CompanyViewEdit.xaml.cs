@@ -44,6 +44,7 @@ public partial class CompanyViewEdit : Window
                     if (tbComName.Text.ToLower() == item.Name)
                     {
                         MessageBox.Show("Bu nom bilan kompaniya mavjud.");
+                        this.Close();
                         return;
                     }
                 }
@@ -55,12 +56,15 @@ public partial class CompanyViewEdit : Window
                     MessageBox.Show(result.Message);
                 else
                     MessageBox.Show(result.Message);
+                this.Close();
             }
             else
                 MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
+            this.Close();
         }
         else
             MessageBox.Show("Kompaniya nomini kiriting.");
+        this.Close();
     }
 
     private void tbComName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -82,5 +86,6 @@ public partial class CompanyViewEdit : Window
         }
         else
             MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");
+        this.Close();
     }
 }

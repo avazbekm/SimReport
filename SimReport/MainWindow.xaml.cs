@@ -79,5 +79,6 @@ namespace SimReport
                 $"\n\t\t\t\t          tel:   97 334-0-334";  
             PageNavigator.Content = aboutPage;
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using SimReport.Pages;
 using SimReport.Interfaces;
 using System.Windows.Controls;
 using SimReport.Entities.Users;
@@ -40,6 +41,7 @@ public partial class ClientCreateWindow : Window
             else
                 MessageBox.Show($"{result.Message}");
         }
+        this.Close();    
     }
 
     private void tbPhone_TextChanged(object sender, TextChangedEventArgs e)

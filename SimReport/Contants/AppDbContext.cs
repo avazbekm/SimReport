@@ -39,7 +39,6 @@ public class AppDbContext : DbContext
             .WithMany(t => t.Cards)
             .HasForeignKey(d => d.CompanyId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 
 }

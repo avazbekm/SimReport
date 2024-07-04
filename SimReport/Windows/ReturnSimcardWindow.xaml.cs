@@ -17,6 +17,7 @@ namespace SimReport.Windows
     {
         private readonly ICompanyService companyService;
         private readonly ICardService cardService;
+        private readonly IUserService userService;
 
         private int CompanyId;
         public ReturnSimcardWindow(IServiceProvider services)
@@ -24,6 +25,7 @@ namespace SimReport.Windows
             InitializeComponent();
             this.companyService = services.GetRequiredService<ICompanyService>();
             this.cardService = services.GetRequiredService<ICardService>();
+            this.userService = services.GetRequiredService<IUserService>();
 
             // Databazadan malumotlarni olish
             List<ItemComboBox> items = GetItemsFromDatabase();
@@ -94,7 +96,7 @@ namespace SimReport.Windows
             }
         }
 
-        List<(long, int, int)> selectedSeriaNumbers = new List<(long, int, int)>();
+        List<(long, int, int,int)> selectedSeriaNumbers = new List<(long, int, int,int)>();
         private void chbSeriaSelect_Click(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
@@ -107,14 +109,16 @@ namespace SimReport.Windows
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
                     int id = ((ItemReturn)selectedItem).CompanyId;
                     int cardId= ((ItemReturn)selectedItem).Id;
-                    selectedSeriaNumbers.Add((seriaNumber, id, cardId));
+                    int userId= ((ItemReturn)selectedItem).UserId;
+                    selectedSeriaNumbers.Add((seriaNumber, id, cardId,userId));
                 }
                 else
                 {
                     long seriaNumber = ((ItemReturn)selectedItem).SeriaNumber;
                     int id = ((ItemReturn)selectedItem).CompanyId;
                     int cardId = ((ItemReturn)selectedItem).Id;
-                    selectedSeriaNumbers.Remove((seriaNumber, id, cardId));
+                    int userId = ((ItemReturn)selectedItem).UserId;
+                    selectedSeriaNumbers.Remove((seriaNumber, id, cardId,userId));
                 }
                 // tanlangalar sonini bilish
                 tbCount.Text = selectedSeriaNumbers.Count.ToString();
@@ -126,20 +130,37 @@ namespace SimReport.Windows
 
             string seriaNumbers = "";
             List<(int,string)> list = new List<(int, string)>();
-            // hamkorga biriktirish uchun
-            foreach (var card in selectedSeriaNumbers)
-            {
-                var result = await this.cardService.ReturnAsync(card.Item1, card.Item2);
 
-                if (!result.StatusCode.Equals(200))
-                    seriaNumbers += $"{card.Item1} \n";
-                else
-                    list.Add((card.Item3,comment));
-            }
-            // biriktirgan sim kartalarini asosiy bazadan o'chirish
-            foreach (var card in list)
+            // user id aniqlab olindi agar asosiy baza bo'lsa birdagniga bazadan o'chirish uchun
+            var userId = selectedSeriaNumbers[0].Item4;
+            var user = await this.userService.GetAsync(userId);
+
+            if (!user.Data.FirstName.Equals("asosiy") && !user.Data.LastName.Equals("baza"))
             {
-                await this.cardService.DeleteAsync(card.Item1, card.Item2);
+                // hamkorga biriktirish uchun
+                foreach (var card in selectedSeriaNumbers)
+                {
+                    var result = await this.cardService.ReturnAsync(card.Item1, card.Item2);
+
+                    if (!result.StatusCode.Equals(200))
+                        seriaNumbers += $"{card.Item1} \n";
+                    else
+                        list.Add((card.Item3, comment));
+                }
+
+                // biriktirgan sim kartalarini asosiy bazadan o'chirish
+                foreach (var card in list)
+                {
+                    await this.cardService.DeleteAsync(card.Item1, card.Item2);
+                }
+            }
+            else 
+            {
+                foreach (var card in selectedSeriaNumbers)
+                {
+                    await this.cardService.DeleteAsync(card.Item3, comment);
+                }
+
             }
 
             if (seriaNumbers.Length > 0)
@@ -149,6 +170,7 @@ namespace SimReport.Windows
             
             tbCount.Text = "0";
             selectedSeriaNumbers.Clear();
+            this.Close();
         }
     }
 }

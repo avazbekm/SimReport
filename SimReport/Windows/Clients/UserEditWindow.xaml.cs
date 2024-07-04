@@ -53,6 +53,7 @@ public partial class UserEditWindow : Window
                 else
                     MessageBox.Show($"{result.Message}");
             }
+            this.Close();
         }
         else
         {
@@ -74,6 +75,7 @@ public partial class UserEditWindow : Window
                 else
                     MessageBox.Show($"{result.Message}");
             }
+            this.Close();
         }
     }
 
