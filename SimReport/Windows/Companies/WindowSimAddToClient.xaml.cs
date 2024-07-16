@@ -47,7 +47,7 @@ public partial class WindowSimAddToClient : Window
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
             var companyName = items[selectedValue].Name;
-            if (companyName.Equals("Beeline"))
+            if (companyName.Equals("Beeline")||companyName.Equals("Ucell")||companyName.Equals("Uzmobayl"))
             {
                 tbSimcardSeria.MaxLength = 18;
                 tbToSimcardSeria.MaxLength = 18;

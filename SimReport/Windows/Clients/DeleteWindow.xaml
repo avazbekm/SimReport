@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="O'chirish oynasi" 
         Height="130" Width="220"
-        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\delete-user.png"
         WindowStartupLocation="CenterScreen">
     <StackPanel>
         <TextBlock x:Name="tbDelete" 

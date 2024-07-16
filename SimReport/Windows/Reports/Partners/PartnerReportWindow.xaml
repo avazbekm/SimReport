@@ -8,7 +8,6 @@
         Title="Hamkorlar hisobot oynasi" 
         Height="450" 
         Width="800"
-        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\report.png"
         WindowStartupLocation="CenterScreen">
     <Grid>
        <WrapPanel Grid.Row="1"

@@ -4,6 +4,7 @@ using SimReport.Pages;
 using SimReport.Pages.Report;
 using SimReport.Pages.AboutUs;
 using SimReport.Pages.Dashboard;
+using System.Windows.Media.Imaging;
 
 namespace SimReport
 {

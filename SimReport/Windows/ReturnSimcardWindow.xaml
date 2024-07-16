@@ -7,7 +7,6 @@
         mc:Ignorable="d"
        Title="Hamkordan simkartani qaytarish oynasi"
        Height="300" Width="450"
-       Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\return-box.png"
        ResizeMode="NoResize"
        Background="snow"
        WindowStartupLocation="CenterScreen">

@@ -8,7 +8,6 @@
         Title="Kompaniyalar o'zgartirish yoki o'chirish oynasi" 
         Height="400" 
         Width="330"
-        Icon="D:\osmondagi bolalar\SimReport\SimReport\Assets\Icons\remove-company-icon.png"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
 
