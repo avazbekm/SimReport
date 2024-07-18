@@ -14,6 +14,7 @@ namespace SimReport.Windows.Companies;
 public partial class CompanyCreateWindow : Window
 {
     private readonly ICompanyService companyService;
+    public bool IsCraeted { get; set; } = false;
     public CompanyCreateWindow(IServiceProvider services)
     {
         InitializeComponent();
@@ -59,7 +60,10 @@ public partial class CompanyCreateWindow : Window
         {
             var result = await this.companyService.AddAsync(company);
             if (result.StatusCode.Equals(200))
+            {
                 MessageBox.Show($"Saqlandi.");
+                IsCraeted = true;
+            }
             else
                 MessageBox.Show($"{result.Message}");
         }

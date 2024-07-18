@@ -112,7 +112,7 @@ public partial class WindowSimAddToClient : Window
 
         if (firstSeria > lastSeria)
         {
-            MessageBox.Show("Oxirgi seria birinchi seriadan kichik bo'lmasligi kerak! Etiborli bo'ling.");
+            MessageBox.Show("Oxirgi seria birinchi seriadan katta bo'lishligi kerak. Etiborli bo'ling!");
             return;
         }
         // asosiy bazaga qo'shish

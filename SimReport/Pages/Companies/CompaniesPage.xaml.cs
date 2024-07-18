@@ -26,9 +26,14 @@ namespace SimReport.Pages
             this.companyService = services.GetRequiredService<ICompanyService>();
             this.services = services;
 
+            Loading();
+        }
+        private void Loading()
+        {
             // Retrieve items from the database
             List<WrapItem> items = GetItemsFromDatabase();
 
+            wrpCompanies.Children.Clear();
             // Create UI elements for each item and add them to the WrapPanel
             foreach (var item in items)
             {
@@ -45,6 +50,8 @@ namespace SimReport.Pages
         {
             CompanyCreateWindow companyCreateWindow = new CompanyCreateWindow(services);
             companyCreateWindow.ShowDialog();
+            if(companyCreateWindow.IsCraeted)
+                Loading();
         }
 
         public List<WrapItem> GetItemsFromDatabase()

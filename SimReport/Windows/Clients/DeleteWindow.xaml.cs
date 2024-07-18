@@ -12,6 +12,7 @@ namespace SimReport.Windows;
 public partial class DeleteWindow : Window
 {
     private readonly IServiceProvider services;
+    public bool IsDeleted { get; private set; } = false;
 
     public DeleteWindow(IServiceProvider services)
     {
@@ -29,7 +30,10 @@ public partial class DeleteWindow : Window
     {
         var result = await this.services.GetRequiredService<IUserService>().DeleteAsync(UserPhone.Id);
         if (result.StatusCode.Equals(200))
+        {
             MessageBox.Show($"{UserPhone.FirstName} o'chirildi.");
+            IsDeleted = true;
+        }
         else
             MessageBox.Show($"{result.Message}");
         

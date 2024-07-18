@@ -14,6 +14,7 @@ namespace SimReport.Windows.Clients;
 public partial class ClientCreateWindow : Window
 {
     private readonly IUserService userService;
+    public bool IsCreated {  get; set; } = false;
     public ClientCreateWindow(IServiceProvider services)
     {
         InitializeComponent();
@@ -37,7 +38,10 @@ public partial class ClientCreateWindow : Window
             var result = await this.userService.AddAsync(user);
 
             if (result.StatusCode.Equals(200))
+            {
                 MessageBox.Show($" Saqlandi.");
+                IsCreated = true;
+            }
             else
                 MessageBox.Show($"{result.Message}");
         }

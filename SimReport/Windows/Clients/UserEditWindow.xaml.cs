@@ -14,6 +14,7 @@ namespace SimReport.Windows.Clients;
 public partial class UserEditWindow : Window
 {
     private readonly IServiceProvider services;
+    public bool IsEdited { get; set; } = false;
     public UserEditWindow(IServiceProvider services)
     {
         InitializeComponent();
@@ -49,7 +50,10 @@ public partial class UserEditWindow : Window
                 var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
 
                 if (result.StatusCode.Equals(200))
+                {
                     MessageBox.Show($" O'zgardi.");
+                    IsEdited = true;
+                }
                 else
                     MessageBox.Show($"{result.Message}");
             }
@@ -71,7 +75,11 @@ public partial class UserEditWindow : Window
                 var result = await this.services.GetRequiredService<IUserService>().UpdateAsync(user);
 
                 if (result.StatusCode.Equals(200))
+                {
                     MessageBox.Show($" O'zgardi.");
+                    IsEdited = true;
+                }
+
                 else
                     MessageBox.Show($"{result.Message}");
             }

@@ -19,11 +19,18 @@ namespace SimReport.Pages
     public partial class ClientsPage : Page
     {
         private readonly IServiceProvider services;
+        public bool IsCreated { set; get; } = false;
+
         public ClientsPage(IServiceProvider services)
         {
             InitializeComponent();
             this.services = services;
 
+            Loading();
+        }
+
+        private void Loading() 
+        {
             List<Item> items = new List<Item>();
             var users = services.GetRequiredService<IUserService>().GetAllAsync().Result.Data.ToList();
             foreach (var user in users)
@@ -43,6 +50,9 @@ namespace SimReport.Pages
         {
             ClientCreateWindow clientCreateWindow = new ClientCreateWindow(services);
             clientCreateWindow.ShowDialog();
+
+            if (clientCreateWindow.IsCreated)
+                Loading();
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -109,10 +119,13 @@ namespace SimReport.Pages
                 userEditWindow.tbFirstName.Visibility = Visibility.Collapsed;
                 userEditWindow.tbLastName.Visibility = Visibility.Collapsed;
                 userEditWindow.ShowDialog();
+                if (userEditWindow.IsEdited)
+                    Loading();
                 return;
             }
             userEditWindow.ShowDialog();
-            dataGrid.Items.Refresh();
+            if (userEditWindow.IsEdited)
+                Loading();
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -141,6 +154,8 @@ namespace SimReport.Pages
 
             DeleteWindow deleteWindow = new DeleteWindow(services);
             deleteWindow.ShowDialog();
+            if (deleteWindow.IsDeleted)
+                Loading();
         }
     }
 }
