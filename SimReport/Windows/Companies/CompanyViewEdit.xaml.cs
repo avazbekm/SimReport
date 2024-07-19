@@ -4,6 +4,8 @@ using SimReport.Interfaces;
 using SimReport.Pages.Companies;
 using SimReport.Entities.Companies;
 using Microsoft.Extensions.DependencyInjection;
+using SimReport.Pages;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace SimReport.Windows.Companies;
 
@@ -51,7 +53,12 @@ public partial class CompanyViewEdit : Window
 
                 var result = await this.companyService.UpdateAsync(company);
                 if (result.StatusCode.Equals(200))
+                {
                     MessageBox.Show("O'zgartirildi.");
+                    CompaniesPage companiesPage = new CompaniesPage(services);
+                    companiesPage.Loading();
+
+                }
                 else if (result.StatusCode.Equals(403))
                     MessageBox.Show(result.Message);
                 else
@@ -83,6 +90,12 @@ public partial class CompanyViewEdit : Window
         {
             DeleteCompanyWindow deleteCompanyWindow = new DeleteCompanyWindow(services);
             deleteCompanyWindow.ShowDialog();
+
+            if (deleteCompanyWindow.IsDeleted)
+            { 
+                CompaniesPage companiesPage = new CompaniesPage(services);
+                companiesPage.Loading();
+            }    
         }
         else
             MessageBox.Show("Bu kompaniyaga biriktirilgan sim kartalar mavjud.");

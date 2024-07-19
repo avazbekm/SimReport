@@ -28,7 +28,7 @@ namespace SimReport.Pages
 
             Loading();
         }
-        private void Loading()
+        public void Loading()
         {
             // Retrieve items from the database
             List<WrapItem> items = GetItemsFromDatabase();

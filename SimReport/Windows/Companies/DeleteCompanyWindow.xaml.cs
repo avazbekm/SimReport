@@ -12,6 +12,7 @@ namespace SimReport.Windows.Companies;
 public partial class DeleteCompanyWindow : Window
 {
     private readonly IServiceProvider services;
+    public bool IsDeleted { get; set; } = false;
 
     public DeleteCompanyWindow(IServiceProvider services)
     {
@@ -27,7 +28,10 @@ public partial class DeleteCompanyWindow : Window
 
         var result = await services.GetRequiredService<ICompanyService>().DeleteAsync(companyId);
         if (result.StatusCode.Equals(200))
+        {
             MessageBox.Show("O'chirildi.");
+            IsDeleted = true;
+        }
         else
             MessageBox.Show(result.Message);
 
