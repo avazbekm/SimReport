@@ -59,7 +59,7 @@ public partial class ReportsPage : Page
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
             CompanyName = items[selectedValue].Name;
-            if (CompanyName.Equals("Uzmobayl") || CompanyName.Equals("Beeline"))
+            if (CompanyName.Equals("Uzmobile") || CompanyName.Equals("Beeline"))
                 tbMobiuzAdress.Text = " ... ni bosib excel file yuklang.";
             else if (CompanyName.Equals("Mobiuz") || CompanyName.Equals("Ucell")) 
                 tbMobiuzAdress.Text = " ... ni bosib PDF file yuklang.";

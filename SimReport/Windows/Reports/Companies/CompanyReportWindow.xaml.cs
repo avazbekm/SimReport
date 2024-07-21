@@ -48,7 +48,7 @@ namespace SimReport.Windows.Reports.Companies
                 int mobiuz = 0;
                 int beeline = 0;
                 int ucell = 0;
-                int uzmobayl = 0;
+                int uzmobile = 0;
                 int humans = 0;
 
                 var companiesList = companies.Data.ToList();
@@ -72,7 +72,7 @@ namespace SimReport.Windows.Reports.Companies
                                 ucell = cardList.Count();
                                 break;
                             case "uzmobayl":
-                                uzmobayl = cardList.Count();
+                                uzmobile = cardList.Count();
                                 break;
                             case "humans":
                                 humans = cardList.Count();
@@ -86,9 +86,9 @@ namespace SimReport.Windows.Reports.Companies
                     Mobiuz = mobiuz,
                     Beeline = beeline,
                     Ucell = ucell,
-                    Uzmobayl = uzmobayl,
+                    Uzmobile = uzmobile,
                     Humans = humans,
-                    Total = mobiuz + beeline + ucell + uzmobayl + humans
+                    Total = mobiuz + beeline + ucell + uzmobile + humans
                 });
             }
             return items;

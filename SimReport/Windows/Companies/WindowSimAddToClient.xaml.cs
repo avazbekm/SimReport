@@ -20,6 +20,7 @@ public partial class WindowSimAddToClient : Window
     private readonly ICardService cardService;
 
     private int CompanyId;
+    private string CompanyName = "";
     public WindowSimAddToClient(IServiceProvider services)
     {
         InitializeComponent();
@@ -46,8 +47,8 @@ public partial class WindowSimAddToClient : Window
             spAddSimcard.Visibility = Visibility.Visible;
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
-            var companyName = items[selectedValue].Name;
-            if (companyName.Equals("Beeline")||companyName.Equals("Ucell")||companyName.Equals("Uzmobayl"))
+            CompanyName = items[selectedValue].Name;
+            if (CompanyName.Equals("Beeline")||CompanyName.Equals("Ucell")||CompanyName.Equals("Uzmobile"))
             {
                 tbSimcardSeria.MaxLength = 18;
                 tbToSimcardSeria.MaxLength = 18;
@@ -101,6 +102,19 @@ public partial class WindowSimAddToClient : Window
 
     private async void btnSave_Click(object sender, RoutedEventArgs e)
     {
+        if ((tbToSimcardSeria.Text.Length < 18 && tbSimcardSeria.Text.Length < 18) &&
+            (CompanyName.Equals("Beeline") || CompanyName.Equals("Ucell") || CompanyName.Equals("Uzmobile")))
+        {
+            MessageBox.Show("Serilalarni to'liq kiriting!");
+            return;
+        }
+        else if ((tbToSimcardSeria.Text.Length < 19 && tbSimcardSeria.Text.Length < 19) &&
+            (CompanyName.Equals("Mobiuz")))
+        {
+            MessageBox.Show("Serilalarni to'liq kiriting!");
+            return;
+        }
+
         long lastSeria = long.Parse(tbToSimcardSeria.Text);
         long firstSeria = long.Parse(tbSimcardSeria.Text);
 

@@ -51,7 +51,7 @@ public partial class PartnerReportWindow : Window
             int mobiuz = 0;
             int beeline = 0;
             int ucell = 0;
-            int uzmobayl = 0;
+            int uzmobile = 0;
             int humans = 0;
             int quantity = 0;
 
@@ -90,7 +90,7 @@ public partial class PartnerReportWindow : Window
                         ucell = companyQuantity[item];
                         break;
                     case "uzmobayl":
-                        uzmobayl = companyQuantity[item];
+                        uzmobile = companyQuantity[item];
                         break;
                     case "humans":
                         humans = companyQuantity[item];
@@ -107,7 +107,7 @@ public partial class PartnerReportWindow : Window
                 Mobiuz = mobiuz,
                 Beeline = beeline,
                 Ucell = ucell,
-                Uzmobayl = uzmobayl,
+                Uzmobile = uzmobile,
                 Humans = humans,
                 Quantity = quantity
             });

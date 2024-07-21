@@ -7,7 +7,7 @@ public class ItemReport
     public string Surname { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public int Mobiuz { get; set; }
-    public int Uzmobayl { get; set; }
+    public int Uzmobile { get; set; }
     public int Humans { get; set; }
     public int Beeline { get; set; }
     public int Ucell { get; set; }

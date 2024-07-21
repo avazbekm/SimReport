@@ -23,7 +23,7 @@
                     <DataGridTextColumn Header="Mobiuz" Binding="{Binding Mobiuz}" Width="70"/>
                     <DataGridTextColumn Header="Beeline" Binding="{Binding Beeline}" Width="70"/>
                     <DataGridTextColumn Header="Ucell" Binding="{Binding Ucell}" Width="70"/>
-                    <DataGridTextColumn Header="Uzmobayl" Binding="{Binding Uzmobayl}" Width="70"/>
+                    <DataGridTextColumn Header="Uzmobile" Binding="{Binding Uzmobile}" Width="70"/>
                     <DataGridTextColumn Header="Humans" Binding="{Binding Humans}" Width="70"/>
                     <DataGridTextColumn Header="Jami" Binding="{Binding Quantity}" Width="70"/>
                 </DataGrid.Columns>
