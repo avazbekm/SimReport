@@ -14,6 +14,7 @@ public interface IRepository<T> where T : Auditable
     void Destroy(T entity);
     Task<T> GetAsync(Expression<Func<T, bool>> expression, string[] includes = null);
     IQueryable<T> GetAll(Expression<Func<T, bool>> expression = null, bool isNoTracked = true, string[] includes = null);
+    IQueryable<T> GetDeleteAll(Expression<Func<T, bool>> expression = null, bool isNoTracked = true, string[] includes = null);
 
     Task SaveChanges();
 }

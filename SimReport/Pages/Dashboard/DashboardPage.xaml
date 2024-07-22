@@ -51,25 +51,33 @@
             <TextBlock x:Name="tbName"
                        Text="Ism va sharifi:"
                        FontSize="16"
-                       Margin="15 0 5 0"
+                       Margin="15 5 5 0"
                        Width=" 280"
-                       VerticalAlignment="Center"
-                       />
+                       VerticalAlignment="Top"/>
+            
             <TextBlock x:Name="tbPhone"
                        Text="Telefon nomer:"
                        FontSize="16"
                        Width="220"
-                       Margin="15 0 5 0"
-                       VerticalAlignment="Center"
-                       />
+                       Margin="15 5 5 0"
+                       VerticalAlignment="Top"/>
+
             <TextBlock x:Name="tbDate"
                        Text="Sana:"
                        FontSize="16"
                        Width="220"
-                       Margin="15 0 5 0"
-                       VerticalAlignment="Center"
-                       />
+                       Margin="15 5 5 0"
+                       VerticalAlignment="Top"/>
+      
 
         </StackPanel>
+            <TextBlock x:Name="tbComment" 
+                       Visibility="Collapsed"
+                       Text=""
+                       FontSize="16"
+                       Width="380"
+                       Margin="15 15 5 15"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"/>
     </StackPanel>
 </Page>

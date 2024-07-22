@@ -17,6 +17,7 @@ public interface ICardService
     Task<Response<bool>> ReturnAsync(long seriaNum, int id);
     Task<Response<Card>> GetAsync(int id);
     Task<Response<Card>> GetAsync(long seriaNumber);
+    Task<Response<Card>> GetSimAsync(long seriaNumber);
     Task<Response<IEnumerable<Card>>> GetAllAsync();
     Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId);
     Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId, string first, string last);

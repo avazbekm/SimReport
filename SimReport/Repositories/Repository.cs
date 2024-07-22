@@ -70,4 +70,15 @@ public class Repository<T> : IRepository<T> where T : Auditable
         await appDbContext.SaveChangesAsync();
     }
 
+    public IQueryable<T> GetDeleteAll(Expression<Func<T, bool>> expression = null, bool isNoTracked = true, string[] includes = null)
+    {
+        IQueryable<T> query = expression is null ? dbSet.AsQueryable() : dbSet.Where(expression).AsQueryable();
+        query = isNoTracked ? query.AsNoTracking() : query;
+
+        if (includes is not null)
+            foreach (var item in includes)
+                query = query.Include(item);
+        return query.Where(a => a.IsDeleted);
+    }
+
 }

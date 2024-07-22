@@ -299,6 +299,33 @@ public class CardService : ICardService
         }
     }
 
+    public async Task<Response<Card>> GetSimAsync(long seriaNumber)
+    {
+        try
+        {
+            var cards = cardRepository.GetDeleteAll(a => a.CardNumber.Equals(seriaNumber)).ToList();
+
+            if (cards.Count == 0)
+                throw new NotFoundException("Bunday seria bilan sim karta mavjud emas.");
+
+            return new Response<Card>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = cards.Last()
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<Card>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
+
     public async Task<Response<bool>> ReturnAsync(long seriaNum, int id)
     {
         var user = await this.userRepository.GetAsync(u=>u.FirstName.Equals("asosiy") && u.LastName.Equals("baza"));

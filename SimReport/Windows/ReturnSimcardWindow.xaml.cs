@@ -127,11 +127,15 @@ namespace SimReport.Windows
         private async void btnReturn_Click(object sender, RoutedEventArgs e)
         {
             string comment = tbReturnComment.Text;
-
+            if(selectedSeriaNumbers.Count == 0)
+            {
+                MessageBox.Show("Qaytarilishi kerak bo'lgan serialarni belgilang!");
+                return;
+            }    
             string seriaNumbers = "";
             List<(int,string)> list = new List<(int, string)>();
 
-            // user id aniqlab olindi agar asosiy baza bo'lsa birdagniga bazadan o'chirish uchun
+            // user id aniqlab olindi agar asosiy baza bo'lsa birdaniga bazadan o'chirish uchun
             var userId = selectedSeriaNumbers[0].Item4;
             var user = await this.userService.GetAsync(userId);
 

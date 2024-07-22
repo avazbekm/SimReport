@@ -89,7 +89,7 @@ public partial class PartnerReportWindow : Window
                     case "ucell":
                         ucell = companyQuantity[item];
                         break;
-                    case "uzmobayl":
+                    case "uzmobile":
                         uzmobile = companyQuantity[item];
                         break;
                     case "humans":

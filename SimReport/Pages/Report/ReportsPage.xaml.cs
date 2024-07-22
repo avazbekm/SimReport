@@ -249,7 +249,7 @@ public partial class ReportsPage : Page
                     }
                 }
 
-            case "Uzmobayl":
+            case "Uzmobile":
                 {
                     // kompaniyaga tegish barcha sim kartalarni olish kerak
                     var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;

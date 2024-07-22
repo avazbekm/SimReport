@@ -41,6 +41,8 @@ public partial class DashboardPage : Page
 
             if (card.StatusCode.Equals(200)) 
             {
+                tbComment.Visibility = Visibility.Collapsed;
+
                 var user = await services.GetRequiredService<IUserService>().GetAsync(card.Data.UserId);
                 tbName.Text = $"Ism va famiyasi: {ConvertToStandart.ConvertFirstToUpper(user.Data.FirstName)} " +
                     $"{ConvertToStandart.ConvertFirstToUpper(user.Data.LastName)}";
@@ -48,7 +50,24 @@ public partial class DashboardPage : Page
                 tbDate.Text = $"Sana: {card.Data.CreatedAt.ToString().Substring(0,10)}";
             }
             else
-                MessageBox.Show("Bunday seriali sim karta mavjud emas.");
+            {
+                // o'chirilgan sim kartalarni topish uchun
+                card = await services.GetRequiredService<ICardService>().GetSimAsync(cardSeria);
+
+                if (card.StatusCode.Equals(200))
+                {
+                    tbComment.Visibility=Visibility.Visible;
+
+                    var user = await services.GetRequiredService<IUserService>().GetAsync(card.Data.UserId);
+                    tbName.Text = $"Ism va famiyasi: {ConvertToStandart.ConvertFirstToUpper(user.Data.FirstName)} " +
+                        $"{ConvertToStandart.ConvertFirstToUpper(user.Data.LastName)}";
+                    tbPhone.Text = $" Telefon nomeri: {user.Data.Phone}";
+                    tbDate.Text = $"Sana: {card.Data.CreatedAt.ToString().Substring(0, 10)}";
+                    tbComment.Text = $"Izoh: {card.Data.Comment}";
+                }
+                else
+                    MessageBox.Show("Bunday seriali sim karta mavjud emas.");
+            }
         }
 
     }

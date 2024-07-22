@@ -71,7 +71,7 @@ namespace SimReport.Windows.Reports.Companies
                             case "ucell":
                                 ucell = cardList.Count();
                                 break;
-                            case "uzmobayl":
+                            case "uzmobile":
                                 uzmobile = cardList.Count();
                                 break;
                             case "humans":
