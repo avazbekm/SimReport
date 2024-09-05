@@ -417,6 +417,7 @@ public class CardService : ICardService
                 throw new NotFoundException("Bunday seriali sim karta mavjud emas!");
 
             existCard.UserId = Card.UserId;
+            existCard.Comment = Card.Comment;
 
             this.cardRepository.Update(existCard);
             await this.cardRepository.SaveChanges();

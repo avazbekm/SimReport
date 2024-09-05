@@ -1,12 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using SimReport.Services;
 using SimReport.Interfaces;
 using SimReport.Repositories;
+using SimReport.Entities.Block;
 using SimReport.Entities.Users;
 using SimReport.Entities.Cards;
-using SimReport.Services.Helpers;
 using SimReport.Entities.Companies;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace SimReport;
 
@@ -15,7 +17,7 @@ namespace SimReport;
 /// </summary>
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
@@ -25,6 +27,7 @@ public partial class App : Application
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICardService, CardService>();
+        services.AddScoped<IBlockService, BlockService>();
         //services.AddScoped<IAssetService, AssetService>();
 
 
@@ -33,13 +36,19 @@ public partial class App : Application
         services.AddScoped<IRepository<User>, Repository<User>>();
         services.AddScoped<IRepository<Company>, Repository<Company>>();
         services.AddScoped<IRepository<Card>, Repository<Card>>();
+        services.AddScoped<IRepository<BlockDate>, Repository<BlockDate>>();
         //services.AddScoped<IRepository<Asset>, Repository<Asset>>();
 
-        PathHelper.ImagePath = System.IO.Path.GetFullPath("Assets");
-
         var serviceProvider = services.BuildServiceProvider();
-
         new MainWindow(serviceProvider).Show();
-    }
 
+        IBlockService blockService = serviceProvider.GetService<IBlockService>();
+        var result = blockService.GetAllAsync().Result.Data.ToList();
+        if (result.Count().Equals(0))
+        {
+            BlockDate blockDate = new BlockDate();
+            blockDate.EndDate = DateTime.UtcNow;
+            await blockService.AddAsync(blockDate);
+        }
+    }
 }

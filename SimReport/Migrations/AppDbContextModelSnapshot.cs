@@ -53,6 +53,31 @@ namespace SimReport.Migrations
                     b.ToTable("Assets");
                 });
 
+            modelBuilder.Entity("SimReport.Entities.Block.BlockDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlockDates");
+                });
+
             modelBuilder.Entity("SimReport.Entities.Cards.Card", b =>
                 {
                     b.Property<int>("Id")

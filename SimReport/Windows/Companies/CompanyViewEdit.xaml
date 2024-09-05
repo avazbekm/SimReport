@@ -27,7 +27,7 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      Background="{DynamicResource SelectedBackground}"
-                     Height="30" TextChanged="tbComName_TextChanged"/>
+                     Height="30"/>
         </Border>
         <Button x:Name="btnEdit"
                 Margin="0 18"

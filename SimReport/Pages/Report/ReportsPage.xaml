@@ -14,8 +14,12 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Page.Resources>
-    <StackPanel  >
-        <StackPanel Height="50"
+
+    <StackPanel x:Name="spReportPage" 
+                Visibility="Visible"  >
+        <StackPanel x:Name="spReport" 
+                    Height="50"
+                    Visibility="Visible"
                     Margin="10">
             <StackPanel x:Name="spMobiuz" 
                         Height="40"
@@ -80,9 +84,10 @@
         
         <!-- oradan joy tashladik -->
         <StackPanel Height="120"/>
-        
         <!-- hamkorlari boyicha hisobot -->
-        <StackPanel Orientation="Horizontal">
+        <StackPanel x:Name="spPartner"
+                    Visibility="Visible"
+                    Orientation="Horizontal">
             <Label x:Name="lbPartnerReport"
                    Content="Hamkorlar bo'yicha hisobot"
                    MouseDoubleClick="Label_MouseDown"
@@ -90,10 +95,12 @@
             </Label>
         </StackPanel>
         <Label x:Name="lbCompanyReport" 
+               Visibility="Visible"
                Content="Kompaniyalar bo'yicha hisobot"
                MouseDoubleClick="lbCompanyReport_MouseDoubleClick"
                Style="{DynamicResource LabelStyle}">
             
         </Label>
     </StackPanel>
+
 </Page>

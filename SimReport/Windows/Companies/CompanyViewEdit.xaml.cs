@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows;
+using SimReport.Pages;
 using SimReport.Interfaces;
 using SimReport.Pages.Companies;
 using SimReport.Entities.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using SimReport.Pages;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace SimReport.Windows.Companies;
 
@@ -46,7 +45,7 @@ public partial class CompanyViewEdit : Window
                     if (tbComName.Text.ToLower() == item.Name)
                     {
                         MessageBox.Show("Bu nom bilan kompaniya mavjud.");
-                        this.Close();
+                        //this.Close();
                         return;
                     }
                 }
@@ -72,11 +71,6 @@ public partial class CompanyViewEdit : Window
         else
             MessageBox.Show("Kompaniya nomini kiriting.");
         this.Close();
-    }
-
-    private void tbComName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    {
-
     }
 
     private async void btnDelete_Click(object sender, RoutedEventArgs e)

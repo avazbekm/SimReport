@@ -3,6 +3,7 @@ using SimReport.Entities.Cards;
 using SimReport.Entities.Assets;
 using SimReport.Entities.Companies;
 using Microsoft.EntityFrameworkCore;
+using SimReport.Entities.Block;
 
 namespace SimReport.Contants;
 
@@ -12,6 +13,7 @@ public class AppDbContext : DbContext
     DbSet<Card> Cards { get; set; }
     DbSet<Company> Companies { get; set; }
     DbSet<Asset> Assets { get; set; }
+    DbSet<BlockDate> BlockDates { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

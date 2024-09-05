@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using SimReport.Windows.Reports.Companies;
+using SimReport.Windows.Reports.BlockWindow;
 using Microsoft.Extensions.DependencyInjection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimReport.Pages.Report;
 
@@ -27,12 +29,27 @@ public partial class ReportsPage : Page
     private readonly ICompanyService companyService;
     private readonly ICardService cardService;
     private readonly IServiceProvider services;
+    private readonly IBlockService blockService;
     int CompanyId;
     string CompanyName;
 
+
     public ReportsPage(IServiceProvider services)
     {
+
         InitializeComponent();
+        this.blockService=services.GetRequiredService<IBlockService>();
+
+        var blockDate= blockService.GetAllAsync().Result.Data.ToList()[0];
+        if (blockDate.EndDate <= DateTime.UtcNow.Date)
+        {
+            spReportPage.Visibility = Visibility.Collapsed;
+            WindowBlock windowBlock = new WindowBlock(services);
+            windowBlock.ShowDialog();
+        } 
+
+            
+
         this.services = services;
         this.companyService = services.GetRequiredService<ICompanyService>();
         this.cardService = services.GetRequiredService<ICardService>();
@@ -59,10 +76,11 @@ public partial class ReportsPage : Page
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
             CompanyName = items[selectedValue].Name;
-            if (CompanyName.Equals("Uzmobile") || CompanyName.Equals("Beeline"))
+            if (CompanyName.Equals("Mobiuz") || 
+                CompanyName.Equals("Uzmobile") || 
+                CompanyName.Equals("Beeline") ||
+                CompanyName.Equals("Ucell")) 
                 tbMobiuzAdress.Text = " ... ni bosib excel file yuklang.";
-            else if (CompanyName.Equals("Mobiuz") || CompanyName.Equals("Ucell")) 
-                tbMobiuzAdress.Text = " ... ni bosib PDF file yuklang.";
         }
     }
     private List<ItemComboBox> GetItemsFromDatabase()
@@ -104,26 +122,16 @@ public partial class ReportsPage : Page
 
     private async void btnBajarish_Click(object sender, RoutedEventArgs e)
     {
-        StringBuilder stringBuilder = new StringBuilder();
+        //StringBuilder stringBuilder = new StringBuilder();
         DataTable dataTable = new DataTable();
-        if (Path.GetExtension(tbMobiuzAdress.Text).Equals(".pdf"))
-        {
-            // for reading pdf files 
-            PdfDocument document = new PdfDocument();
-            document.LoadFromFile(tbMobiuzAdress.Text);
-
-            foreach (PdfPageBase page in document.Pages)
-            {
-                stringBuilder.Append(page.ExtractText());
-            }
-        }
-        else if (Path.GetExtension(tbMobiuzAdress.Text).Equals(".xls") || Path.GetExtension(tbMobiuzAdress.Text).Equals(".xlsx"))
+        if  (Path.GetExtension(tbMobiuzAdress.Text).Equals(".xls") || 
+            Path.GetExtension(tbMobiuzAdress.Text).Equals(".xlsx"))
         {
             dataTable = ReadExcelFile(tbMobiuzAdress.Text);
         }
 
-        string data = "";
-        string comment = "";
+        //string data = "";
+        //string comment = "";
         switch (CompanyName)
         {
             case "Mobiuz":
@@ -133,30 +141,16 @@ public partial class ReportsPage : Page
                     if (cards != null)
                     {
                         int quantity = 0;
-                        foreach (string row in stringBuilder.ToString().Split("\n"))
+                        foreach (DataRow row in dataTable.Rows)
                         {
-                            if (row.Length < 100)
-                                continue;
-
-                            foreach (string piece in row.Split(" "))
-                            {
-                                if (piece.Equals(""))
-                                    continue;
-                                if (piece.Length.Equals(10) && piece.IndexOf('.').Equals(2))
-                                    data = piece;
-                                if (piece.Length.Equals(12) && piece.IndexOf('9').Equals(0))
-                                    comment = piece;
-                                if (piece.Length == 22 && piece.Contains('-'))
+                            foreach (var card in cards)
+                                if (row[13].ToString().Contains(card.CardNumber.ToString()))
                                 {
-                                    foreach (var card in cards)
-                                    if (piece.Contains(card.CardNumber.ToString()))
-                                    {
-                                        card.SoldTime = data;
-                                        await this.cardService.SellAsync(card);
-                                        quantity++;
-                                    }
+                                    card.SoldTime = Convert.ToDateTime(row[11]);
+                                    card.Comment = $"{row[7]} {row[12]}";
+                                    await this.cardService.SellAsync(card);
+                                    quantity++;
                                 }
-                            }
                         }
                         MessageBox.Show($"{quantity} ta sotilgan.");
                         break;
@@ -166,40 +160,26 @@ public partial class ReportsPage : Page
                         MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
                         break;
                     }
-                }
 
+                }
             case "Ucell":
                 {
                     // kompaniyaga tegish barcha sim kartalarni olish kerak
                     var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+
                     if (cards != null)
                     {
                         int quantity = 0;
-                        foreach (string row in stringBuilder.ToString().Split("\n"))
+                        foreach (DataRow row in dataTable.Rows)
                         {
-                            if (row.Length < 100)
-                                continue;
-
-                            foreach (string piece in row.Split(" "))
-                            {
-                                if (piece.Equals(""))
-                                    continue;
-                                if (piece.Length.Equals(10) && piece.IndexOf('.').Equals(2))
-                                    data = piece;
-                                if (piece.Length.Equals(12) && piece.IndexOf('9').Equals(0))
-                                    comment = piece;
-                                if (piece.Length == 19)
+                            foreach (var card in cards)
+                                if (row[6].ToString().Contains(card.CardNumber.ToString()))
                                 {
-                                    foreach (var card in cards)
-                                        if (piece.Contains(card.CardNumber.ToString()))
-                                        {
-                                            card.SoldTime = data;
-                                            card.Comment = comment;
-                                            await this.cardService.SellAsync(card);
-                                            quantity++;
-                                        }
+                                    card.SoldTime = Convert.ToDateTime(row[4]);
+                                    card.Comment = $"{row[5]} {row[2]}";
+                                    await this.cardService.SellAsync(card);
+                                    quantity++;
                                 }
-                            }
                         }
                         MessageBox.Show($"{quantity} ta sotilgan.");
                         break;
@@ -213,27 +193,30 @@ public partial class ReportsPage : Page
 
             case "Beeline":
                 {
-                    List<string> seriaNumbers = new List<string>();
+                    List<(string,string)> seriaNumbers = new List<(string, string)>();
                     // kompaniyaga tegish barcha sim kartalarni olish kerak
                     var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
                     if (cards != null)
                     {
                         int quantity = 0;
                         foreach (DataRow row in dataTable.Rows)
-                            seriaNumbers.Add(row[4].ToString());
-
+                            seriaNumbers.Add((row[4].ToString(), row[3].ToString()));
 
                         foreach (var card in cards)
                         {
                             bool isConnected = true;
-
+                            string phoneNumber = "";
                             foreach (var seria in seriaNumbers)
-                                if (card.CardNumber.ToString().Contains(seria))
+                                if (card.CardNumber.ToString().Contains(seria.Item1))
+                                {
+                                    card.Comment = seria.Item2;
+                                    await this.cardService.UpdateAsync(card);
                                     isConnected = false;
-                           
+                                    break;
+                                }
                             if(isConnected)
                             {
-                                card.Comment = "Ulangan";
+                                card.Comment =$"{card.Comment} ulangan";
                                 await this.cardService.SellAsync(card);
                                 quantity++;
                             }
@@ -251,7 +234,7 @@ public partial class ReportsPage : Page
 
             case "Uzmobile":
                 {
-                    // kompaniyaga tegish barcha sim kartalarni olish kerak
+                    // kompaniyaga tegishli barcha sim kartalarni olish kerak
                     var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
                     if (cards != null)
                     {
@@ -261,8 +244,10 @@ public partial class ReportsPage : Page
                             foreach (var card in cards)
                                 if (row[11].ToString().Contains(card.CardNumber.ToString()))
                                 { 
-                                    card.SoldTime = row[13].ToString().Substring(0,11);
-                                    card.Comment = row[10].ToString();
+                                    card.SoldTime = Convert.ToDateTime(row[13]);
+                                    card.TariffPlan = row[9].ToString();
+                                    card.ConnectedPhoneNumber = row[10].ToString();
+                                    card.Comment = $"{row[5]}";
                                     await this.cardService.SellAsync(card);
                                     quantity++;
                                 }

@@ -12,7 +12,7 @@ namespace SimReport.Windows.Reports.Companies
     /// Interaction logic for CompanyReportWindow.xaml
     /// </summary>
     public partial class CompanyReportWindow : Window
-    {
+    {   
         private readonly ICompanyService companyService;
         private readonly ICardService cardService;
 

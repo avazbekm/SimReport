@@ -1,5 +1,6 @@
 ﻿using SimReport.Entities.Users;
 using SimReport.Entities.Companies;
+using System;
 
 namespace SimReport.Entities.Cards;
 
@@ -15,5 +16,7 @@ public class Card : Auditable
     public string? Comment { get; set; }
     public bool IsSold { get; set; }
     public bool IsReturn {  get; set; }
-    public string? SoldTime { get; set; }
+    public DateTime SoldTime { get; set; }
+    public string? ConnectedPhoneNumber { get; set; }
+    public string? TariffPlan { get; set;}
 }
