@@ -112,7 +112,6 @@ public partial class PartnerReportWindow : Window
                 Quantity = quantity
             });
         }
-
         return items;
     }
 }

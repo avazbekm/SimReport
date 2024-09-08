@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Spire.Pdf;
 using System.Linq;
 using System.Text;
 using System.Data;
@@ -16,8 +15,8 @@ using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
 using SimReport.Windows.Reports.Companies;
 using SimReport.Windows.Reports.BlockWindow;
+using SimReport.Windows.Reports.PartnerSales;
 using Microsoft.Extensions.DependencyInjection;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimReport.Pages.Report;
 
@@ -47,8 +46,6 @@ public partial class ReportsPage : Page
             WindowBlock windowBlock = new WindowBlock(services);
             windowBlock.ShowDialog();
         } 
-
-            
 
         this.services = services;
         this.companyService = services.GetRequiredService<ICompanyService>();
@@ -141,18 +138,26 @@ public partial class ReportsPage : Page
                     if (cards != null)
                     {
                         int quantity = 0;
+                        var cardSerias = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
                             foreach (var card in cards)
                                 if (row[13].ToString().Contains(card.CardNumber.ToString()))
                                 {
                                     card.SoldTime = Convert.ToDateTime(row[11]);
-                                    card.Comment = $"{row[7]} {row[12]}";
-                                    await this.cardService.SellAsync(card);
-                                    quantity++;
+                                    card.TariffPlan = row[7].ToString();
+                                    card.ConnectedPhoneNumber = row[12].ToString();
+                                    card.Comment = $"{row[2]}";
+
+                                    var result = await this.cardService.SellAsync(card);
+                                    if (result.StatusCode.Equals(200))
+                                        quantity++;
+                                    else
+                                        cardSerias += $"{card.CardNumber}\n";
+                                    break;
                                 }
                         }
-                        MessageBox.Show($"{quantity} ta sotilgan.");
+                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
                         break;
                     }
                     else
@@ -170,18 +175,25 @@ public partial class ReportsPage : Page
                     if (cards != null)
                     {
                         int quantity = 0;
+                        var cardSerias = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
                             foreach (var card in cards)
                                 if (row[6].ToString().Contains(card.CardNumber.ToString()))
                                 {
                                     card.SoldTime = Convert.ToDateTime(row[4]);
-                                    card.Comment = $"{row[5]} {row[2]}";
-                                    await this.cardService.SellAsync(card);
-                                    quantity++;
-                                }
+                                    card.TariffPlan = row[5].ToString();
+                                    card.ConnectedPhoneNumber = row[2].ToString();
+                                    card.Comment = $"{row[1]}";
+                                    var result = await this.cardService.SellAsync(card);
+                                    if (result.StatusCode.Equals(200))
+                                        quantity++;
+                                    else
+                                        cardSerias += $"{card.CardNumber}\n";
+                                    break;
+                                }   
                         }
-                        MessageBox.Show($"{quantity} ta sotilgan.");
+                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n  {cardSerias}");
                         break;
                     }
                     else
@@ -239,6 +251,7 @@ public partial class ReportsPage : Page
                     if (cards != null)
                     {
                         int quantity = 0;
+                        var cardSerias = "";
                         foreach (DataRow row in dataTable.Rows)
                         {
                             foreach (var card in cards)
@@ -248,11 +261,16 @@ public partial class ReportsPage : Page
                                     card.TariffPlan = row[9].ToString();
                                     card.ConnectedPhoneNumber = row[10].ToString();
                                     card.Comment = $"{row[5]}";
-                                    await this.cardService.SellAsync(card);
-                                    quantity++;
+
+                                    var result = await this.cardService.SellAsync(card);
+                                    if (result.StatusCode.Equals(200))
+                                        quantity++;
+                                    else
+                                        cardSerias += $"{card.CardNumber}\n";
+                                    break;
                                 }
                         }
-                        MessageBox.Show($"{quantity} ta sotilgan.");
+                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
                         break;
                     }
                     else
@@ -311,5 +329,10 @@ public partial class ReportsPage : Page
         }
     }
 
+    private void lbPartnerSaleReport_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        PartnerSaleWindow partnerSaleWindow = new PartnerSaleWindow(services);
+        partnerSaleWindow.ShowDialog();
+    }
 }
 

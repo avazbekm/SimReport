@@ -15,7 +15,7 @@ public class CardService : ICardService
     private readonly IRepository<Card> cardRepository;
     private readonly IRepository<User> userRepository;
 
-    public CardService(IRepository<Card> cardRepository, IRepository<User> userRepository)
+    public CardService(IRepository<Card> cardRepository,IRepository<User> userRepository)
     {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
@@ -299,6 +299,33 @@ public class CardService : ICardService
         }
     }
 
+    public async Task<Response<IEnumerable<Card>>> GetDeletedAllSimByIdAsync(int companyId)
+    {
+        try
+        {
+            var cards = cardRepository.GetDeleteAll(sim => sim.CompanyId.Equals(companyId));
+
+            if (cards.Count().Equals(0))
+                throw new NotFoundException("Bunday Id kompaniya mavjud emas.");
+            
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 200,
+                Message = "Ok",
+                Data = cards
+            };
+        }
+        catch (Exception ex)
+        {
+            return new Response<IEnumerable<Card>>
+            {
+                StatusCode = 403,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
+
     public async Task<Response<Card>> GetSimAsync(long seriaNumber)
     {
         try
@@ -355,10 +382,13 @@ public class CardService : ICardService
             if (existCard is null)
                 throw new NotFoundException("Bunday seriali sim karta mavjud emas!");
 
-            existCard.SoldTime = card.SoldTime;
+            existCard.SoldTime = card.SoldTime.ToUniversalTime();
             existCard.IsSold = true;
             existCard.IsDeleted = true;
             existCard.Comment = card.Comment;
+            existCard.TariffPlan = card.TariffPlan;
+            existCard.ConnectedPhoneNumber= card.ConnectedPhoneNumber;
+            
 
 
             this.cardRepository.Update(existCard);

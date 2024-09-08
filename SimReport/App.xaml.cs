@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using SimReport.Services;
 using SimReport.Interfaces;
@@ -8,7 +9,6 @@ using SimReport.Entities.Users;
 using SimReport.Entities.Cards;
 using SimReport.Entities.Companies;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace SimReport;
 

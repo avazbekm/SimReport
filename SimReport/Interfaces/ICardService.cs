@@ -22,4 +22,6 @@ public interface ICardService
     Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId);
     Task<Response<IEnumerable<Card>>> GetAllAsync(int companyId, string first, string last);
     Task<Response<IEnumerable<Card>>> GetAllAsync(string phone);
+    Task<Response<IEnumerable<Card>>> GetDeletedAllSimByIdAsync(int companyId);
+
 }

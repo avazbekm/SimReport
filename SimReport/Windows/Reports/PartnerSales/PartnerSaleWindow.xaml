@@ -1,0 +1,79 @@
+﻿<Window x:Class="SimReport.Windows.Reports.PartnerSales.PartnerSaleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimReport.Windows.Reports.PartnerSales"
+        mc:Ignorable="d"
+        Title="Hamkorlar bo'yicha sotuv hisobot oynasi" Height="450" Width="900"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel Background="{DynamicResource PrimaryBackground}">
+        <StackPanel Margin="20 10 20 0" 
+                    Orientation="Horizontal">
+            <Border x:Name="bName" 
+                        CornerRadius="5 0 0 5"
+                        Height="40"
+                        Width="150"
+                        Background="{DynamicResource PrimaryBackground}">
+                <ComboBox x:Name="cbCompany"
+                          Height="36"
+                          SelectedIndex="0"
+                          Width="145"
+                          FontSize="14"
+                          Padding="5 7 5 5"
+                          DisplayMemberPath="Name" 
+                          BorderBrush="{DynamicResource PrimaryBackground}"
+                          BorderThickness="0"
+                          Background="{DynamicResource PrimaryBackground}" SelectionChanged="cbCompany_SelectionChanged"/>
+            </Border>
+            <StackPanel x:Name="spReportDate"
+                        Visibility="Visible"
+                        Orientation="Horizontal">
+
+                <DatePicker x:Name="dpInitialDate"
+                            FontSize="15"
+                            SelectedDateFormat="Short"
+                            DisplayDateStart="01.01.2010"
+                            DisplayDateEnd="01.01.2100"
+                            Margin="10 5"/>
+                <TextBlock x:Name="tbInitial" 
+                           Margin="0 10 10 5"  
+                           Text="dan"
+                           FontSize="15"/>
+                <DatePicker x:Name="dpFinishDate"
+                            FontSize="15"
+                            SelectedDateFormat="Short"
+                            DisplayDateStart="01.01.2010"
+                            DisplayDateEnd="01.01.2100"
+                            Margin="10 5"/>
+                <TextBlock x:Name="tbFinish" 
+                           Margin="0 10 10 5"
+                           Text="gacha"
+                           FontSize="15"/>
+                <Button x:Name="btnGetReport" 
+                        Margin="120 5 10 5"
+                        Content="Hisobot olish"
+                        Style="{DynamicResource SuccessButton}" Click="btnGetReport_Click" />
+            </StackPanel>
+        </StackPanel>
+        <WrapPanel Margin="20 15"
+                   x:Name="wrpClients"
+                   Visibility="Visible">
+            <DataGrid x:Name="dataGrid" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
+                    <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
+                    <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="100"/>
+                    <DataGridTextColumn Header="Mijoz F.I.O." Binding="{Binding ConnectedPersonFullName}" Width="150"/>
+                    <DataGridTextColumn Header="Tarif reja" Binding="{Binding TariffPlan}" Width="100"/>
+                    <DataGridTextColumn Header="Tel. nomer" Binding="{Binding ConnectedPhoneNumber}" Width="90"/>
+                    <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="130"/>
+                    <DataGridTextColumn Header="Ulash sana" Binding="{Binding SaleDate, StringFormat=dd.MM.yyyy}" Width="67"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </WrapPanel>
+    </StackPanel>
+    
+</Window>

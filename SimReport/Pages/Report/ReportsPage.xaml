@@ -89,14 +89,27 @@
                     Visibility="Visible"
                     Orientation="Horizontal">
             <Label x:Name="lbPartnerReport"
-                   Content="Hamkorlar bo'yicha hisobot"
+                   Content="Hamkorlarda sim kartalar qoldiq hisoboti"
                    MouseDoubleClick="Label_MouseDown"
                    Style="{DynamicResource LabelStyle}">
             </Label>
         </StackPanel>
+        <Label x:Name="lbPartnerWithSeriaReport"
+                   Content="Hamkorlarda seria nomeri bilan sim kartalar qoldiq hisoboti"
+                   MouseDoubleClick="Label_MouseDown"
+                   Style="{DynamicResource LabelStyle}">
+        </Label>
+
+        <Label x:Name="lbPartnerSaleReport" 
+               Visibility="Visible"
+               Content="Hamkorlar bo'yicha sotuv hisoboti"
+               MouseDoubleClick="lbPartnerSaleReport_MouseDoubleClick"
+               Style="{DynamicResource LabelStyle}">
+
+        </Label>
         <Label x:Name="lbCompanyReport" 
                Visibility="Visible"
-               Content="Kompaniyalar bo'yicha hisobot"
+               Content="Kompaniyalarda sim kartalar qoldiq hisoboti"
                MouseDoubleClick="lbCompanyReport_MouseDoubleClick"
                Style="{DynamicResource LabelStyle}">
             

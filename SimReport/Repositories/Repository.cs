@@ -78,7 +78,6 @@ public class Repository<T> : IRepository<T> where T : Auditable
         if (includes is not null)
             foreach (var item in includes)
                 query = query.Include(item);
-        return query.Where(a => a.IsDeleted);
+        return query.Where(a => a.IsSold);
     }
-
 }

@@ -12,7 +12,7 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240902105128_initial")]
+    [Migration("20240907095514_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -37,6 +37,9 @@ namespace SimReport.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -73,6 +76,9 @@ namespace SimReport.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsSold")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -92,11 +98,17 @@ namespace SimReport.Migrations
                     b.Property<long>("CardNumber")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CardsArrivedDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Comment")
                         .HasColumnType("text");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ConnectedPhoneNumber")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -110,7 +122,10 @@ namespace SimReport.Migrations
                     b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("SoldTime")
+                    b.Property<DateTime>("SoldTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TariffPlan")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -140,6 +155,9 @@ namespace SimReport.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -172,6 +190,9 @@ namespace SimReport.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LastName")

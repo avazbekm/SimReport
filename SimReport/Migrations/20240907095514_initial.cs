@@ -22,7 +22,8 @@ namespace SimReport.Migrations
                     Path = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +39,8 @@ namespace SimReport.Migrations
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +56,8 @@ namespace SimReport.Migrations
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +75,8 @@ namespace SimReport.Migrations
                     Phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,12 +93,15 @@ namespace SimReport.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     CardNumber = table.Column<long>(type: "bigint", nullable: false),
                     Comment = table.Column<string>(type: "text", nullable: true),
-                    IsSold = table.Column<bool>(type: "boolean", nullable: false),
                     IsReturn = table.Column<bool>(type: "boolean", nullable: false),
-                    SoldTime = table.Column<string>(type: "text", nullable: true),
+                    SoldTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ConnectedPhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    TariffPlan = table.Column<string>(type: "text", nullable: true),
+                    CardsArrivedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsSold = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

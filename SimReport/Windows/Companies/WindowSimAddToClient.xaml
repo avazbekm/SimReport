@@ -73,7 +73,7 @@
             </Border>
             <Button x:Name="btnSave" 
                     Margin="10"
-                    Content="Save"
+                    Content="Saqlash"
                     Style="{DynamicResource SuccessButton}" 
                     Click="btnSave_Click"/>
         </StackPanel>

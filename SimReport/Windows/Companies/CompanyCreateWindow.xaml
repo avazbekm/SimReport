@@ -61,7 +61,7 @@
             </Grid>
             <Button x:Name="btnSave"
                     Style="{DynamicResource SuccessButton}"
-                    Content="Save"
+                    Content="Saqlash"
                     Click="btnSave_Click"/>
 
         </StackPanel>
