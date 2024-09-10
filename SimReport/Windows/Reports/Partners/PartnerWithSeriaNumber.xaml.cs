@@ -1,59 +1,35 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using ClosedXML.Excel;
 using SimReport.Interfaces;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Collections.Generic;
 using SimReport.Services.Helpers;
-using SimReport.Windows.Companies;
+using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using ClosedXML.Excel;
+using System.IO;
+using System.Windows.Controls;
 
-namespace SimReport.Windows.Reports.PartnerSales;
+namespace SimReport.Windows.Reports.Partners;
 
 /// <summary>
-/// Interaction logic for PartnerSaleWindow.xaml
+/// Interaction logic for PartnerWithSeriaNumber.xaml
 /// </summary>
-public partial class PartnerSaleWindow : Window
+public partial class PartnerWithSeriaNumber : Window
 {
     private readonly IUserService userService;
     private readonly ICardService cardService;
     private readonly ICompanyService companyService;
 
-    private int CompanyId;
-    public PartnerSaleWindow(IServiceProvider services)
+    public PartnerWithSeriaNumber(IServiceProvider services)
     {
         InitializeComponent();
+
         this.userService = services.GetRequiredService<IUserService>();
         this.cardService = services.GetRequiredService<ICardService>();
         this.companyService = services.GetRequiredService<ICompanyService>();
 
-        // Databazadan malumotlarni olish
-        List<ItemComboBox> items = GetItemsFromDatabase();
-
-        // Comboboxga malumotlarni yuklash
-        cbCompany.ItemsSource = items;
-    }
-
-    private List<ItemComboBox> GetItemsFromDatabase()
-    {
-        List<ItemComboBox> items = new List<ItemComboBox>();
-        items.Add(new ItemComboBox { Name = "Kompaniya tanlash" });
-        var companies = companyService.GetAllAsync().Result.Data.ToList();
-        if (companies is not null)
-        {
-            foreach (var company in companies)
-            {
-                items.Add(new ItemComboBox()
-                {
-                    Id = company.Id,
-                    Name = ConvertToStandart.ConvertFirstToUpper(company.Name),
-                });
-            };
-        }
-        return items;
+        LoadDataAsync();
     }
 
     private async Task LoadDataAsync()
@@ -68,15 +44,15 @@ public partial class PartnerSaleWindow : Window
         }
     }
 
-    private async Task<List<ItemPartnerSale>> GetAllCardsAsync()
+    private async Task<List<ItemPartnerSeriaNumber>> GetAllCardsAsync()
     {
         Dictionary<int, string> companiesList = new Dictionary<int, string>();
-                var companies = companyService.GetAllAsync().Result.Data.ToList();
+        var companies = companyService.GetAllAsync().Result.Data.ToList();
         if (companies is not null)
         {
             foreach (var company in companies)
             {
-                companiesList.Add(company.Id,company.Name);
+                companiesList.Add(company.Id, company.Name);
             };
         }
 
@@ -93,77 +69,27 @@ public partial class PartnerSaleWindow : Window
             };
         }
 
-        List<ItemPartnerSale> items = new List<ItemPartnerSale>();
-        var cards = (await cardService.GetDeletedAllSimByIdAsync(CompanyId)).Data.ToList();
+        List<ItemPartnerSeriaNumber> items = new List<ItemPartnerSeriaNumber>();
+        var cards = (await cardService.GetAllAsync()).Data.ToList();
 
-        var endClock = $"{dpFinishDate.SelectedDate.Value.ToString().Substring(0, 10)} 11:59:59 PM";
-        var endDay= DateTime.Parse(endClock);
-
-        
         int ConnectedNumberCount = 0;
-        foreach (var card in cards.ToList())
+        if (cards is not null)
         {
-
-            if (dpInitialDate.SelectedDate <= card.SoldTime && endDay >= card.SoldTime)
+            foreach (var card in cards)
             {
+
                 ConnectedNumberCount++;
-                items.Add(new ItemPartnerSale
+                items.Add(new ItemPartnerSeriaNumber
                 {
                     Id = ConnectedNumberCount,
-                    CompanyName = ConvertToStandart.ConvertFirstToUpper(companiesList[CompanyId]),
                     PartnerFullName = usersList[card.UserId],
-                    ConnectedPersonFullName = card.Comment,
-                    TariffPlan = card.TariffPlan,
-                    ConnectedPhoneNumber = card.ConnectedPhoneNumber,
+                    CompanyName = ConvertToStandart.ConvertFirstToUpper(companiesList[card.CompanyId]),
                     SeriaNumber = card.CardNumber.ToString(),
-                    SaleDate = card.SoldTime
+                    ComeDate = card.CardsArrivedDate
                 });
             }
         }
-        
         return items;
-    }
-
-    private void cbCompany_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-    {
-        var selectedValue = cbCompany.SelectedIndex;
-        List<ItemComboBox> items = GetItemsFromDatabase();
-        CompanyId = items[selectedValue].Id;
-
-        if (selectedValue.Equals(0))
-        {
-            spReportDate.Visibility = Visibility.Collapsed;
-            dataGrid.Visibility = Visibility.Collapsed;
-        }
-        else
-        { 
-            spReportDate.Visibility= Visibility.Visible;
-        }
-    }
-
-    private void btnGetReport_Click(object sender, RoutedEventArgs e)
-    {
-        if (dpInitialDate.SelectedDate is null || dpFinishDate.SelectedDate is null)
-        {
-            MessageBox.Show("Sanalarni to'liq kiriting.");
-            return;
-        }
-        else if (dpInitialDate.SelectedDate.Value > dpFinishDate.SelectedDate.Value)
-        {
-            MessageBox.Show("Boshlangich sana tugash sanasidna katta bo'lmasligi kerak.");
-            return;
-        }
-        else if (dpInitialDate.SelectedDate.Value > DateTime.Now)
-        {
-            MessageBox.Show("Boshlangich sana bugungi sanadan yuqori bo'lmasligi kerak.");
-            return;
-        }
-
-        dataGrid.Visibility = Visibility.Visible;
-        btnExportToExcel.Visibility = Visibility.Visible;
-
-
-        LoadDataAsync();
     }
 
     private void ExportToExcel(DataGrid dataGrid)
@@ -176,11 +102,11 @@ public partial class PartnerSaleWindow : Window
                 var worksheet = workbook.Worksheets.Add("Sheet1");
 
                 // 1. Write the custom row before the headers
-                worksheet.Cell(1, 1).Value = $"{dpInitialDate.SelectedDate.Value.ToString().Substring(0, 10)} dan " +
-                    $"{dpFinishDate.SelectedDate.Value.ToString().Substring(0, 10)} gacha"; ; // Your custom row
+                worksheet.Cell(1, 1).Value = $"{DateTime.Now.ToString().Substring(0, 10)}"; ; // Your custom row
                 worksheet.Range(1, 1, 1, dataGrid.Columns.Count).Merge(); // Merge the row across all columns
                 worksheet.Row(1).Style.Font.Bold = true; // Optionally, make the text bold
                 worksheet.Row(2).Style.Font.Bold = true; // Optionally, make the text bold
+
 
                 // 2. Add headers from DataGrid to Excel (starting from row 2)
                 for (int col = 0; col < dataGrid.Columns.Count; col++)
@@ -188,9 +114,9 @@ public partial class PartnerSaleWindow : Window
                     worksheet.Cell(2, col + 1).Value = dataGrid.Columns[col].Header.ToString();
                 }
 
-                    // 3. Add rows from DataGrid to Excel (starting from row 3)
-                    var itemsSource = dataGrid.ItemsSource as IEnumerable<dynamic>;
-                    int row = 3; // Start from the third row (1st row is custom, 2nd row is headers)
+                // 3. Add rows from DataGrid to Excel (starting from row 3)
+                var itemsSource = dataGrid.ItemsSource as IEnumerable<dynamic>;
+                int row = 3; // Start from the third row (1st row is custom, 2nd row is headers)
                 try
                 {
                     foreach (var item in itemsSource)
@@ -229,7 +155,7 @@ public partial class PartnerSaleWindow : Window
         }
     }
 
-    private void btnExportToExcel_Click(object sender, RoutedEventArgs e)
+    private void btnExportSeriaNumber_Click(object sender, RoutedEventArgs e)
     {
         // Export DataGrid to Excel using ClosedXML
         ExportToExcel(dataGrid);

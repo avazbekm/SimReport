@@ -96,7 +96,7 @@
         </StackPanel>
         <Label x:Name="lbPartnerWithSeriaReport"
                    Content="Hamkorlarda seria nomeri bilan sim kartalar qoldiq hisoboti"
-                   MouseDoubleClick="Label_MouseDown"
+                   MouseDoubleClick="lbPartnerWithSeriaReport_MouseDoubleClick"
                    Style="{DynamicResource LabelStyle}">
         </Label>
 

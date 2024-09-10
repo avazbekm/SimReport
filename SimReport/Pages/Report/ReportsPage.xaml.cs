@@ -17,6 +17,8 @@ using SimReport.Windows.Reports.Companies;
 using SimReport.Windows.Reports.BlockWindow;
 using SimReport.Windows.Reports.PartnerSales;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq.Expressions;
+using SimReport.Windows.Reports.Partners;
 
 namespace SimReport.Pages.Report;
 
@@ -101,191 +103,187 @@ public partial class ReportsPage : Page
 
     private void btnPDFReader_Click(object sender, RoutedEventArgs e)
     {
-        if (tbMobiuzAdress.Text.Equals(" ... ni bosib PDF file yuklang."))
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files(*.pdf)|*.pdf";
-            if (openFileDialog.ShowDialog() == true)
-                tbMobiuzAdress.Text = openFileDialog.FileName;
-        }
-        else if (tbMobiuzAdress.Text.Equals(" ... ni bosib excel file yuklang."))
-        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files(*.xls;*.xlsx)|*.xls;*.xlsx";
             if (openFileDialog.ShowDialog() == true)
                 tbMobiuzAdress.Text = openFileDialog.FileName;
-        }
     }
 
     private async void btnBajarish_Click(object sender, RoutedEventArgs e)
     {
         //StringBuilder stringBuilder = new StringBuilder();
         DataTable dataTable = new DataTable();
-        if  (Path.GetExtension(tbMobiuzAdress.Text).Equals(".xls") || 
+        if (Path.GetExtension(tbMobiuzAdress.Text).Equals(".xls") ||
             Path.GetExtension(tbMobiuzAdress.Text).Equals(".xlsx"))
         {
             dataTable = ReadExcelFile(tbMobiuzAdress.Text);
         }
 
-        //string data = "";
-        //string comment = "";
-        switch (CompanyName)
+        try
         {
-            case "Mobiuz":
-                {
-                    // kompaniyaga tegish barcha sim kartalarni olish kerak
-                    var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
-                    if (cards != null)
+            switch (CompanyName)
+            {
+                case "Mobiuz":
                     {
-                        int quantity = 0;
-                        var cardSerias = "";
-                        foreach (DataRow row in dataTable.Rows)
+                        // kompaniyaga tegish barcha sim kartalarni olish kerak
+                        var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+                        if (cards != null)
                         {
-                            foreach (var card in cards)
-                                if (row[13].ToString().Contains(card.CardNumber.ToString()))
-                                {
-                                    card.SoldTime = Convert.ToDateTime(row[11]);
-                                    card.TariffPlan = row[7].ToString();
-                                    card.ConnectedPhoneNumber = row[12].ToString();
-                                    card.Comment = $"{row[2]}";
-
-                                    var result = await this.cardService.SellAsync(card);
-                                    if (result.StatusCode.Equals(200))
-                                        quantity++;
-                                    else
-                                        cardSerias += $"{card.CardNumber}\n";
-                                    break;
-                                }
-                        }
-                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
-                        break;
-                    }
-                    else
-                    {
-                        MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
-                        break;
-                    }
-
-                }
-            case "Ucell":
-                {
-                    // kompaniyaga tegish barcha sim kartalarni olish kerak
-                    var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
-
-                    if (cards != null)
-                    {
-                        int quantity = 0;
-                        var cardSerias = "";
-                        foreach (DataRow row in dataTable.Rows)
-                        {
-                            foreach (var card in cards)
-                                if (row[6].ToString().Contains(card.CardNumber.ToString()))
-                                {
-                                    card.SoldTime = Convert.ToDateTime(row[4]);
-                                    card.TariffPlan = row[5].ToString();
-                                    card.ConnectedPhoneNumber = row[2].ToString();
-                                    card.Comment = $"{row[1]}";
-                                    var result = await this.cardService.SellAsync(card);
-                                    if (result.StatusCode.Equals(200))
-                                        quantity++;
-                                    else
-                                        cardSerias += $"{card.CardNumber}\n";
-                                    break;
-                                }   
-                        }
-                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n  {cardSerias}");
-                        break;
-                    }
-                    else
-                    {
-                        MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
-                        break;
-                    }
-                }
-
-            case "Beeline":
-                {
-                    List<(string,string)> seriaNumbers = new List<(string, string)>();
-                    // kompaniyaga tegish barcha sim kartalarni olish kerak
-                    var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
-                    if (cards != null)
-                    {
-                        int quantity = 0;
-                        foreach (DataRow row in dataTable.Rows)
-                            seriaNumbers.Add((row[4].ToString(), row[3].ToString()));
-
-                        foreach (var card in cards)
-                        {
-                            bool isConnected = true;
-                            string phoneNumber = "";
-                            foreach (var seria in seriaNumbers)
-                                if (card.CardNumber.ToString().Contains(seria.Item1))
-                                {
-                                    card.Comment = seria.Item2;
-                                    await this.cardService.UpdateAsync(card);
-                                    isConnected = false;
-                                    break;
-                                }
-                            if(isConnected)
+                            int quantity = 0;
+                            var cardSerias = "";
+                            foreach (DataRow row in dataTable.Rows)
                             {
-                                card.Comment =$"{card.Comment} ulangan";
-                                await this.cardService.SellAsync(card);
-                                quantity++;
+                                foreach (var card in cards)
+                                    if (row[13].ToString().Contains(card.CardNumber.ToString()))
+                                    {
+                                        card.SoldTime = Convert.ToDateTime(row[11]);
+                                        card.TariffPlan = row[7].ToString();
+                                        card.ConnectedPhoneNumber = row[12].ToString();
+                                        card.Comment = $"{row[2]}";
+
+                                        var result = await this.cardService.SellAsync(card);
+                                        if (result.StatusCode.Equals(200))
+                                            quantity++;
+                                        else
+                                            cardSerias += $"{card.CardNumber}\n";
+                                        break;
+                                    }
                             }
+                            MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
+                            break;
                         }
+                        else
+                        {
+                            MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
+                            break;
+                        }
+
+                    }
+                case "Ucell":
+                    {
+                        // kompaniyaga tegish barcha sim kartalarni olish kerak
+                        var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+
+                        if (cards != null)
+                        {
+                            int quantity = 0;
+                            var cardSerias = "";
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                foreach (var card in cards)
+                                    if (row[6].ToString().Contains(card.CardNumber.ToString()))
+                                    {
+                                        card.SoldTime = Convert.ToDateTime(row[4]);
+                                        card.TariffPlan = row[5].ToString();
+                                        card.ConnectedPhoneNumber = row[2].ToString();
+                                        card.Comment = $"{row[1]}";
+                                        var result = await this.cardService.SellAsync(card);
+                                        if (result.StatusCode.Equals(200))
+                                            quantity++;
+                                        else
+                                            cardSerias += $"{card.CardNumber}\n";
+                                        break;
+                                    }
+                            }
+                            MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n  {cardSerias}");
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
+                            break;
+                        }
+                    }
+
+                case "Beeline":
+                    {
+                        List<(string, string)> seriaNumbers = new List<(string, string)>();
+                        // kompaniyaga tegish barcha sim kartalarni olish kerak
+                        var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+                        if (cards != null)
+                        {
+                            int quantity = 0;
+                            foreach (DataRow row in dataTable.Rows)
+                                seriaNumbers.Add((row[4].ToString(), row[3].ToString()));
+
+                            foreach (var card in cards)
+                            {
+                                bool isConnected = true;
+                                string phoneNumber = "";
+                                foreach (var seria in seriaNumbers)
+                                    if (card.CardNumber.ToString().Contains(seria.Item1))
+                                    {
+                                        card.Comment = seria.Item2;
+                                        await this.cardService.UpdateAsync(card);
+                                        isConnected = false;
+                                        break;
+                                    }
+                                if (isConnected)
+                                {
+                                    card.Comment = $"{card.Comment} ulangan";
+                                    await this.cardService.SellAsync(card);
+                                    quantity++;
+                                }
+                            }
 
                             MessageBox.Show($"{quantity} ta sotilgan.");
-                        break;
-                    }
-                    else
-                    {
-                        MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
-                        break;
-                    }
-                }
-
-            case "Uzmobile":
-                {
-                    // kompaniyaga tegishli barcha sim kartalarni olish kerak
-                    var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
-                    if (cards != null)
-                    {
-                        int quantity = 0;
-                        var cardSerias = "";
-                        foreach (DataRow row in dataTable.Rows)
-                        {
-                            foreach (var card in cards)
-                                if (row[11].ToString().Contains(card.CardNumber.ToString()))
-                                { 
-                                    card.SoldTime = Convert.ToDateTime(row[13]);
-                                    card.TariffPlan = row[9].ToString();
-                                    card.ConnectedPhoneNumber = row[10].ToString();
-                                    card.Comment = $"{row[5]}";
-
-                                    var result = await this.cardService.SellAsync(card);
-                                    if (result.StatusCode.Equals(200))
-                                        quantity++;
-                                    else
-                                        cardSerias += $"{card.CardNumber}\n";
-                                    break;
-                                }
+                            break;
                         }
-                        MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
-                        break;
+                        else
+                        {
+                            MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
+                            break;
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
-                        break;
-                    }
-                }
 
-            case "Humans":
-                {
-                    break;
-                }
+                case "Uzmobile":
+                    {
+                        // kompaniyaga tegishli barcha sim kartalarni olish kerak
+                        var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
+                        if (cards != null)
+                        {
+                            int quantity = 0;
+                            var cardSerias = "";
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                foreach (var card in cards)
+                                    if (row[11].ToString().Contains(card.CardNumber.ToString()))
+                                    {
+                                        card.SoldTime = Convert.ToDateTime(row[13]);
+                                        card.TariffPlan = row[9].ToString();
+                                        card.ConnectedPhoneNumber = row[10].ToString();
+                                        card.Comment = $"{row[5]}";
+
+                                        var result = await this.cardService.SellAsync(card);
+                                        if (result.StatusCode.Equals(200))
+                                            quantity++;
+                                        else
+                                            cardSerias += $"{card.CardNumber}\n";
+                                        break;
+                                    }
+                            }
+                            MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"{CompanyName} kompaniyaga biriktirilgan sim kartalar mavjud emas.");
+                            break;
+                        }
+                    }
+
+                case "Humans":
+                    {
+                        break;
+                    }
             }
-    }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+        }
+    
 
     private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
@@ -333,6 +331,12 @@ public partial class ReportsPage : Page
     {
         PartnerSaleWindow partnerSaleWindow = new PartnerSaleWindow(services);
         partnerSaleWindow.ShowDialog();
+    }
+
+    private void lbPartnerWithSeriaReport_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        PartnerWithSeriaNumber partnerWithSeriaNumber = new PartnerWithSeriaNumber(services);
+        partnerWithSeriaNumber.ShowDialog();
     }
 }
 

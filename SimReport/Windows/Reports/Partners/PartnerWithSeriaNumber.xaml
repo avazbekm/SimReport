@@ -1,0 +1,33 @@
+﻿<Window x:Class="SimReport.Windows.Reports.Partners.PartnerWithSeriaNumber"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimReport.Windows.Reports.Partners"
+        mc:Ignorable="d"
+        Title="Hamkorlarda seria nomeri bilan sim kartalar qoldiq oynasi" 
+        Height="450" 
+        Width="550"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel Background="{DynamicResource PrimaryBackground}">
+        <Button x:Name="btnExportSeriaNumber"
+                Style="{DynamicResource EditButton}"
+                Content="Excelga o'tkazish"
+                HorizontalAlignment="Right"
+                Margin="5 10 60 0" Click="btnExportSeriaNumber_Click"/>
+        <WrapPanel Margin="30 15"
+                   x:Name="wrpClients">
+            <DataGrid x:Name="dataGrid" 
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
+                    <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="120"/>
+                    <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
+                    <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="140"/>
+                    <DataGridTextColumn Header="Kelgan sana" Binding="{Binding SaleDate, StringFormat=dd.MM.yyyy}" Width="75"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </WrapPanel>
+    </StackPanel>
+</Window>

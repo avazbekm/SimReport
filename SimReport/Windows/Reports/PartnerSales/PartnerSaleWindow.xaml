@@ -51,9 +51,15 @@
                            Text="gacha"
                            FontSize="15"/>
                 <Button x:Name="btnGetReport" 
-                        Margin="120 5 10 5"
+                        Margin="5 5 10 5"
                         Content="Hisobot olish"
                         Style="{DynamicResource SuccessButton}" Click="btnGetReport_Click" />
+                <Button x:Name="btnExportToExcel" 
+                        Visibility="Hidden"
+                        Margin="5 5 10 5"
+                        Content="Excelga o'tkazish"
+                        Style="{DynamicResource EditButton}" 
+                        Click="btnExportToExcel_Click"  />
             </StackPanel>
         </StackPanel>
         <WrapPanel Margin="20 15"
@@ -66,7 +72,7 @@
                     <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
                     <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
                     <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="100"/>
-                    <DataGridTextColumn Header="Mijoz F.I.O." Binding="{Binding ConnectedPersonFullName}" Width="150"/>
+                    <DataGridTextColumn Header="Mijoz F.I.O." Binding="{Binding ConnectedPersonFullName}" Width="210"/>
                     <DataGridTextColumn Header="Tarif reja" Binding="{Binding TariffPlan}" Width="100"/>
                     <DataGridTextColumn Header="Tel. nomer" Binding="{Binding ConnectedPhoneNumber}" Width="90"/>
                     <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="130"/>
