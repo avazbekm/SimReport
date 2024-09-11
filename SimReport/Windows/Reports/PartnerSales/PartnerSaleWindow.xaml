@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimReport.Windows.Reports.PartnerSales"
         mc:Ignorable="d"
-        Title="Hamkorlar bo'yicha sotuv hisobot oynasi" Height="450" Width="900"
+        Title="Hamkorlar bo'yicha sotuv hisobot oynasi" 
+        Height="470" Width="900"
         WindowStartupLocation="CenterScreen">
     <StackPanel Background="{DynamicResource PrimaryBackground}">
         <StackPanel Margin="20 10 20 0" 
@@ -62,24 +63,28 @@
                         Click="btnExportToExcel_Click"  />
             </StackPanel>
         </StackPanel>
-        <WrapPanel Margin="20 15"
-                   x:Name="wrpClients"
-                   Visibility="Visible">
-            <DataGrid x:Name="dataGrid" 
-                      AutoGenerateColumns="False"
-                      CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
-                    <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
-                    <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="100"/>
-                    <DataGridTextColumn Header="Mijoz F.I.O." Binding="{Binding ConnectedPersonFullName}" Width="210"/>
-                    <DataGridTextColumn Header="Tarif reja" Binding="{Binding TariffPlan}" Width="100"/>
-                    <DataGridTextColumn Header="Tel. nomer" Binding="{Binding ConnectedPhoneNumber}" Width="90"/>
-                    <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="130"/>
-                    <DataGridTextColumn Header="Ulash sana" Binding="{Binding SaleDate, StringFormat=dd.MM.yyyy}" Width="67"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </WrapPanel>
+        <ScrollViewer Margin="5 10 5 10"
+                      Height="360"
+                      MinHeight="360">
+            <WrapPanel Margin="10 5"
+                       x:Name="wrpClients"
+                       Visibility="Visible">
+                <DataGrid x:Name="dataGrid" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
+                        <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
+                        <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="100"/>
+                        <DataGridTextColumn Header="Mijoz F.I.O." Binding="{Binding ConnectedPersonFullName}" Width="210"/>
+                        <DataGridTextColumn Header="Tarif reja" Binding="{Binding TariffPlan}" Width="100"/>
+                        <DataGridTextColumn Header="Tel. nomer" Binding="{Binding ConnectedPhoneNumber}" Width="90"/>
+                        <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="130"/>
+                        <DataGridTextColumn Header="Ulash sana" Binding="{Binding SaleDate, StringFormat=dd.MM.yyyy}" Width="67"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </WrapPanel>
+        </ScrollViewer>
     </StackPanel>
     
 </Window>

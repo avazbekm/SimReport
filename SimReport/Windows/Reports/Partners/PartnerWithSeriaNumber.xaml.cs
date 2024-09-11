@@ -1,14 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using ClosedXML.Excel;
 using SimReport.Interfaces;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using SimReport.Services.Helpers;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using ClosedXML.Excel;
-using System.IO;
-using System.Windows.Controls;
 
 namespace SimReport.Windows.Reports.Partners;
 
@@ -137,7 +137,7 @@ public partial class PartnerWithSeriaNumber : Window
                 Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                 saveFileDialog.Filter = "Excel Files|*.xls";
                 saveFileDialog.Title = "Excel fayllarni saqlash";
-                saveFileDialog.FileName = "SotuvHisobot.xls";
+                saveFileDialog.FileName = "QoldiqHisobot.xls";
 
                 if (saveFileDialog.ShowDialog() == true)
                 {

@@ -14,20 +14,27 @@
                 Style="{DynamicResource EditButton}"
                 Content="Excelga o'tkazish"
                 HorizontalAlignment="Right"
-                Margin="5 10 60 0" Click="btnExportSeriaNumber_Click"/>
-        <WrapPanel Margin="30 15"
-                   x:Name="wrpClients">
-            <DataGrid x:Name="dataGrid" 
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
-                    <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="120"/>
-                    <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
-                    <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="140"/>
-                    <DataGridTextColumn Header="Kelgan sana" Binding="{Binding SaleDate, StringFormat=dd.MM.yyyy}" Width="75"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </WrapPanel>
+                Margin="5 10 50 10" 
+                Click="btnExportSeriaNumber_Click"/>
+        <ScrollViewer Margin="5"
+                      Height="360"
+                      MinHeight="360"
+                      Width="500">
+            <WrapPanel Margin="5 15"
+                       x:Name="wrpClients">
+                <DataGrid x:Name="dataGrid" 
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="T/r" Binding="{Binding Id}" Width="30"/>
+                        <DataGridTextColumn Header="Hamkor F.I.O." Binding="{Binding PartnerFullName}" Width="120"/>
+                        <DataGridTextColumn Header="Kompany nomi" Binding="{Binding CompanyName}" Width="100"/>
+                        <DataGridTextColumn Header="Seria nomer" Binding="{Binding SeriaNumber}" Width="140"/>
+                        <DataGridTextColumn Header="Kelgan sana" Binding="{Binding ComeDate, StringFormat=dd.MM.yyyy}" Width="75"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </WrapPanel>
+        </ScrollViewer>
     </StackPanel>
+        
 </Window>

@@ -136,6 +136,7 @@ public partial class WindowSimAddToClient : Window
             {
                 card.Id = 0;
                 card.CardNumber = i;
+                card.CardsArrivedDate = DateTime.UtcNow;
                 var result = await this.cardService.AddAsync(card);
 
                 if (!result.StatusCode.Equals(200))
