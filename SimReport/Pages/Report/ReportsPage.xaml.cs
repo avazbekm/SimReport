@@ -13,12 +13,11 @@ using SimReport.Windows.Reports;
 using System.Collections.Generic;
 using SimReport.Services.Helpers;
 using SimReport.Windows.Companies;
+using SimReport.Windows.Reports.Partners;
 using SimReport.Windows.Reports.Companies;
 using SimReport.Windows.Reports.BlockWindow;
 using SimReport.Windows.Reports.PartnerSales;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq.Expressions;
-using SimReport.Windows.Reports.Partners;
 
 namespace SimReport.Pages.Report;
 
@@ -197,36 +196,32 @@ public partial class ReportsPage : Page
 
                 case "Beeline":
                     {
-                        List<(string, string)> seriaNumbers = new List<(string, string)>();
                         // kompaniyaga tegish barcha sim kartalarni olish kerak
                         var cards = (await this.cardService.GetAllAsync(CompanyId)).Data;
                         if (cards != null)
                         {
                             int quantity = 0;
+                            var cardSerias = "";
                             foreach (DataRow row in dataTable.Rows)
-                                seriaNumbers.Add((row[4].ToString(), row[3].ToString()));
-
-                            foreach (var card in cards)
                             {
-                                bool isConnected = true;
-                                string phoneNumber = "";
-                                foreach (var seria in seriaNumbers)
-                                    if (card.CardNumber.ToString().Contains(seria.Item1))
+                                foreach (var card in cards)
+                                    if (row[1].ToString().Contains(card.ConnectedPhoneNumber.ToString()))
                                     {
-                                        card.Comment = seria.Item2;
-                                        await this.cardService.UpdateAsync(card);
-                                        isConnected = false;
+                                        card.SoldTime = DateTime.Parse($"{row[6]}");
+                                        card.TariffPlan = row[9].ToString();
+                                        if (!row[7].ToString().Equals(""))
+                                            card.ConnectedPhoneNumber = $"{row[7]}";
+                                        card.Comment = $"{row[3]}";
+
+                                        var result = await this.cardService.SellAsync(card);
+                                        if (result.StatusCode.Equals(200))
+                                            quantity++;
+                                        else
+                                            cardSerias += $"{card.CardNumber}\n";
                                         break;
                                     }
-                                if (isConnected)
-                                {
-                                    card.Comment = $"{card.Comment} ulangan";
-                                    await this.cardService.SellAsync(card);
-                                    quantity++;
-                                }
                             }
-
-                            MessageBox.Show($"{quantity} ta sotilgan.");
+                            MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
                             break;
                         }
                         else
@@ -312,7 +307,7 @@ public partial class ReportsPage : Page
                     {
                         ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                         {
-                            UseHeaderRow = true
+                            UseHeaderRow = false
                         }
                     });
 

@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using SimReport.Entities.Block;
-using SimReport.Entities.Cards;
-using SimReport.Interfaces;
-using SimReport.Services.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using SimReport.Interfaces;
 using System.Threading.Tasks;
+using SimReport.Entities.Block;
+using SimReport.Services.Helpers;
+using System.Collections.Generic;
 
 namespace SimReport.Services;
 
@@ -61,12 +59,12 @@ public class BlockService : IBlockService
         };
     }
 
-    public async Task<Response<BlockDate>> UpdateAsync()
+    public async Task<Response<BlockDate>> UpdateAsync(int quantityMonths)
     {
         try
         {
             var date = this.blockRepository.GetAll().ToList()[0];
-            date.EndDate = DateTime.UtcNow.AddYears(2);
+            date.EndDate = DateTime.UtcNow.AddMonths(quantityMonths);
 
             this.blockRepository.Update(date);
             await this.blockRepository.SaveChanges();

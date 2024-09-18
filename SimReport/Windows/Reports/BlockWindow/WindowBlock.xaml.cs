@@ -1,11 +1,7 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Math;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.Extensions.DependencyInjection;
-using SimReport.Entities.Block;
-using SimReport.Interfaces;
-using System;
+﻿using System;
 using System.Windows;
+using SimReport.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport.Windows.Reports.BlockWindow;
 
@@ -27,8 +23,13 @@ public partial class WindowBlock : Window
     {
         string password = tbUsername.Text + DateTimeOffset.Now.Date.AddDays(10).ToString().Substring(0, 10);
 
+        var term = tbUsername.Text.Substring(tbUsername.Text.Length - 2);
+
+        // necha oy ishlanini aniqlab olamiz
+        int months = int.Parse(term);
+        
         // Hash the password
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+        //string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
         try
         {
@@ -36,7 +37,7 @@ public partial class WindowBlock : Window
             bool isVerified = BCrypt.Net.BCrypt.Verify(password, tbParol.Text);
             if (isVerified)
             {
-                var result = await blockService.UpdateAsync();
+                var result = await blockService.UpdateAsync(months);
 
                 if (result.StatusCode.Equals(200))
                 {
@@ -45,9 +46,9 @@ public partial class WindowBlock : Window
                 }
             }
         }
-        catch (Exception ex)
-        { 
-            MessageBox.Show("Iltimos yuqoridagi manzillarga murojaat qiling. O'zgalar mehnatini qadrlang. "); 
+        catch
+        {
+            MessageBox.Show("Iltimos yuqoridagi manzillarga murojaat qiling. O'zgalar mehnatini qadrlang. ");
         }
     }
 }

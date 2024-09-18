@@ -23,7 +23,7 @@ public partial class App : Application
 
         IServiceCollection services = new ServiceCollection();
 
-        // Serivices
+        // Services
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICardService, CardService>();
@@ -47,7 +47,7 @@ public partial class App : Application
         if (result.Count().Equals(0))
         {
             BlockDate blockDate = new BlockDate();
-            blockDate.EndDate = DateTime.UtcNow;
+            blockDate.EndDate = DateTime.UtcNow.AddMonths(2);
             await blockService.AddAsync(blockDate);
         }
     }

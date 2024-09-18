@@ -29,7 +29,7 @@
         </ComboBox>
         <StackPanel x:Name="spAddSimcard"
                     Grid.Column="1"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     Margin="5 0">
             <Label  x:Name="lbSimSeria"
                     Margin="15 1"
@@ -77,5 +77,38 @@
                     Style="{DynamicResource SuccessButton}" 
                     Click="btnSave_Click"/>
         </StackPanel>
-     </Grid>
+        <StackPanel x:Name="spBeelineTablo" 
+                    Grid.Column="1"
+                    Visibility="Hidden">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="tbBeelineWay"
+                        Margin="10 5 0 5"
+                        Width="220"
+                        Text="  ... ni bosib excel faylni yuklang"
+                        FontFamily="Arial"
+                        FontStyle="Italic"
+                        FontWeight="ExtraLight"
+                        Padding="5 10 5 5"
+                        Background="{DynamicResource SecondaryBackground}"
+                        FontSize="14"/>
+                           
+                <Button Content=". . ."
+                        BorderThickness="0"       
+                        Width="30"
+                        Height="40"
+                        Margin="0 5 10 5"
+                        FontSize="14"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource SecondaryBackground}" 
+                        Click="Button_Click"/>
+            </StackPanel>
+            <Button x:Name="btnAdd" 
+                    Margin="15 70 15 0"
+                    Content="Saqlash"
+                    Cursor="Hand"
+                    ForceCursor="False"
+                    Style="{DynamicResource SuccessButton}"
+                    Click="btnAdd_Click"/>
+        </StackPanel>
+    </Grid>
 </Window>

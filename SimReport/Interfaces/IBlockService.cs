@@ -9,7 +9,7 @@ namespace SimReport.Interfaces;
 public interface IBlockService
 {
     Task<Response<BlockDate>> AddAsync(BlockDate date);
-    Task<Response<BlockDate>> UpdateAsync();
+    Task<Response<BlockDate>> UpdateAsync(int quantityMonths);
     Task<Response<bool>> DeleteAsync(BlockDate date);
     Task<Response<IEnumerable<BlockDate>>> GetAllAsync();
 

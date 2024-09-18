@@ -1,6 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Windows;
+using ExcelDataReader;
+using Microsoft.Win32;
 using SimReport.Interfaces;
 using System.Windows.Controls;
 using SimReport.Entities.Cards;
@@ -48,15 +53,35 @@ public partial class WindowSimAddToClient : Window
             List<ItemComboBox> items = GetItemsFromDatabase();
             CompanyId = items[selectedValue].Id;
             CompanyName = items[selectedValue].Name;
-            if (CompanyName.Equals("Beeline")||CompanyName.Equals("Ucell")||CompanyName.Equals("Uzmobile"))
+            if (CompanyName.Equals("Ucell") || CompanyName.Equals("Uzmobile"))
             {
                 tbSimcardSeria.MaxLength = 18;
                 tbToSimcardSeria.MaxLength = 18;
+                spBeelineTablo.Visibility= Visibility.Collapsed;
+                spAddSimcard.Visibility = Visibility.Visible;
+            }
+            else if (CompanyName.Equals("Beeline") &&
+                UserPhone.FirstName.Equals("Asosiy") &&
+                UserPhone.LastName.Equals("Baza"))
+            {
+                spBeelineTablo.Visibility = Visibility.Visible;
+                spAddSimcard.Visibility = Visibility.Collapsed;
+            }
+            else if (CompanyName.Equals("Beeline") &&
+                !UserPhone.FirstName.Equals("Asosiy") &&
+                !UserPhone.LastName.Equals("Baza"))
+            {
+                tbSimcardSeria.MaxLength = 18;
+                tbToSimcardSeria.MaxLength = 18;
+                spBeelineTablo.Visibility = Visibility.Collapsed;
+                spAddSimcard.Visibility = Visibility.Visible;
             }
             else
             {
                 tbSimcardSeria.MaxLength = 19;
                 tbToSimcardSeria.MaxLength = 19;
+                spBeelineTablo.Visibility = Visibility.Collapsed;
+                spAddSimcard.Visibility = Visibility.Visible;
             }
         }
 
@@ -221,5 +246,78 @@ public partial class WindowSimAddToClient : Window
             }
         }
 
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Image files(*.xls;*.xlsx)|*.xls;*.xlsx";
+        if (openFileDialog.ShowDialog() == true)
+            tbBeelineWay.Text = openFileDialog.FileName;
+    }
+
+    private async void btnAdd_Click(object sender, RoutedEventArgs e)
+    {
+        if (tbBeelineWay.Text.Equals("  ... ni bosib excel faylni yuklang"))
+        {
+            MessageBox.Show("Excel faylni yuklang.");
+            return;
+        }
+
+        DataTable dataTable = new DataTable();
+        dataTable = ReadExcelFile(tbBeelineWay.Text);
+        
+        string phoneNumbers = "";
+        Card card = new Card();
+        foreach (DataRow row in dataTable.Rows)
+        {
+            try
+            {
+                card.Id = 0;
+                card.ConnectedPhoneNumber = $"{row[2]}";
+                card.CardNumber = long.Parse(row[1].ToString());
+                card.UserId = UserPhone.Id;
+                card.CompanyId = CompanyId;
+                card.CardsArrivedDate = DateTime.UtcNow;
+                var result = (await this.cardService.AddAsync(card)).StatusCode;
+                if (!result.Equals(200))
+                    phoneNumbers += $"{row[1]}\n";
+            }
+            catch 
+            { }
+        }
+
+        if (phoneNumbers != "") 
+            MessageBox.Show($"Bazada mavjud serialar ro'yxati \n {phoneNumbers}");
+    }
+
+
+    private DataTable ReadExcelFile(string filePath)
+    {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        try
+        {
+            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = false
+                        }
+                    });
+
+                    return result.Tables[0]; // Return the first worksheet
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An error occurred while reading the Excel file: {ex.Message}");
+            return null;
+        }
     }
 }
