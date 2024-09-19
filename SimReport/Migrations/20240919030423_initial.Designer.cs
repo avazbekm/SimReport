@@ -12,7 +12,7 @@ using SimReport.Contants;
 namespace SimReport.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240907095514_initial")]
+    [Migration("20240919030423_initial")]
     partial class initial
     {
         /// <inheritdoc />

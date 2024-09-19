@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Windows;
 using SimReport.Services;
+using SimReport.Contants;
 using SimReport.Interfaces;
 using SimReport.Repositories;
 using SimReport.Entities.Block;
 using SimReport.Entities.Users;
 using SimReport.Entities.Cards;
 using SimReport.Entities.Companies;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SimReport;
@@ -39,7 +41,19 @@ public partial class App : Application
         services.AddScoped<IRepository<BlockDate>, Repository<BlockDate>>();
         //services.AddScoped<IRepository<Asset>, Repository<Asset>>();
 
+
+        // Add AppDbContext to the service collection
+        services.AddDbContext<AppDbContext>();
+
         var serviceProvider = services.BuildServiceProvider();
+
+        // Apply migrations on startup
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.Migrate();  // This will automatically apply migrations on startup
+        }
+
         new MainWindow(serviceProvider).Show();
 
         IBlockService blockService = serviceProvider.GetService<IBlockService>();

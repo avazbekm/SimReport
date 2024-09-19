@@ -1,9 +1,9 @@
 ﻿using SimReport.Entities.Users;
+using SimReport.Entities.Block;
 using SimReport.Entities.Cards;
 using SimReport.Entities.Assets;
 using SimReport.Entities.Companies;
 using Microsoft.EntityFrameworkCore;
-using SimReport.Entities.Block;
 
 namespace SimReport.Contants;
 
@@ -34,7 +34,7 @@ public class AppDbContext : DbContext
             .HasOne(u => u.User)
             .WithMany(f => f.Cards)
             .HasForeignKey(f => f.UserId);
-        
+
 
         modelBuilder.Entity<Card>()
             .HasOne(d => d.Company)
