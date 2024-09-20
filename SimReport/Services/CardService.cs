@@ -356,13 +356,15 @@ public class CardService : ICardService
     public async Task<Response<bool>> ReturnAsync(long seriaNum, int id)
     {
         var user = await this.userRepository.GetAsync(u=>u.FirstName.Equals("asosiy") && u.LastName.Equals("baza"));
-
+        var existCard = await this.cardRepository.GetAsync(s => s.CardNumber.Equals(seriaNum));
         Card card = new Card();
         
         card.Id = 0;
         card.UserId = user.Id;
         card.CompanyId = id;
         card.CardNumber = seriaNum;
+        card.CardsArrivedDate = existCard.CardsArrivedDate;
+        card.ConnectedPhoneNumber = existCard.ConnectedPhoneNumber;
 
         await this.cardRepository.CreateAsync(card);
         await this.cardRepository.SaveChanges();

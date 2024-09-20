@@ -205,21 +205,25 @@ public partial class ReportsPage : Page
                             foreach (DataRow row in dataTable.Rows)
                             {
                                 foreach (var card in cards)
-                                    if (row[1].ToString().Contains(card.ConnectedPhoneNumber.ToString()))
+                                    try
                                     {
-                                        card.SoldTime = DateTime.Parse($"{row[6]}");
-                                        card.TariffPlan = row[9].ToString();
-                                        if (!row[7].ToString().Equals(""))
-                                            card.ConnectedPhoneNumber = $"{row[7]}";
-                                        card.Comment = $"{row[3]}";
+                                        if (row[1].ToString().Contains(card.ConnectedPhoneNumber.ToString()))
+                                        {
+                                            card.SoldTime = DateTime.Parse($"{row[6]}");
+                                            card.TariffPlan = row[9].ToString();
+                                            if (!row[7].ToString().Equals(""))
+                                                card.ConnectedPhoneNumber = $"{row[7]}";
+                                            card.Comment = $"{row[3]}";
 
-                                        var result = await this.cardService.SellAsync(card);
-                                        if (result.StatusCode.Equals(200))
-                                            quantity++;
-                                        else
-                                            cardSerias += $"{card.CardNumber}\n";
-                                        break;
+                                            var result = await this.cardService.SellAsync(card);
+                                            if (result.StatusCode.Equals(200))
+                                                quantity++;
+                                            else
+                                                cardSerias += $"{card.CardNumber}\n";
+                                            break;
+                                        }
                                     }
+                                    catch { }
                             }
                             MessageBox.Show($"{quantity} ta sotilgan.\n Quyidagi serialar xatolik \n {cardSerias}");
                             break;
@@ -277,9 +281,8 @@ public partial class ReportsPage : Page
         {
             MessageBox.Show(ex.Message);
         }
-        }
+    }
     
-
     private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         lbPartnerReport.Foreground = new SolidColorBrush(Colors.White);
