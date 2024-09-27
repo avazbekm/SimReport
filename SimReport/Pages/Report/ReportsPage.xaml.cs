@@ -336,5 +336,6 @@ public partial class ReportsPage : Page
         PartnerWithSeriaNumber partnerWithSeriaNumber = new PartnerWithSeriaNumber(services);
         partnerWithSeriaNumber.ShowDialog();
     }
+
 }
 
